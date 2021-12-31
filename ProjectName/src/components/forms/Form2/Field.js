@@ -40,7 +40,7 @@ const Form2Field = ({
         )}
         <Box style={[styles.inputContainer, {borderBottomColor}]}>
           {leading && (
-            <Box>
+            <Box style={{minWidth: 20, alignItems: 'center'}}>
               {React.cloneElement(leading, {
                 color: inputIconColor,
               })}
@@ -48,7 +48,7 @@ const Form2Field = ({
           )}
           <Box style={{flex: 1}}>{children}</Box>
           {trailing && (
-            <Box>
+            <Box style={{minWidth: 20, alignItems: 'center'}}>
               {React.cloneElement(trailing, {
                 color: inputIconColor,
               })}

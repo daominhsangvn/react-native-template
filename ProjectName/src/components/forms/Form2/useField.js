@@ -72,7 +72,9 @@ const useField = ({name} = {}) => {
           formContext.schema.validateSyncAt(name, {[name]: value});
           setError(null);
         } catch (e) {
-          setError(e.message);
+          if (!e.message.includes('The schema does not contain the path')) {
+            setError(e.message);
+          }
         }
       }
     },

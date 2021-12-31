@@ -117,26 +117,18 @@ const SampleScreen = ({theme}) => {
                 leading={<Icon name="mail" size={rem(1.4)} />}>
                 <Form2TextInput placeholder="Type your email" />
               </Form2Field>
-              {/*<Form.Group control={control} name="email">*/}
-              {/*  <Form.Label>Input</Form.Label>*/}
-              {/*  <Form.Control leading={<Icon name="mail" size={rem(1.4)} />}>*/}
-              {/*    <Input placeholder="Type your email" />*/}
-              {/*  </Form.Control>*/}
-              {/*</Form.Group>*/}
-              {/*<Form.Group control={control} name="username">*/}
-              {/*  <Form.Control*/}
-              {/*    trailing={<Icon name="ios-people" size={rem(1.4)} />}>*/}
-              {/*    <Input placeholder="Type your username" />*/}
-              {/*  </Form.Control>*/}
-              {/*</Form.Group>*/}
-              {/*<Form.Group control={control} name="password">*/}
-              {/*  <Form.Control*/}
-              {/*    leading={*/}
-              {/*      <Icon name="ios-lock-closed-outline" size={rem(1.4)} />*/}
-              {/*    }>*/}
-              {/*    <Input placeholder="Type your password" secure />*/}
-              {/*  </Form.Control>*/}
-              {/*</Form.Group>*/}
+              <Form2Field
+                name="username"
+                leading={<Icon name="ios-people" size={rem(1.4)} />}>
+                <Form2TextInput placeholder="Type your username" />
+              </Form2Field>
+              <Form2Field
+                name="password"
+                leading={
+                  <Icon name="ios-lock-closed-outline" size={rem(1.4)} />
+                }>
+                <Form2TextInput placeholder="Type your password" secure />
+              </Form2Field>
             </Box>
             {/*<Box>*/}
             {/*  <Form.Group control={control} name="datetime">*/}

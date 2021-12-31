@@ -13,7 +13,7 @@ import {selectIsAuth} from '@features/authentication/store/user/slice';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
 import {rem} from '@lib/themes/utils';
 import withTheme from '@lib/themes/withTheme';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -23,16 +23,24 @@ import {yupResolver} from '@lib/utils/yupResolver';
 import {CommonActions} from '@react-navigation/native';
 import Logo from '@assets/svg/logo.svg';
 import {toggleScheme} from '@lib/themes/store';
-import Text from '@components/Text';
 import Icon from '@components/Icon';
+import Form2Field from '@components/forms/Form2/Field';
+import Form2TextInput from '@components/forms/Form2/components/TextInput';
+import Form2 from '@components/forms/Form2';
 import Gap from '@components/Gap';
+import Text from '@components/Text';
+
+let schema = yup.object().shape({
+  email: yup.string().required().email().min(6).max(50),
+  password: yup.string().required().min(6).max(20),
+});
 
 const SignInScreen = ({theme, navigation}) => {
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
-  const {light, dark, styles} = theme;
+  const {styles} = theme;
   const {showError} = useAlertDiaLog();
 
   const resetRouteToHome = useCallback(() => {
@@ -57,19 +65,6 @@ const SignInScreen = ({theme, navigation}) => {
     }
   }, [showError, error]);
 
-  let schema = yup.object().shape({
-    email: yup.string().required().email().min(6).max(50),
-    password: yup.string().required().min(6).max(20),
-  });
-
-  const {control, handleSubmit} = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      email: 'sang.dao@newoceaninfosys.com',
-      password: '123456789',
-    },
-  });
-
   const onSubmit = data => {
     resetRouteToHome();
   };
@@ -78,64 +73,83 @@ const SignInScreen = ({theme, navigation}) => {
 
   const signup = useCallback(() => {}, []);
 
+  const formRef = useRef();
+
   return (
     <Screen style={styles.container}>
       <Box center style={{marginVertical: rem(2)}}>
         <Logo width={100} height={100} />
       </Box>
-      <Spacer spacing={2}>
-        <Form.Group disabled={isLoading} control={control} name="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control leading={<Icon name="mail" size={rem(1.4)} />}>
-            <Input placeholder="Type your email" keyboardType="email-address" />
-          </Form.Control>
-        </Form.Group>
 
-        {/*<Box>*/}
-        {/*  <Form.Group disabled={isLoading} control={control} name="password">*/}
-        {/*    <Form.Label>Password</Form.Label>*/}
-        {/*    <Form.Control>*/}
-        {/*      <Input placeholder="Type your password" secure={true} />*/}
-        {/*    </Form.Control>*/}
-        {/*  </Form.Group>*/}
+      <Form2
+        ref={formRef}
+        defaultValues={{
+          email: 'sang.dao@newoceaninfosys.com',
+          password: '123456789',
+        }}
+        schema={schema}
+        onSubmit={onSubmit}>
+        <Spacer spacing={2}>
+          <Form2Field
+            name="email"
+            label="Email"
+            leading={<Icon name="mail" size={rem(1.4)} />}>
+            <Form2TextInput placeholder="Your email" />
+          </Form2Field>
 
-        {/*  <Box right>*/}
-        {/*    <Gap v={1} />*/}
-        {/*    <LinkButton*/}
-        {/*      textStyle={{*/}
-        {/*        textDecorationLine: 'underline',*/}
-        {/*      }}*/}
-        {/*      onPress={forgotPassword}>*/}
-        {/*      Forgot your password?*/}
-        {/*    </LinkButton>*/}
-        {/*  </Box>*/}
-        {/*</Box>*/}
+          <Box>
+            <Form2Field
+              name="password"
+              label="Password"
+              leading={
+                <Icon component={IconFontAwesome} name="lock" size={rem(1.4)} />
+              }>
+              <Form2TextInput secure placeholder="Your password" />
+            </Form2Field>
 
-        <Button
-          loading={isLoading}
-          onPress={handleSubmit(onSubmit)}
-          style={{marginLeft: rem(3), marginRight: rem(3)}}>
-          LOGIN
-        </Button>
+            <Box right>
+              <Gap v={1} />
+              <LinkButton
+                textStyle={{
+                  textDecorationLine: 'underline',
+                }}
+                onPress={forgotPassword}>
+                Forgot your password?
+              </LinkButton>
+            </Box>
+          </Box>
 
-        <Button
-          onPress={() => {
-            dispatch(toggleScheme());
+          <Button
+            loading={isLoading}
+            disabled={isLoading}
+            onPress={() => formRef.current.submit()}
+            style={{marginLeft: rem(3), marginRight: rem(3)}}>
+            LOGIN
+          </Button>
+        </Spacer>
+      </Form2>
+
+      <Gap v={2} />
+
+      <Button
+        onPress={() => {
+          dispatch(toggleScheme());
+        }}>
+        Toggle Scheme
+      </Button>
+
+      <Gap v={2} />
+
+      <View style={styles.contain__link}>
+        <Text>Have not account yet? </Text>
+        <LinkButton
+          onPress={signup}
+          textStyle={{
+            textDecorationLine: 'underline',
           }}>
-          Toggle
-        </Button>
-
-        <View style={styles.contain__link}>
-          <Text>Have not account yet? </Text>
-          <LinkButton
-            onPress={signup}
-            textStyle={{
-              textDecorationLine: 'underline',
-            }}>
-            Signup
-          </LinkButton>
-        </View>
-      </Spacer>
+          Signup
+        </LinkButton>
+      </View>
     </Screen>
   );
 };

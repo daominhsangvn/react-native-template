@@ -29,6 +29,6 @@ export default {
     hint_error: 'rgb(224,0,0)',
   },
   CHECKBOX: {
-    primary: '#FF0000'
-  }
+    primary: '#FF0000',
+  },
 };

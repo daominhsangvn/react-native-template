@@ -7,6 +7,7 @@ import useField from '@components/forms/Form2/useField';
 import Text from '@components/Text';
 import {rem} from '@lib/themes/utils';
 import useSchemeValue from '@lib/themes/useSchemeValue';
+import {mergeStyles} from '@lib/utils/helpers';
 
 const Form2Field = ({
   theme,
@@ -16,10 +17,13 @@ const Form2Field = ({
   label,
   leading,
   trailing,
+  containerStyle = {},
 }) => {
   const {styles} = theme;
 
-  const {error, isDirty, value, onChange, fieldRef} = useField({name});
+  const {error, isDirty, value, onChange, fieldRef, setDirty} = useField({
+    name,
+  });
 
   const borderBottomColor = useSchemeValue('INPUT.border');
   const labelColor = useSchemeValue('INPUT.label');
@@ -29,7 +33,16 @@ const Form2Field = ({
 
   return (
     <Form2FieldContext.Provider
-      value={{error, isDirty, value, onChange, name, fieldRef}}>
+      value={{
+        error,
+        isDirty,
+        value,
+        onChange,
+        name,
+        fieldRef,
+        disabled,
+        setDirty,
+      }}>
       <Box style={styles.container} pointerEvents={disabled ? 'none' : 'auto'}>
         {label && (
           <Box style={styles.label}>
@@ -38,7 +51,12 @@ const Form2Field = ({
             </Text>
           </Box>
         )}
-        <Box style={[styles.inputContainer, {borderBottomColor}]}>
+        <Box
+          style={mergeStyles(
+            styles.inputContainer,
+            {borderBottomColor},
+            containerStyle,
+          )}>
           {leading && (
             <Box style={{minWidth: 20, alignItems: 'center'}}>
               {React.cloneElement(leading, {

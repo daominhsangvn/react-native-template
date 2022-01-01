@@ -42,6 +42,10 @@ const useField = ({name} = {}) => {
     setFieldError(null);
   }, []);
 
+  const setDirty = useCallback(dirty => {
+    setIsDirty(dirty);
+  }, []);
+
   const resetValue = useCallback(
     value => {
       formContext.setValue(fieldName, value);
@@ -56,6 +60,7 @@ const useField = ({name} = {}) => {
       fieldRef,
       setError,
       clearError,
+      setDirty,
       resetValue,
     });
 
@@ -89,6 +94,7 @@ const useField = ({name} = {}) => {
     onChange,
     fieldRef,
     name: fieldName,
+    setDirty,
   };
 };
 

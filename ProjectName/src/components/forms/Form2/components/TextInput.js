@@ -1,14 +1,10 @@
 import React, {useContext} from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {StyleSheet} from 'react-native';
 import withTheme from '@lib/themes/withTheme';
 import {Form2FieldContext} from '@components/forms/Form2/FieldContext';
-import {mergeStyles} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
-import useSchemeValue from '@lib/themes/useSchemeValue';
 import Box from '@components/layouts/Box';
-import Icon from '@components/Icon';
-import Button from '@components/Button';
-import useToggle from '@lib/hooks/useToggle';
+import Form2BaseInput from './BaseTextInput';
+import {mergeStyles} from '@lib/utils/helpers';
 
 const Form2TextInput = ({
   theme,
@@ -18,52 +14,26 @@ const Form2TextInput = ({
   ...props
 }) => {
   const {styles} = theme;
-  const {error, isDirty, value, onChange, fieldRef} =
+  const {error, isDirty, value, onChange, fieldRef, name, disabled} =
     useContext(Form2FieldContext);
-  const {open, toggle} = useToggle(secure);
-  const inputTextColor = useSchemeValue('INPUT.text');
-  const placeholderTextColor = useSchemeValue('INPUT.placeholder');
 
   return (
-    <Box style={styles.container}>
-      <Box style={{flex: 1}}>
-        <TextInput
-          {...props}
-          placeholderTextColor={placeholderTextColor}
-          style={mergeStyles(
-            {padding: rem(0.3), color: inputTextColor},
-            inputStyle,
-          )}
-          ref={fieldRef}
-          value={value}
-          onChangeText={onChange}
-          secureTextEntry={open}
-        />
-      </Box>
-      {secure && (
-        <Box>
-          <Button onPress={toggle}>
-            {open ? (
-              <Icon name="eye" size={rem(1.4)} style={styles.eyeIcon} />
-            ) : (
-              <Icon name="eye-off" size={rem(1.4)} style={styles.eyeIcon} />
-            )}
-          </Button>
-        </Box>
-      )}
+    <Box style={mergeStyles(styles.container, style)}>
+      <Form2BaseInput
+        name={name}
+        value={value}
+        onChangeText={onChange}
+        ref={fieldRef}
+        style={mergeStyles(styles.input, inputStyle)}
+        disabled={disabled}
+      />
     </Box>
   );
 };
 
 export default withTheme(Form2TextInput, () =>
   StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    eyeIcon: {
-      paddingLeft: rem(0.4),
-      paddingRight: rem(0.4),
-    },
+    container: {},
+    input: {},
   }),
 );

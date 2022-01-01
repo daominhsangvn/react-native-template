@@ -14,6 +14,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import useSchemeTransition from '@lib/themes/useSchemeTransition';
+import useSchemeValue from '@lib/themes/useSchemeValue';
 
 const Button = ({
   color = 'primary',
@@ -97,56 +98,43 @@ const Button = ({
     },
   });
 
-  const {progress} = useSchemeTransition();
-
-  const rStyle = useAnimatedStyle(() => {
-    if (!solid) {
-      return {};
-    }
-
-    let color1 = light.BUTTON[color];
-    let color2 = dark.BUTTON[color];
-
-    if (!disabled) {
-      if (/^#/.test(color)) {
-        color1 = color;
-        color2 = color;
-      } else {
-        if (!color1 || !color2) {
-          throw new Error(`Color '${color}' doesn't existed`);
-        }
-
-        if (Array.isArray(color1) || Array.isArray(color2)) {
-          throw new Error(`Color '${color}' must be a string`);
-        }
-      }
-    } else {
-      color1 = light.BUTTON.disabled;
-      color2 = dark.BUTTON.disabled;
-    }
-
-    let backgroundColor = 'transparent';
-
-    if (!outline) {
-      backgroundColor = interpolateColor(
-        progress.value,
-        [0, 1],
-        [color1, color2],
-      );
-    }
-
-    let borderColor = 'transparent';
+  const backgroundColor = useMemo(() => {
+    let bg;
 
     if (outline) {
-      borderColor = interpolateColor(progress.value, [0, 1], [color1, color2]);
+      bg = 'transparent';
+    } else {
+      if (!disabled) {
+        if (/^#/.test(color)) {
+          bg = color;
+        } else {
+          bg = scheme === 'dark' ? dark.BUTTON[color] : light.BUTTON[color];
+
+          if (!bg) {
+            throw new Error(`Color '${color}' doesn't existed`);
+          }
+        }
+      } else {
+        bg = scheme === 'dark' ? dark.BUTTON.disabled : light.BUTTON.disabled;
+      }
     }
 
-    return {backgroundColor, borderColor};
-  }, [color, outline, scheme]);
+    return bg;
+  }, [scheme, outline, color]);
+
+  const borderColor = useMemo(() => {
+    let bc = 'transparent';
+
+    if (outline) {
+      bc = scheme === 'dark' ? dark.BUTTON[color] : light.BUTTON[color];
+    }
+
+    return bc;
+  }, [scheme, color, outline]);
 
   return (
     <LongPressGestureHandler
-      minDurationMs={0.5}
+      minDurationMs={0.1}
       maxDist={10}
       onGestureEvent={gestureHandler}>
       <Animated.View style={[activeStyle]}>
@@ -154,12 +142,12 @@ const Button = ({
           solid || outline ? (
             <Animated.View
               style={[
-                rStyle,
                 ...mergeStyles(
                   styles.container,
                   {
                     borderWidth: 1,
                   },
+                  {backgroundColor, borderColor},
                   style,
                 ),
               ]}>

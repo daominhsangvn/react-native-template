@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from '@screens/Home';
 import SampleScreen from '@screens/Sample';
+import Sample2Screen from '@screens/Sample2';
 import SignInScreen from '@screens/SignIn';
 import {useSelector} from 'react-redux';
 import {selectIsAuth} from '@features/authentication/store/user/slice';
@@ -29,6 +30,13 @@ function App() {
         }}
         name="Sample"
         component={SampleScreen}
+      />
+      <AppStack.Screen
+        options={{
+          header: props => <Header {...props} />,
+        }}
+        name="Sample2"
+        component={Sample2Screen}
       />
     </AppStack.Navigator>
   );

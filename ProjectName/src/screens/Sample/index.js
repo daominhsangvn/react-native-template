@@ -9,21 +9,29 @@ import Text from '@components/Text';
 import Grid from '@components/layouts/Grid';
 import Gap from '@components/Gap';
 import * as yup from 'yup';
-import Logger from '@lib/utils/Logger';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectThemeScheme, setScheme} from '@lib/themes/store';
 import Icon from '@components/Icon';
 import Screen from '@components/layouts/Screen';
-import Form2 from '@components/forms/Form2';
-import Form2TextInput from '@components/forms/Form2/components/TextInput';
-import Form2Field from '@components/forms/Form2/Field';
-import Form2DateTimePicker from '@components/forms/Form2/components/DateTimePicker';
-import Form2Select from '@components/forms/Form2/components/Select';
-import Form2CheckBox from '@components/forms/Form2/components/CheckBox';
-import Form2Choices from "@components/forms/Form2/components/Choices";
+import {useForm} from 'react-hook-form';
+import FormField from '@components/Form/components/Field';
+import FormTextInput from '@components/Form/components/TextInput';
+import FormDateTimePicker from '@components/Form/components/DateTimePicker';
+import FormSelect from '@components/Form/components/Select';
+import FormCheckBox from '@components/Form/components/CheckBox';
+import FormChoices from '@components/Form/components/Choices';
+import {yupResolver} from '@lib/utils/yupResolver';
+import FormMedia from '@components/Form/components/Media';
 
 const schema = yup.object().shape({
-  email: yup.string().required().email().min(6).max(50),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters'),
+  confirmPassword: yup
+    .string()
+    .required('Confirm Password is required')
+    .oneOf([yup.ref('password')], 'Passwords must match'),
 });
 
 const SampleScreen = ({theme}) => {
@@ -37,145 +45,193 @@ const SampleScreen = ({theme}) => {
     setFormValue(data);
   }, []);
 
-  const formRef = useRef();
+  const {control, handleSubmit} = useForm({
+    resolver: yupResolver(schema),
+  });
 
   return (
     <Screen>
       <ScrollView
         style={styles.container}
         contentContainerStyle={{padding: rem(1)}}>
-        <Form2
-          ref={formRef}
-          schema={schema}
-          onSubmit={onSubmit}
-          defaultValues={{choices: 'js'}}>
-          <Box>
-            <Text style={styles.heading}>Dark/Light</Text>
-            <Gap v={1} />
-            <Button
-              onPress={() => {
-                dispatch(
-                  setScheme({scheme: scheme === 'dark' ? 'light' : 'dark'}),
-                );
-              }}>
-              Toggle
-            </Button>
-          </Box>
+        <Box>
+          <Text style={styles.heading}>Dark/Light</Text>
+          <Gap v={1} />
+          <Button
+            onPress={() => {
+              dispatch(
+                setScheme({scheme: scheme === 'dark' ? 'light' : 'dark'}),
+              );
+            }}>
+            Toggle
+          </Button>
+        </Box>
 
+        <Box>
+          <Text style={styles.heading}>Alerts</Text>
+          <Gap v={1} />
           <Box>
-            <Text style={styles.heading}>Alerts</Text>
-            <Gap v={1} />
-            <Box>
-              <Grid cols={3}>
-                <Grid.Item>
-                  <Button
-                    color={'error'}
-                    textStyle={{color: 'white'}}
-                    onPress={() => showError('Error message')}>
-                    Error
-                  </Button>
-                </Grid.Item>
-                <Grid.Item>
-                  <Button
-                    color={'success'}
-                    textStyle={{color: 'white'}}
-                    onPress={() => showSuccess('Success message')}>
-                    Success
-                  </Button>
-                </Grid.Item>
-                <Grid.Item>
-                  <Button
-                    color={'warning'}
-                    textStyle={{color: 'white'}}
-                    onPress={() => showWarning('Warning message')}>
-                    Warning
-                  </Button>
-                </Grid.Item>
-              </Grid>
-            </Box>
+            <Grid cols={3}>
+              <Grid.Item>
+                <Button
+                  color={'error'}
+                  textStyle={{color: 'white'}}
+                  onPress={() => showError('Error message')}>
+                  Error
+                </Button>
+              </Grid.Item>
+              <Grid.Item>
+                <Button
+                  color={'success'}
+                  textStyle={{color: 'white'}}
+                  onPress={() => showSuccess('Success message')}>
+                  Success
+                </Button>
+              </Grid.Item>
+              <Grid.Item>
+                <Button
+                  color={'warning'}
+                  textStyle={{color: 'white'}}
+                  onPress={() => showWarning('Warning message')}>
+                  Warning
+                </Button>
+              </Grid.Item>
+            </Grid>
           </Box>
+        </Box>
 
-          <Box>
-            <Text style={styles.heading}>Form</Text>
-            <Gap v={1} />
-            <Form2Field
-              name="email"
-              label="Input"
-              leading={<Icon name="mail" size={rem(1.4)} />}>
-              <Form2TextInput placeholder="Type your email" />
-            </Form2Field>
-            <Form2Field
-              name="username"
-              leading={<Icon name="ios-people" size={rem(1.4)} />}>
-              <Form2TextInput placeholder="Type your username" />
-            </Form2Field>
-            <Form2Field
-              name="password"
-              leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
-              <Form2TextInput placeholder="Type your password" secure />
-            </Form2Field>
-          </Box>
-          <Box>
-            <Form2Field
-              name="datetime"
-              label="Date/Time"
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
-              <Form2DateTimePicker placeholder="Select date/time" />
-            </Form2Field>
-            <Form2Field
-              name="date"
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
-              <Form2DateTimePicker mode="date" placeholder="Select a date" />
-            </Form2Field>
-            <Form2Field
-              name="time"
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
-              <Form2DateTimePicker mode="time" placeholder="Select a time" />
-            </Form2Field>
-          </Box>
-          <Box>
-            <Form2Field
-              name="select"
-              label="Select"
-              trailing={
-                <Icon name="ios-chevron-down-outline" size={rem(1.4)} />
-              }>
-              <Form2Select
-                placeholder="Select a value"
-                options={[
-                  {label: 'Javascript', value: 'js'},
-                  {label: 'Angular', value: 'ng'},
-                  {label: 'ReactJS', value: 'react'},
-                ]}
-              />
-            </Form2Field>
-          </Box>
-          <Box>
-            <Form2Field
-              name="checkbox"
-              label="Checkbox"
-              containerStyle={{borderBottomWidth: 0}}>
-              <Form2CheckBox text="Are you agree?" />
-            </Form2Field>
-          </Box>
-          <Box>
-            <Form2Field
-              name="choices"
-              label="Choices"
-              containerStyle={{borderBottomWidth: 0}}>
-              <Form2Choices
-                options={[
-                  {label: 'Javascript', value: 'js'},
-                  {label: 'Angular', value: 'ng'},
-                  {label: 'ReactJS', value: 'react'},
-                ]}
-              />
-            </Form2Field>
-          </Box>
-          <Box>
-            <Button onPress={() => formRef.current.submit()}>SUBMIT</Button>
-          </Box>
-        </Form2>
+        <Box>
+          <Text style={styles.heading}>Form</Text>
+          <Gap v={1} />
+
+          <FormField
+            name="email"
+            control={control}
+            label="Input"
+            leading={<Icon name="mail" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your email" />
+          </FormField>
+          <FormField
+            name="username"
+            control={control}
+            leading={<Icon name="ios-people" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your username" />
+          </FormField>
+          <FormField
+            name="password"
+            control={control}
+            leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your password" secure />
+          </FormField>
+          <FormField
+            name="confirmPassword"
+            control={control}
+            leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your password again" secure />
+          </FormField>
+        </Box>
+
+        <Box>
+          <FormField
+            name="datetime"
+            control={control}
+            label="Date/Time"
+            leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+            <FormDateTimePicker placeholder="Select date/time" />
+          </FormField>
+          <FormField
+            name="date"
+            control={control}
+            leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+            <FormDateTimePicker mode="date" placeholder="Select a date" />
+          </FormField>
+          <FormField
+            name="time"
+            control={control}
+            leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+            <FormDateTimePicker mode="time" placeholder="Select a time" />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="select"
+            label="Select"
+            control={control}
+            trailing={<Icon name="ios-chevron-down-outline" size={rem(1.4)} />}>
+            <FormSelect
+              placeholder="Select a value"
+              options={[
+                {label: 'Javascript', value: 'js'},
+                {label: 'Angular', value: 'ng'},
+                {label: 'ReactJS', value: 'react'},
+              ]}
+            />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="checkbox"
+            label="Checkbox"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormCheckBox text="Are you agree?" />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="choices"
+            label="Choices"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormChoices
+              options={[
+                {label: 'Javascript', value: 'js'},
+                {label: 'Angular', value: 'ng'},
+                {label: 'ReactJS', value: 'react'},
+              ]}
+            />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="mediaphoto"
+            label="Media (Photo)"
+            control={control}
+            front={false}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormMedia mediaType="photo" />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="mediaphotocrop"
+            label="Media (Photo Cropping)"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormMedia mediaType="photo" cropping />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="mediavideo"
+            label="Media (Video)"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormMedia mediaType="video" />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="mediaany"
+            label="Media (Any)"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormMedia />
+          </FormField>
+        </Box>
+        <Box>
+          <Button onPress={handleSubmit(onSubmit)}>SUBMIT</Button>
+        </Box>
 
         <Gap v={2} />
 

@@ -1,12 +1,9 @@
 # React Native Template
 
-## Firebase
-- Follow instruction at https://rnfirebase.io/ to setup Firebase and download `google-services.json`
-- Install additional dependencies:
-```
-yarn add --exact @react-native-firebase/app @react-native-firebase/auth @react-native-firebase/firestore @react-native-firebase/storage
-```
-- Uncomment code in `src/lib/data/dataService.js` and `src/lib/data/providers/firebase.js`
+## Prerequisites
+- NodeJS >= 14.x
+- Android Studio 2020.3.1 Patch 4
+- xCode 13.0
 
 ## Icon & SplashScreen
 - Dependencies
@@ -46,6 +43,16 @@ function App() {
   );
 }
 ```
+
+## CodePush
+
+## Firebase
+- Follow instruction at https://rnfirebase.io/ to setup Firebase and download `google-services.json`
+- Install additional dependencies:
+```
+yarn add --exact @react-native-firebase/app @react-native-firebase/auth @react-native-firebase/firestore @react-native-firebase/storage
+```
+- Uncomment code in `src/lib/data/dataService.js` and `src/lib/data/providers/firebase.js`
 
 ## Chrome Debugger
 Read more: https://reactnative.dev/docs/hermes

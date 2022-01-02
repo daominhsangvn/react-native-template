@@ -1,10 +1,10 @@
 import React from 'react';
 import {mergeStyles} from '@lib/utils/helpers';
-import Animated from 'react-native-reanimated';
+import {View} from 'react-native';
 
 const Box = React.forwardRef(({center, right, style, ...rest}, ref) => {
   return (
-    <Animated.View
+    <View
       {...rest}
       ref={ref}
       style={mergeStyles(

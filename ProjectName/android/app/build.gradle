@@ -149,6 +149,7 @@ android {
         versionCode project.env.get("VERSION_CODE").toInteger()
         versionName project.env.get("VERSION_NAME")
         resValue "string", "build_config_package", "com.projectname"
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {

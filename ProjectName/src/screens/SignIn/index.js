@@ -1,6 +1,4 @@
 import Button from '@components/Button';
-import Form from '@components/forms/Form';
-import Input from '@components/forms/Form/components/Input';
 import LinkButton from '@components/LinkButton';
 import Box from '@components/layouts/Box';
 import Screen from '@components/layouts/Screen';
@@ -13,7 +11,7 @@ import {selectIsAuth} from '@features/authentication/store/user/slice';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
 import {rem} from '@lib/themes/utils';
 import withTheme from '@lib/themes/withTheme';
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {StyleSheet, View} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -24,11 +22,10 @@ import {CommonActions} from '@react-navigation/native';
 import Logo from '@assets/svg/logo.svg';
 import {toggleScheme} from '@lib/themes/store';
 import Icon from '@components/Icon';
-import Form2Field from '@components/forms/Form2/Field';
-import Form2TextInput from '@components/forms/Form2/components/TextInput';
-import Form2 from '@components/forms/Form2';
 import Gap from '@components/Gap';
 import Text from '@components/Text';
+import FormField from '@components/Form/components/Field';
+import FormTextInput from '@components/Form/components/TextInput';
 
 let schema = yup.object().shape({
   email: yup.string().required().email().min(6).max(50),
@@ -43,6 +40,14 @@ const SignInScreen = ({theme, navigation}) => {
   const {styles} = theme;
   const {showError} = useAlertDiaLog();
 
+  const {control, handleSubmit} = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: 'sang.dao@newoceaninfosys.com',
+      password: '123456789',
+    },
+  });
+
   const resetRouteToHome = useCallback(() => {
     navigation.dispatch(
       CommonActions.reset({
@@ -52,6 +57,14 @@ const SignInScreen = ({theme, navigation}) => {
       }),
     );
   }, [navigation]);
+
+  const onSubmit = data => {
+    resetRouteToHome();
+  };
+
+  const forgotPassword = useCallback(() => {}, []);
+
+  const signup = useCallback(() => {}, []);
 
   useEffect(() => {
     if (isAuth) {
@@ -65,69 +78,52 @@ const SignInScreen = ({theme, navigation}) => {
     }
   }, [showError, error]);
 
-  const onSubmit = data => {
-    resetRouteToHome();
-  };
-
-  const forgotPassword = useCallback(() => {}, []);
-
-  const signup = useCallback(() => {}, []);
-
-  const formRef = useRef();
-
   return (
     <Screen style={styles.container}>
       <Box center style={{marginVertical: rem(2)}}>
         <Logo width={100} height={100} />
       </Box>
 
-      <Form2
-        ref={formRef}
-        defaultValues={{
-          email: 'sang.dao@newoceaninfosys.com',
-          password: '123456789',
-        }}
-        schema={schema}
-        onSubmit={onSubmit}>
-        <Spacer spacing={2}>
-          <Form2Field
-            name="email"
-            label="Email"
-            leading={<Icon name="mail" size={rem(1.4)} />}>
-            <Form2TextInput placeholder="Your email" />
-          </Form2Field>
+      <Spacer spacing={2}>
+        <FormField
+          name="email"
+          label="Email"
+          control={control}
+          leading={<Icon name="mail" size={rem(1.4)} />}>
+          <FormTextInput placeholder="Your email" />
+        </FormField>
 
-          <Box>
-            <Form2Field
-              name="password"
-              label="Password"
-              leading={
-                <Icon component={IconFontAwesome} name="lock" size={rem(1.4)} />
-              }>
-              <Form2TextInput secure placeholder="Your password" />
-            </Form2Field>
+        <Box>
+          <FormField
+            name="password"
+            label="Password"
+            control={control}
+            leading={
+              <Icon component={IconFontAwesome} name="lock" size={rem(1.4)} />
+            }>
+            <FormTextInput secure placeholder="Your password" />
+          </FormField>
 
-            <Box right>
-              <Gap v={1} />
-              <LinkButton
-                textStyle={{
-                  textDecorationLine: 'underline',
-                }}
-                onPress={forgotPassword}>
-                Forgot your password?
-              </LinkButton>
-            </Box>
+          <Box right>
+            <Gap v={1} />
+            <LinkButton
+              textStyle={{
+                textDecorationLine: 'underline',
+              }}
+              onPress={forgotPassword}>
+              Forgot your password?
+            </LinkButton>
           </Box>
+        </Box>
 
-          <Button
-            loading={isLoading}
-            disabled={isLoading}
-            onPress={() => formRef.current.submit()}
-            style={{marginLeft: rem(3), marginRight: rem(3)}}>
-            LOGIN
-          </Button>
-        </Spacer>
-      </Form2>
+        <Button
+          loading={isLoading}
+          disabled={isLoading}
+          onPress={handleSubmit(onSubmit)}
+          style={{marginLeft: rem(3), marginRight: rem(3)}}>
+          LOGIN
+        </Button>
+      </Spacer>
 
       <Gap v={2} />
 

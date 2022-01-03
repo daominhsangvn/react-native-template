@@ -33,7 +33,7 @@ const FormSelect = ({
   } = useField();
   const [initial, setInitial] = useState(true);
   const [selectedValue, setSelectedValue] = useState(null);
-  
+
   const pickerRef = useRef();
 
   const selectedText = useMemo(() => {
@@ -57,8 +57,17 @@ const FormSelect = ({
         setSelectedValue(options[itemIndex]);
       }
     },
-    [initial, onChange],
+    [initial, options, onChange],
   );
+
+  useEffect(() => {
+    if (!isDirty && value && options) {
+      const itemIndex = options.findIndex(o => o.value === value);
+      if (itemIndex !== -1) {
+        setSelectedValue(options[itemIndex]);
+      }
+    }
+  }, [isDirty, value, options]);
 
   return (
     <Box style={mergeStyles(styles.container, style)}>
@@ -78,11 +87,12 @@ const FormSelect = ({
         />
       </TouchableOpacity>
 
-      <SelectPicker 
-        ref={pickerRef} 
-        onChange={onValueChange} 
+      <SelectPicker
+        ref={pickerRef}
+        onChange={onValueChange}
         value={value}
-        options={options} />
+        options={options}
+      />
     </Box>
   );
 };

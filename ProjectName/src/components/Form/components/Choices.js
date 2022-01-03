@@ -1,20 +1,20 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {StyleSheet, TextInput} from 'react-native';
 import withTheme from '@lib/themes/withTheme';
 import Box from '@components/layouts/Box';
 import {mergeStyles} from '@lib/utils/helpers';
 import {rem} from '@lib/themes/utils';
-import BouncyCheckboxGroup from 'react-native-bouncy-checkbox-group';
 import useField from '@components/Form/useField';
+import CheckBox from '@components/Checkbox';
 
-const FormChoices = ({theme, style = {}, options, horizontal = false}) => {
-  const {scheme, light, dark, styles} = theme;
+const FormChoices = ({
+  theme,
+  style = {},
+  options,
+  textStyle = {},
+  cols = 1,
+}) => {
+  const {styles} = theme;
 
   const {
     field: {name, onBlur, onChange, ref, value},
@@ -25,51 +25,51 @@ const FormChoices = ({theme, style = {}, options, horizontal = false}) => {
 
   const [selectedValue, setSelectedValue] = useState(null);
 
-  const fillColor = useMemo(() => {
-    return scheme === 'dark' ? dark.CHECKBOX.primary : light.CHECKBOX.primary;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scheme]);
-
-  const data = useMemo(() => {
-    return options.map(op => ({
-      id: op.value,
-      size: 25,
-      fillColor,
-      unfillColor: 'transparent',
-      textStyle: {
-        textDecorationLine: 'none',
-      },
-      activeOpacity: 1,
-      text: op.label,
-      style: {marginBottom: rem(0.5), marginLeft: rem(0.5)},
-    }));
-  }, [fillColor, options]);
-
   const onValueChange = useCallback(
-    selectedItem => {
-      setSelectedValue(selectedItem.id);
-      onChange(selectedItem.id);
+    (checked, selectedItem) => {
+      if (disabled) {
+        return;
+      }
+      setSelectedValue(selectedItem);
+      onChange(selectedItem);
     },
-    [onChange, setSelectedValue],
+    [disabled, onChange],
   );
 
   useEffect(() => {
-    if (!isDirty && value && data) {
-      const itemIndex = data.findIndex(o => o.id === value);
+    if (!isDirty && value !== null && typeof value !== 'undefined' && options) {
+      const itemIndex = options.findIndex(o => o.value === value);
       if (itemIndex !== -1) {
-        setSelectedValue(data[itemIndex].id);
+        setSelectedValue(options[itemIndex].value);
       }
     }
-  }, [isDirty, value, data]);
+  }, [isDirty, options, value]);
 
   return (
     <Box style={mergeStyles(styles.container, style)}>
-      <BouncyCheckboxGroup
-        data={data}
-        initial={selectedValue}
-        style={{flexDirection: horizontal ? 'row' : 'column'}}
-        onChange={onValueChange}
+      <TextInput
+        name={name}
+        ref={ref}
+        style={{
+          opacity: 0,
+          width: 1,
+          height: 1,
+          position: 'absolute',
+        }}
       />
+
+      {options.map(op => (
+        <Box style={{marginBottom: rem(0.4)}}>
+          <CheckBox
+            onChange={onValueChange}
+            disabled={disabled}
+            checked={selectedValue === op.value}
+            text={op.label}
+            value={op.value}
+            textStyle={textStyle}
+          />
+        </Box>
+      ))}
     </Box>
   );
 };

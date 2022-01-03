@@ -24,7 +24,11 @@ const FormBaseInput = React.forwardRef(
             ref={ref}
             placeholderTextColor={placeholderTextColor}
             style={mergeStyles(
-              {padding: rem(1), fontSize: rem(1.5), color: inputTextColor},
+              {
+                padding: 0,
+                fontSize: rem(1.2),
+                color: inputTextColor,
+              },
               style,
             )}
             secureTextEntry={open}

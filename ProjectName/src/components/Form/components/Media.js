@@ -1,18 +1,14 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import useField from '@components/Form/useField';
 import Box from '@components/layouts/Box';
 import ActionSheet from '@components/ActionSheet';
-import {
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {Image, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import withTheme from '@lib/themes/withTheme';
 import Icon from '@components/Icon';
 import Spacer from '@components/layouts/Spacer';
 import {rem} from '@lib/themes/utils';
 import ImagePicker from 'react-native-image-crop-picker';
+import * as mimeTypes from 'react-native-mime-types';
 
 import Text from '@components/Text';
 import Video from '@components/Video';
@@ -28,12 +24,12 @@ const FormMedia = ({
   previewWidth = '100%',
   previewResize = 'contain',
   front = true,
+  mime = null,
 }) => {
   const {styles} = theme;
-  const [paused, setPaused] = useState(false);
   const {
-    field: {name, onBlur, onChange, ref, value},
-    fieldState: {error, invalid, isDirty, isTouched},
+    field: {name, onChange, ref, value},
+    fieldState: {error, isDirty},
     formState: {},
     disabled,
   } = useField();
@@ -125,8 +121,39 @@ const FormMedia = ({
     actionSheetRef.current?.show();
   }, []);
 
+  useEffect(() => {
+    if (selectedValue) {
+      onChange(selectedValue.path);
+    } else {
+      onChange(null);
+    }
+  }, [onChange, selectedValue]);
+
+  useEffect(() => {
+    if (!isDirty && value) {
+      if (mimeTypes.lookup(value) || mimeTypes.lookup(mime)) {
+        setSelectedValue({
+          mime: mimeTypes.lookup(value) || mimeTypes.lookup(mime),
+          path: value,
+        });
+      } else {
+        throw new Error(`Unknown file type ${value}`);
+      }
+    }
+  }, [isDirty, mime, value]);
+
   return (
     <Box style={styles.container}>
+      <TextInput
+        name={name}
+        ref={ref}
+        style={{
+          opacity: 0,
+          width: 1,
+          height: 1,
+          position: 'absolute',
+        }}
+      />
       <TouchableOpacity
         activeOpacity={1}
         onPress={openActionSheet}
@@ -150,6 +177,7 @@ const FormMedia = ({
             resizeMode={previewResize}
           />
         )}
+        {!!selectedValue && !disabled && (
           <TouchableOpacity
             onPress={edit}
             style={{position: 'absolute', top: 10, right: 10}}>
@@ -159,12 +187,13 @@ const FormMedia = ({
               color="white"
               style={{
                 shadowOpacity: 1,
-                textShadowRadius: 0,
-                // textShadowOffset: {width: 2, height: 2},
-                shadowOffset: {width: 0, height: 0},
+                textShadowRadius: 6, // android
+                textShadowOffset: {width: 2, height: 2}, // android
+                shadowOffset: {width: 0, height: 0}, // iOS
               }}
             />
           </TouchableOpacity>
+        )}
       </TouchableOpacity>
       <ActionSheet ref={actionSheetRef}>
         <Spacer style={styles.actionContainer}>

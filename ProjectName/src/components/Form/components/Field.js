@@ -54,7 +54,12 @@ const FormField = ({
             containerStyle,
           )}>
           {leading && (
-            <Box style={{minWidth: 20, alignItems: 'center'}}>
+            <Box
+              style={{
+                minWidth: 20,
+                alignItems: 'center',
+                marginRight: rem(0.5),
+              }}>
               {React.cloneElement(leading, {
                 color: inputIconColor,
               })}
@@ -62,7 +67,12 @@ const FormField = ({
           )}
           <Box style={{flex: 1}}>{children}</Box>
           {trailing && (
-            <Box style={{minWidth: 20, alignItems: 'center'}}>
+            <Box
+              style={{
+                minWidth: 20,
+                alignItems: 'center',
+                marginLeft: rem(0.5),
+              }}>
               {React.cloneElement(trailing, {
                 color: inputIconColor,
               })}
@@ -89,6 +99,7 @@ export default withTheme(FormField, () =>
       borderBottomWidth: 1,
       flexDirection: 'row',
       alignItems: 'center',
+      paddingVertical: rem(0.5),
     },
     hint: {},
     hintText: {

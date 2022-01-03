@@ -16,8 +16,8 @@ const FormTextInput = ({
   const {styles} = theme;
 
   const {
-    field: {name, onBlur, onChange, ref, value},
-    fieldState: {error, invalid, isDirty, isTouched},
+    field: {name, onChange, ref, value},
+    fieldState: {error},
     formState: {},
     disabled,
   } = useField();
@@ -39,7 +39,8 @@ const FormTextInput = ({
 
 export default withTheme(FormTextInput, () =>
   StyleSheet.create({
-    container: {},
+    container: {
+    },
     input: {},
   }),
 );

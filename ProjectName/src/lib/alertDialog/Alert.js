@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, Platform} from 'react-native';
 import Box from '@components/layouts/Box';
 import LottieView from 'lottie-react-native';
 import Spacer from '@components/layouts/Spacer';
@@ -106,6 +106,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    ...Platform.select({
+      ios: {
+        marginTop: 30
+      }
+    })
   },
   content__title: {
     fontSize: 18,
@@ -120,7 +125,7 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: 0,
+    top: 0
   },
   header__box: {
     position: 'relative',

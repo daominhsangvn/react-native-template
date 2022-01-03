@@ -64,11 +64,11 @@ const FormDateTimePicker = ({
     <Box style={styles.container}>
       <TouchableOpacity
         disabled={disabled}
-        activeOpacity={1}
         onPress={onPress}
         style={{width: '100%'}}>
         <FormBaseInput
           {...inputProps}
+          pointerEvents="none"
           placeholder={placeholder}
           name={name}
           ref={ref}

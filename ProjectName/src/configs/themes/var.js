@@ -11,3 +11,4 @@ export const COLORS = {
   text: '#4E5969',
   secondaryColor: '#ffffff',
 };
+export const HEADER_HEIGHT = 50;

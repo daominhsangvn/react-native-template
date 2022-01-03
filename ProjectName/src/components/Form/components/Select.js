@@ -6,14 +6,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Platform} from 'react-native';
 import withTheme from '@lib/themes/withTheme';
 import {FormFieldContext} from '@components/forms/Form/FieldContext';
 import Box from '@components/layouts/Box';
+import Button from '@components/Button';
 import FormBaseInput from './BaseTextInput';
 import {mergeStyles, windowWidth} from '@lib/utils/helpers';
-import {Picker} from '@react-native-picker/picker';
 import useField from '@components/Form/useField';
+import {rem} from '@lib/themes/utils';
+import SelectPicker from './Select.Picker';
 
 const FormSelect = ({
   theme,
@@ -31,6 +33,7 @@ const FormSelect = ({
   } = useField();
   const [initial, setInitial] = useState(true);
   const [selectedValue, setSelectedValue] = useState(null);
+  
   const pickerRef = useRef();
 
   const selectedText = useMemo(() => {
@@ -44,33 +47,23 @@ const FormSelect = ({
 
     setInitial(false);
 
-    pickerRef.current.focus();
+    pickerRef?.current?.show();
   }, [disabled]);
 
   const onValueChange = useCallback(
     (itemValue, itemIndex) => {
       if (!initial) {
-        setSelectedValue(options[itemIndex]);
         onChange(itemValue);
+        setSelectedValue(options[itemIndex]);
       }
     },
-    [initial, options, onChange],
+    [initial, onChange],
   );
-
-  useEffect(() => {
-    if (!isDirty && value && options) {
-      const itemIndex = options.findIndex(o => o.value === value);
-      if (itemIndex !== -1) {
-        setSelectedValue(options[itemIndex]);
-      }
-    }
-  }, [isDirty, value, options]);
 
   return (
     <Box style={mergeStyles(styles.container, style)}>
       <TouchableOpacity
         disabled={disabled}
-        activeOpacity={1}
         onPress={onPress}
         style={{width: '100%'}}>
         <FormBaseInput
@@ -80,25 +73,16 @@ const FormSelect = ({
           ref={ref}
           editable={false}
           disabled={disabled}
+          pointerEvents="none"
           {...inputProps}
         />
       </TouchableOpacity>
-      <Picker
-        ref={pickerRef}
-        onValueChange={onValueChange}
-        mode="dialog"
-        selectedValue={value}
+
+      <SelectPicker 
+        ref={pickerRef} 
+        onChange={onValueChange} 
         value={value}
-        style={{position: 'absolute', left: windowWidth + 100}}>
-        {options.map(op => (
-          <Picker.Item
-            label={op.label}
-            value={op.value}
-            key={op.value}
-            color={value === op.value ? 'red' : 'black'}
-          />
-        ))}
-      </Picker>
+        options={options} />
     </Box>
   );
 };

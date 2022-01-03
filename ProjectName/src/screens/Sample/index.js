@@ -1,13 +1,15 @@
 import Box from '@components/layouts/Box';
 import React, {useCallback, useRef, useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import withTheme from '@lib/themes/withTheme';
 import Button from '@components/Button';
 import {rem} from '@lib/themes/utils';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
 import Text from '@components/Text';
 import Grid from '@components/layouts/Grid';
+import Spacer from '@components/layouts/Spacer';
 import Gap from '@components/Gap';
+import ScrollView from '@components/ScrollView';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectThemeScheme, setScheme} from '@lib/themes/store';
@@ -54,6 +56,7 @@ const SampleScreen = ({theme}) => {
       <ScrollView
         style={styles.container}
         contentContainerStyle={{padding: rem(1)}}>
+        <Spacer>
         <Box>
           <Text style={styles.heading}>Dark/Light</Text>
           <Gap v={1} />
@@ -233,9 +236,9 @@ const SampleScreen = ({theme}) => {
           <Button onPress={handleSubmit(onSubmit)}>SUBMIT</Button>
         </Box>
 
-        <Gap v={2} />
-
         <Text>{JSON.stringify(formValue, null, 3)}</Text>
+
+        </Spacer>
       </ScrollView>
     </Screen>
   );

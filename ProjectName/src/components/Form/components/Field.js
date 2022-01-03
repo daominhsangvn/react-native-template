@@ -14,7 +14,7 @@ const FormField = ({
   name,
   theme,
   children,
-  disabled,
+  disabled = false,
   label,
   leading,
   trailing,

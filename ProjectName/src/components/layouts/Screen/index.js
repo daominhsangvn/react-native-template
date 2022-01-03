@@ -24,10 +24,10 @@ const Screen = ({style, ...props}) => {
   });
 
   return (
-    <Animated.View
-      {...props}
-      style={[backgroundStyle, ...mergeStyles({flex: 1}, style)]}
-    />
+      <Animated.View
+        {...props}
+        style={[backgroundStyle, ...mergeStyles({flex: 1}, style)]}
+      />
   );
 };
 

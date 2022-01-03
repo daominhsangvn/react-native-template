@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
 import useField from '@components/Form/useField';
 import Box from '@components/layouts/Box';
+import ActionSheet from '@components/ActionSheet';
 import {
   Image,
   StyleSheet,
@@ -8,7 +9,6 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import withTheme from '@lib/themes/withTheme';
-import ActionSheet from 'react-native-actions-sheet';
 import Icon from '@components/Icon';
 import Spacer from '@components/layouts/Spacer';
 import {rem} from '@lib/themes/utils';
@@ -150,7 +150,6 @@ const FormMedia = ({
             resizeMode={previewResize}
           />
         )}
-        {!!selectedValue && (
           <TouchableOpacity
             onPress={edit}
             style={{position: 'absolute', top: 10, right: 10}}>
@@ -159,13 +158,13 @@ const FormMedia = ({
               size={30}
               color="white"
               style={{
-                shadowOpacity: 2,
-                textShadowRadius: 4,
-                textShadowOffset: {width: 2, height: 2},
+                shadowOpacity: 1,
+                textShadowRadius: 0,
+                // textShadowOffset: {width: 2, height: 2},
+                shadowOffset: {width: 0, height: 0},
               }}
             />
           </TouchableOpacity>
-        )}
       </TouchableOpacity>
       <ActionSheet ref={actionSheetRef}>
         <Spacer style={styles.actionContainer}>

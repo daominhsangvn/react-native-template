@@ -2,6 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {store, persistor} from '@configs/store/config';
 import {AuthenticationProvider} from '@features/authentication/components/AuthenticationProvider';
 import AppRouter from '@configs/router';
@@ -24,7 +25,9 @@ const App = () => {
         <GestureHandlerRootView style={{flex: 1}}>
           <AuthenticationProvider>
             <ThemeProvider>
-              <AppRouter />
+              <SafeAreaProvider>
+                <AppRouter />
+              </SafeAreaProvider>
               <AlertDialogComponent />
             </ThemeProvider>
           </AuthenticationProvider>

@@ -1,5 +1,5 @@
 import Box from '@components/layouts/Box';
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import withTheme from '@lib/themes/withTheme';
 import Button from '@components/Button';
@@ -60,198 +60,227 @@ const SampleScreen = ({theme}) => {
   });
 
   return (
-    <Screen>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{padding: rem(1)}}>
-        <Spacer>
-          <Box>
-            <Text style={styles.heading}>Dark/Light</Text>
-            <Gap v={1} />
-            <Button
-              onPress={() => {
-                dispatch(
-                  setScheme({scheme: scheme === 'dark' ? 'light' : 'dark'}),
-                );
-              }}>
-              Toggle
-            </Button>
-          </Box>
+    <Screen scrollable scrollProps={{contentContainerStyle: {padding: rem(2)}}}>
+      <Spacer>
+        <Box>
+          <Text style={styles.heading}>Dark/Light</Text>
+          <Gap v={1} />
+          <Button
+            onPress={() => {
+              dispatch(
+                setScheme({scheme: scheme === 'dark' ? 'light' : 'dark'}),
+              );
+            }}>
+            Toggle
+          </Button>
+        </Box>
 
+        <Box>
+          <Text style={styles.heading}>Alerts</Text>
+          <Gap v={1} />
           <Box>
-            <Text style={styles.heading}>Alerts</Text>
-            <Gap v={1} />
-            <Box>
-              <Grid cols={3}>
-                <Grid.Item>
-                  <Button
-                    color={'error'}
-                    textStyle={{color: 'white'}}
-                    onPress={() => showError('Error message')}>
-                    Error
-                  </Button>
-                </Grid.Item>
-                <Grid.Item>
-                  <Button
-                    color={'success'}
-                    textStyle={{color: 'white'}}
-                    onPress={() => showSuccess('Success message')}>
-                    Success
-                  </Button>
-                </Grid.Item>
-                <Grid.Item>
-                  <Button
-                    color={'warning'}
-                    textStyle={{color: 'white'}}
-                    onPress={() => showWarning('Warning message')}>
-                    Warning
-                  </Button>
-                </Grid.Item>
-              </Grid>
-            </Box>
+            <Grid cols={3}>
+              <Grid.Item>
+                <Button onPress={() => showError('Error message')}>
+                  Error
+                </Button>
+              </Grid.Item>
+              <Grid.Item>
+                <Button onPress={() => showSuccess('Success message')}>
+                  Success
+                </Button>
+              </Grid.Item>
+              <Grid.Item>
+                <Button onPress={() => showWarning('Warning message')}>
+                  Warning
+                </Button>
+              </Grid.Item>
+            </Grid>
           </Box>
+        </Box>
 
-          <Box>
-            <Text style={styles.heading}>Form</Text>
-            <Gap v={1} />
+        <Box>
+          <Text style={styles.heading}>Buttons</Text>
+          <Gap v={1} />
+          <Grid cols={3}>
+            <Grid.Item>
+              <Button>Normal</Button>
+            </Grid.Item>
+            <Grid.Item>
+              <Button outline>Outline</Button>
+            </Grid.Item>
+            <Grid.Item>
+              <Button loading>Loading</Button>
+            </Grid.Item>
+          </Grid>
+          <Gap v={1} />
+          <Button disabled>Disabled</Button>
+          <Gap v={1} />
+          <Grid cols={2}>
+            <Grid.Item>
+              <Button left>Left align</Button>
+            </Grid.Item>
+            <Grid.Item>
+              <Button right>Right align</Button>
+            </Grid.Item>
+          </Grid>
+          <Gap v={1} />
+          <Grid cols={2}>
+            <Grid.Item>
+              <Button
+                leftAccessory={<Icon name="ios-person-outline" size={12} />}
+                leftAccessoryAbsolute>
+                Left icon button
+              </Button>
+            </Grid.Item>
+            <Grid.Item>
+              <Button
+                rightAccessory={<Icon name="ios-person-outline" size={12} />}
+                rightAccessoryAbsolute>
+                Right icon button
+              </Button>
+            </Grid.Item>
+          </Grid>
+        </Box>
 
-            <FormField
-              name="email"
-              control={control}
-              label="Input"
-              leading={<Icon name="mail" size={rem(1.4)} />}>
-              <FormTextInput placeholder="Type your email" />
-            </FormField>
-            <FormField
-              name="username"
-              control={control}
-              trailing={<Icon name="ios-people" size={rem(1.4)} />}>
-              <FormTextInput placeholder="Type your username" />
-            </FormField>
-            <FormField
-              name="password"
-              control={control}
-              leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
-              <FormTextInput placeholder="Type your password" secure />
-            </FormField>
-            <FormField
-              name="confirmPassword"
-              control={control}
-              leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
-              <FormTextInput placeholder="Type your password again" secure />
-            </FormField>
-          </Box>
+        <Box>
+          <Text style={styles.heading}>Form</Text>
+          <Gap v={1} />
 
-          <Box>
-            <FormField
-              name="datetime"
-              control={control}
-              label="Date/Time"
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
-              <FormDateTimePicker placeholder="Select date/time" />
-            </FormField>
-            <FormField
-              name="date"
-              control={control}
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
-              <FormDateTimePicker mode="date" placeholder="Select a date" />
-            </FormField>
-            <FormField
-              name="time"
-              control={control}
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
-              <FormDateTimePicker mode="time" placeholder="Select a time" />
-            </FormField>
-          </Box>
+          <FormField
+            name="email"
+            control={control}
+            label="Input"
+            leading={<Icon name="mail" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your email" />
+          </FormField>
+          <FormField
+            name="username"
+            control={control}
+            trailing={<Icon name="ios-people" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your username" />
+          </FormField>
+          <FormField
+            name="password"
+            control={control}
+            leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your password" secure />
+          </FormField>
+          <FormField
+            name="confirmPassword"
+            control={control}
+            leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your password again" secure />
+          </FormField>
+        </Box>
 
-          <Box>
-            <FormField
-              name="select"
-              label="Select"
-              control={control}
-              trailing={
-                <Icon name="ios-chevron-down-outline" size={rem(1.4)} />
-              }>
-              <FormSelect
-                placeholder="Select a value"
-                options={[
-                  {label: 'Javascript', value: 'js'},
-                  {label: 'Angular', value: 'ng'},
-                  {label: 'ReactJS', value: 'react'},
-                ]}
-              />
-            </FormField>
-          </Box>
+        <Box>
+          <FormField
+            name="datetime"
+            control={control}
+            label="Date/Time"
+            leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+            <FormDateTimePicker placeholder="Select date/time" />
+          </FormField>
+          <FormField
+            name="date"
+            control={control}
+            leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+            <FormDateTimePicker mode="date" placeholder="Select a date" />
+          </FormField>
+          <FormField
+            name="time"
+            control={control}
+            leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+            <FormDateTimePicker mode="time" placeholder="Select a time" />
+          </FormField>
+        </Box>
 
-          <Box>
-            <FormField
-              name="checkbox"
-              label="Checkbox"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
-              <FormCheckBox text="Are you agree?" />
-            </FormField>
-          </Box>
+        <Box>
+          <FormField
+            name="select"
+            label="Select"
+            control={control}
+            trailing={<Icon name="ios-chevron-down-outline" size={rem(1.4)} />}>
+            <FormSelect
+              placeholder="Select a value"
+              options={[
+                {label: 'Javascript', value: 'js'},
+                {label: 'Angular', value: 'ng'},
+                {label: 'ReactJS', value: 'react'},
+              ]}
+            />
+          </FormField>
+        </Box>
 
-          <Box>
-            <FormField
-              name="choices"
-              label="Choices"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
-              <FormChoices
-                options={[
-                  {label: 'Javascript', value: 'js'},
-                  {label: 'Angular', value: 'ng'},
-                  {label: 'ReactJS', value: 'react'},
-                ]}
-              />
-            </FormField>
-          </Box>
-          <Box>
-            <FormField
-              name="mediaphoto"
-              label="Media (Photo)"
-              control={control}
-              front={false}
-              containerStyle={{borderBottomWidth: 0}}>
-              <FormMedia mediaType="photo" mime="jpeg" />
-            </FormField>
-          </Box>
-          <Box>
-            <FormField
-              name="mediaphotocrop"
-              label="Media (Photo Cropping)"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
-              <FormMedia mediaType="photo" cropping />
-            </FormField>
-          </Box>
-          <Box>
-            <FormField
-              name="mediavideo"
-              label="Media (Video)"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
-              <FormMedia mediaType="video" />
-            </FormField>
-          </Box>
-          <Box>
-            <FormField
-              name="mediaany"
-              label="Media (Any)"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
-              <FormMedia />
-            </FormField>
-          </Box>
-          <Box>
-            <Button onPress={handleSubmit(onSubmit)}>SUBMIT</Button>
-          </Box>
+        <Box>
+          <FormField
+            name="checkbox"
+            label="Checkbox"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormCheckBox text="Are you agree?" />
+          </FormField>
+        </Box>
 
-          <Text>{JSON.stringify(formValue, null, 3)}</Text>
-        </Spacer>
-      </ScrollView>
+        <Box>
+          <FormField
+            name="choices"
+            label="Choices"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormChoices
+              options={[
+                {label: 'Javascript', value: 'js'},
+                {label: 'Angular', value: 'ng'},
+                {label: 'ReactJS', value: 'react'},
+              ]}
+            />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="mediaphoto"
+            label="Media (Photo)"
+            control={control}
+            front={false}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormMedia mediaType="photo" mime="jpeg" />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="mediaphotocrop"
+            label="Media (Photo Cropping)"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormMedia mediaType="photo" cropping />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="mediavideo"
+            label="Media (Video)"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormMedia mediaType="video" />
+          </FormField>
+        </Box>
+        <Box>
+          <FormField
+            name="mediaany"
+            label="Media (Any)"
+            control={control}
+            containerStyle={{borderBottomWidth: 0}}>
+            <FormMedia />
+          </FormField>
+        </Box>
+        <Box>
+          <Button onPress={handleSubmit(onSubmit)}>SUBMIT</Button>
+        </Box>
+
+        <Text>{JSON.stringify(formValue, null, 3)}</Text>
+      </Spacer>
     </Screen>
   );
 };

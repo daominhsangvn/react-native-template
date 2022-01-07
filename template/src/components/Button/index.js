@@ -4,17 +4,16 @@ import {mergeStyles} from '@lib/utils/helpers';
 import LinearGradient from 'react-native-linear-gradient';
 import {rem} from '@lib/themes/utils';
 import withTheme from '@lib/themes/withTheme';
-import {LongPressGestureHandler} from 'react-native-gesture-handler';
+import {TapGestureHandler} from 'react-native-gesture-handler';
 import Animated, {
-  interpolateColor,
   runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import useSchemeTransition from '@lib/themes/useSchemeTransition';
 import useSchemeValue from '@lib/themes/useSchemeValue';
+import Box from '@components/layouts/Box';
 
 const Button = ({
   color = 'primary',
@@ -27,36 +26,18 @@ const Button = ({
   theme,
   onPress,
   disabled = false,
-  ...rest
+  transparent,
+  left,
+  right,
+  leftAccessory,
+  leftAccessoryAbsolute = false,
+  rightAccessory,
+  rightAccessoryAbsolute = false,
 }) => {
-  const {light, dark, scheme, styles} = theme;
+  const {styles} = theme;
 
-  const solid = useMemo(() => {
-    const color1 = light.BUTTON[color];
-    const color2 = dark.BUTTON[color];
-    return !(Array.isArray(color1) && Array.isArray(color2));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [color]);
-
-  const gradientColors = useMemo(() => {
-    if (solid) {
-      return [];
-    }
-
-    if (disabled) {
-      return [light.BUTTON.disabled, dark.BUTTON.disabled];
-    }
-
-    const color1 = light.BUTTON[color];
-    const color2 = dark.BUTTON[color];
-
-    if (!color1 || !color2) {
-      throw new Error(`Gradient color '${color}' doesn't existed`);
-    }
-
-    return scheme === 'dark' ? color2 : color1;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [solid, color, disabled]);
+  const buttonDisabledColorValue = useSchemeValue('BUTTON.disabled');
+  const buttonColorValue = useSchemeValue(`BUTTON.${color}`);
 
   const renderIcon = useCallback(() => {
     if (icon) {
@@ -96,95 +77,210 @@ const Button = ({
 
       active.value = false;
     },
+    onActive: () => {},
+    onFail: () => {},
+    onFinish: () => {
+      active.value = false;
+    },
   });
 
   const backgroundColor = useMemo(() => {
-    let bg;
+    let bg = 'transparent';
 
-    if (outline) {
-      bg = 'transparent';
-    } else {
-      if (!disabled) {
-        if (/^#/.test(color)) {
-          bg = color;
-        } else {
-          bg = scheme === 'dark' ? dark.BUTTON[color] : light.BUTTON[color];
+    if (transparent || outline) {
+      return bg;
+    }
 
-          if (!bg) {
-            throw new Error(`Color '${color}' doesn't existed`);
-          }
-        }
+    if (!disabled) {
+      if (/^#/.test(color)) {
+        bg = color;
       } else {
-        bg = scheme === 'dark' ? dark.BUTTON.disabled : light.BUTTON.disabled;
+        bg = buttonColorValue;
+
+        if (!bg) {
+          throw new Error(`Color '${color}' doesn't existed`);
+        }
       }
+    } else {
+      bg = buttonDisabledColorValue;
     }
 
     return bg;
-  }, [scheme, outline, color]);
+  }, [
+    transparent,
+    outline,
+    disabled,
+    color,
+    buttonColorValue,
+    buttonDisabledColorValue,
+  ]);
 
   const borderColor = useMemo(() => {
     let bc = 'transparent';
 
-    if (outline) {
-      bc = scheme === 'dark' ? dark.BUTTON[color] : light.BUTTON[color];
+    if (transparent) {
+      return bc;
+    }
+
+    if (disabled) {
+      bc = buttonDisabledColorValue;
+      return bc;
+    }
+
+    if (/^#/.test(color)) {
+      bc = color;
+    } else if (outline && !Array.isArray(buttonColorValue)) {
+      bc = buttonColorValue;
     }
 
     return bc;
-  }, [scheme, color, outline]);
+  }, [
+    transparent,
+    disabled,
+    color,
+    outline,
+    buttonColorValue,
+    buttonDisabledColorValue,
+  ]);
+
+  const textColor = useMemo(() => {
+    let tc = 'white';
+    if (/^#/.test(color)) {
+      tc = color;
+    } else if (outline && !Array.isArray(buttonColorValue)) {
+      tc = buttonColorValue;
+    }
+
+    return tc;
+  }, [buttonColorValue, color, outline]);
+
+  const textAlign = useMemo(() => {
+    if (left) {
+      return 'left';
+    }
+    if (right) {
+      return 'right';
+    }
+    return 'center';
+  }, [left, right]);
+
+  const leftContent = useMemo(() => {
+    return (
+      <Box
+        style={mergeStyles(
+          leftAccessoryAbsolute && {position: 'absolute', left: 0},
+        )}>
+        {typeof leftAccessory === 'object' &&
+          React.cloneElement(leftAccessory, {
+            color: textColor,
+          })}
+        {typeof leftAccessory === 'function' &&
+          leftAccessory({color: textColor})}
+      </Box>
+    );
+  }, [leftAccessory, leftAccessoryAbsolute, textColor]);
+
+  const rightContent = useMemo(() => {
+    return (
+      <Box
+        style={mergeStyles(
+          rightAccessoryAbsolute && {position: 'absolute', right: 0},
+        )}>
+        {typeof rightAccessory === 'object' &&
+          React.cloneElement(rightAccessory, {
+            color: textColor,
+          })}
+        {typeof rightAccessory === 'function' &&
+          rightAccessory({color: textColor})}
+      </Box>
+    );
+  }, [rightAccessory, rightAccessoryAbsolute, textColor]);
+
+  const buttonChildren = useMemo(() => {
+    let _children = children;
+
+    if (typeof children === 'string') {
+      _children = (
+        <Text
+          style={mergeStyles(
+            styles.textStyle,
+            {
+              color: textColor,
+              textAlign,
+              flex: 1,
+            },
+            textStyle,
+          )}>
+          {children}
+        </Text>
+      );
+    }
+
+    if (typeof children === 'function') {
+      _children = children({color: textColor});
+    }
+
+    return (
+      <Box style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        {leftContent}
+        {_children}
+        {rightContent}
+      </Box>
+    );
+  }, [
+    children,
+    styles.textStyle,
+    textColor,
+    textStyle,
+    textAlign,
+    leftContent,
+    rightContent,
+  ]);
 
   return (
-    <LongPressGestureHandler
-      minDurationMs={0.1}
-      maxDist={10}
-      onGestureEvent={gestureHandler}>
+    <TapGestureHandler onGestureEvent={gestureHandler}>
       <Animated.View style={[activeStyle]}>
-        {typeof children === 'string' ? (
-          solid || outline ? (
-            <Animated.View
-              style={[
-                ...mergeStyles(
-                  styles.container,
-                  {
-                    borderWidth: 1,
-                  },
-                  {backgroundColor, borderColor},
-                  style,
-                ),
-              ]}>
-              {renderIcon()}
-              {loading ? (
-                <ActivityIndicator size="small" color={'white'} />
-              ) : (
-                <Text style={mergeStyles(styles.textStyle, textStyle)}>
-                  {children}
-                </Text>
-              )}
-            </Animated.View>
-          ) : (
-            <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              colors={gradientColors}
-              style={mergeStyles(styles.container, {}, style)}>
-              {renderIcon()}
-              {loading ? (
-                <ActivityIndicator
-                  size="small"
-                  style={{margin: rem(0)}}
-                  color={'white'}
-                />
-              ) : (
-                <Text style={mergeStyles(styles.textStyle, textStyle)}>
-                  {children}
-                </Text>
-              )}
-            </LinearGradient>
-          )
-        ) : (
-          children
+        {Array.isArray(backgroundColor) && (
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            colors={backgroundColor}
+            style={mergeStyles(styles.container, {}, style)}>
+            {renderIcon()}
+            {loading ? (
+              <ActivityIndicator
+                size="small"
+                style={{margin: rem(0)}}
+                color={textColor}
+              />
+            ) : (
+              buttonChildren
+            )}
+          </LinearGradient>
+        )}
+
+        {!Array.isArray(backgroundColor) && (
+          <Animated.View
+            style={[
+              ...mergeStyles(
+                styles.container,
+                {
+                  borderWidth: 1,
+                },
+                {backgroundColor, borderColor},
+                style,
+              ),
+            ]}>
+            {renderIcon()}
+            {loading ? (
+              <ActivityIndicator size="small" color={'white'} />
+            ) : (
+              buttonChildren
+            )}
+          </Animated.View>
         )}
       </Animated.View>
-    </LongPressGestureHandler>
+    </TapGestureHandler>
   );
 };
 
@@ -192,14 +288,14 @@ export default withTheme(Button, theme =>
   StyleSheet.create({
     container: {
       padding: rem(1),
-      borderRadius: 6,
+      borderRadius: 50,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
       position: 'relative',
     },
     textStyle: {
-      fontWeight: 'bold',
+      fontWeight: '400',
       color: 'white',
     },
     loading: {

@@ -13,21 +13,18 @@ const alertConfig = {
     iconSize: 80,
     title: 'Error',
     titleColor: '#de0000',
-    buttonColor: '#d22e2e',
   },
   success: {
     source: require('@assets/lotties/success.json'),
     iconSize: 80,
     title: 'Success',
     titleColor: '#00c501',
-    buttonColor: '#43d296',
   },
   warning: {
     source: require('@assets/lotties/warning.json'),
     iconSize: 90,
     title: 'Warning',
     titleColor: '#e37e00',
-    buttonColor: '#ffa301',
   },
 };
 
@@ -68,7 +65,6 @@ const Alert = gestureHandlerRootHOC(({config, onPress}) => {
           <View style={styles.content_buttonContain}>
             <Button
               textStyle={styles.content_buttonContain__button}
-              color={alert.buttonColor}
               onPress={onPress}>
               Close
             </Button>

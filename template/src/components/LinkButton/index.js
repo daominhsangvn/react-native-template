@@ -1,33 +1,21 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
-import useSchemeTransition from '@lib/themes/useSchemeTransition';
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
-import useTheme from '@lib/themes/useTheme';
+import useSchemeValue from '@lib/themes/useSchemeValue';
 
 const LinkButton = ({children, textStyle, style, ...rest}) => {
-  const {progress} = useSchemeTransition();
-  const {light, dark} = useTheme();
-
-  const rnTextStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      progress.value,
-      [0, 1],
-      [light.BUTTON.link, dark.BUTTON.link],
-    );
-
-    return {color};
-  });
+  const textColorValue = useSchemeValue('BUTTON.link');
 
   return (
     <TouchableOpacity {...rest} style={mergeStyles({}, style)}>
       {typeof children === 'string' && (
-        <Animated.Text style={[rnTextStyle, ...mergeStyles(textStyle)]}>
+        <Text
+          style={mergeStyles(
+            {fontWeight: '600', color: textColorValue},
+            textStyle,
+          )}>
           {children}
-        </Animated.Text>
+        </Text>
       )}
       {typeof children !== 'string' && children}
     </TouchableOpacity>

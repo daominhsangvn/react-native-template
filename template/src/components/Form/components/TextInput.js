@@ -10,7 +10,6 @@ const FormTextInput = ({
   theme,
   style = {},
   inputStyle = {},
-  secure = false,
   ...props
 }) => {
   const {styles} = theme;

@@ -9,19 +9,13 @@ import Gap from '@components/Gap';
 
 const HomeScreen = ({navigation}) => {
   return (
-    <Screen style={{padding: rem(1)}}>
+    <Screen style={{padding: rem(2)}}>
       <Text>hello i'm home</Text>
 
       <Gap v={1} />
 
       <Button onPress={() => navigation.navigate('Sample')}>
         To Sample Screen
-      </Button>
-
-      <Gap v={1} />
-
-      <Button onPress={() => navigation.navigate('Sample2')}>
-        To Sample 2 Screen
       </Button>
     </Screen>
   );

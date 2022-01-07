@@ -79,7 +79,10 @@ const SignInScreen = ({theme, navigation}) => {
   }, [showError, error]);
 
   return (
-    <Screen style={styles.container}>
+    <Screen
+      scrollable
+      scrollProps={{contentContainerStyle: {flex: 1}}}
+      style={styles.container}>
       <Box center style={{marginVertical: rem(2)}}>
         <Logo width={100} height={100} />
       </Box>
@@ -128,10 +131,15 @@ const SignInScreen = ({theme, navigation}) => {
       <Gap v={2} />
 
       <Button
+        outline
         onPress={() => {
           dispatch(toggleScheme());
         }}>
-        Toggle Scheme
+        {({color}) => {
+          return (
+            <Text style={{color, textAlign: 'center', flex: 1}}>Toggle</Text>
+          );
+        }}
       </Button>
 
       <Gap v={2} />

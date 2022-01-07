@@ -1,7 +1,6 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
 
 const HeaderButton = ({style, ...props}) => {
   return (

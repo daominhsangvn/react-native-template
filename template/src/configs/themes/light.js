@@ -1,9 +1,6 @@
 export default {
   BUTTON: {
     primary: '#fd6654',
-    error: '#de1d06',
-    warning: '#ffbd00',
-    success: '#00c928',
     style1: ['red', 'pink'],
     link: '#023d85',
     disabled: '#6e6e6e',
@@ -15,7 +12,7 @@ export default {
     primary: '#dcdcdc',
   },
   TEXT: {
-    primary: 'rgba(53, 64, 82, 1)',
+    default: 'rgba(53, 64, 82, 1)',
   },
   INPUT: {
     icon: 'rgb(147,147,147)',

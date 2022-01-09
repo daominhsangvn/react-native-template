@@ -25,7 +25,7 @@ function App() {
       />
       <AppStack.Screen
         options={{
-          header: props => <Header {...props} />,
+          headerShown: false,
         }}
         name="Sample"
         component={SampleScreen}

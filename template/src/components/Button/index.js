@@ -17,6 +17,7 @@ import Box from '@components/layouts/Box';
 
 const Button = ({
   color = 'primary',
+  full = true,
   style,
   children,
   outline = false,

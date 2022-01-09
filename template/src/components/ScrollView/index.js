@@ -1,13 +1,13 @@
 import React from 'react';
-import {ScrollView as RNScrollView} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Animated from 'react-native-reanimated';
 
 const ScrollView = ({contentContainerStyle, ...props}) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <RNScrollView
+    <Animated.ScrollView
       {...props}
       contentContainerStyle={mergeStyles(
         {paddingBottom: insets.bottom},

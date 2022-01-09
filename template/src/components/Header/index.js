@@ -25,7 +25,7 @@ const Header = props => {
     }
 
     return options.headerTitle(props);
-  }, [options.headerTitle, route.name]);
+  }, [options, props, route.name]);
 
   return (
     <View
@@ -54,11 +54,7 @@ const Header = props => {
         <View style={{width: 50}}>
           {back && (
             <HeaderButton onPress={() => navigation.pop()}>
-              <BackChevronIcon
-                width={20}
-                height={20}
-                fill={headerColorValue}
-              />
+              <BackChevronIcon width={20} height={20} fill={headerColorValue} />
             </HeaderButton>
           )}
         </View>

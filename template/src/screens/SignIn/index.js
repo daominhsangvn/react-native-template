@@ -79,10 +79,7 @@ const SignInScreen = ({theme, navigation}) => {
   }, [showError, error]);
 
   return (
-    <Screen
-      scrollable
-      scrollProps={{contentContainerStyle: {flex: 1}}}
-      style={styles.container}>
+    <Screen style={styles.container}>
       <Box center style={{marginVertical: rem(2)}}>
         <Logo width={100} height={100} />
       </Box>

@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {StyleSheet, SafeAreaView, View} from 'react-native';
+import {StyleSheet, SafeAreaView, View, TouchableOpacity} from 'react-native';
 import withTheme from '@lib/themes/withTheme';
 import {useNavigation} from '@react-navigation/native';
 import Animated, {
@@ -7,24 +7,33 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from 'react-native-reanimated';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Text from '@components/Text';
 import Button from '@components/Button';
 import {HEADER_HEIGHT} from '@configs/themes/var';
 import BackChevronIcon from '@assets/svg/back-chevron.svg';
+import useSchemeValue from '@lib/themes/useSchemeValue';
+import {rem} from '@lib/themes/utils';
 
 const NavBar = ({theme, title, y}) => {
   const {styles} = theme;
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+  const navbarColorValue = useSchemeValue('NAVBAR.background');
 
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const navBarStyle = useAnimatedStyle(() => {
+    if(!y) {
+      return {}
+    }
+    
     const translateY = interpolate(
       y.value,
-      [0, HEADER_HEIGHT],
-      [0, -HEADER_HEIGHT],
+      [0, HEADER_HEIGHT + insets.top],
+      [0, -HEADER_HEIGHT - insets.top],
       {
         extrapolateRight: Extrapolation.CLAMP,
       },
@@ -36,9 +45,8 @@ const NavBar = ({theme, title, y}) => {
   });
 
   return (
-    <SafeAreaView>
       <Animated.View
-        style={[navBarStyle, StyleSheet.absoluteFill, styles.container]}>
+        style={[navBarStyle, StyleSheet.absoluteFill, styles.container, {height: HEADER_HEIGHT + insets.top, backgroundColor: navbarColorValue, paddingTop: insets.top}]}>
         <View
           style={{
             alignItems: 'center',
@@ -46,11 +54,11 @@ const NavBar = ({theme, title, y}) => {
             flexDirection: 'row',
             flex: 1,
           }}>
-          <View style={{width: 50, position: 'absolute'}}>
-            <Button transparent onPress={goBack}>
+          {navigation.canGoBack() && <View style={{paddingLeft: rem(1), position: 'absolute', zIndex: 20}}>
+            <TouchableOpacity onPress={goBack}>
               <BackChevronIcon width={20} height={20} />
-            </Button>
-          </View>
+            </TouchableOpacity>
+          </View>}
           <View
             style={{
               flex: 1,
@@ -61,15 +69,12 @@ const NavBar = ({theme, title, y}) => {
           </View>
         </View>
       </Animated.View>
-    </SafeAreaView>
   );
 };
 
 export default withTheme(NavBar, () =>
   StyleSheet.create({
     container: {
-      height: HEADER_HEIGHT,
-      backgroundColor: 'red',
       zIndex: 50,
     },
   }),

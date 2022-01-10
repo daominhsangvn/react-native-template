@@ -28,4 +28,7 @@ export default {
   CHECKBOX: {
     primary: '#00FF00',
   },
+  NAVBAR: {
+    background: '#cccccc'
+  }
 };

@@ -8,12 +8,11 @@ import useSchemeValue from '@lib/themes/useSchemeValue';
 
 const Header = props => {
   const {back, navigation, options, route} = props;
-  // console.log('Header Props', props);
 
   const insets = useSafeAreaInsets();
 
-  const backgroundColorValue = useSchemeValue('BACKGROUND.primary');
   const headerColorValue = useSchemeValue('HEADER.color');
+  const navbarColorValue = useSchemeValue('NAVBAR.background');
 
   const _title = useMemo(() => {
     if (typeof options.headerTitle === 'string' || !options.headerTitle) {
@@ -27,12 +26,13 @@ const Header = props => {
     return options.headerTitle(props);
   }, [options, props, route.name]);
 
+
   return (
     <View
       style={{
         paddingTop: insets.top,
-        backgroundColor: backgroundColorValue,
-        height: HEADER_HEIGHT,
+        backgroundColor: navbarColorValue,
+        height: HEADER_HEIGHT + insets.top,
       }}>
       {/*<LinearGradient*/}
       {/*  start={{x: 0, y: 0}}*/}

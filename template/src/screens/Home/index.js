@@ -6,10 +6,12 @@ import Screen from '@components/layouts/Screen';
 import Button from '@components/Button';
 import {rem} from '@lib/themes/utils';
 import Gap from '@components/Gap';
+import NavBar from '@components/NavBar';
 
 const HomeScreen = ({navigation}) => {
   return (
-    <Screen style={{padding: rem(2)}}>
+    <Screen navbar style={{padding: rem(1)}}>
+      <NavBar title="Home" />
       <Text>hello i'm home</Text>
 
       <Gap v={1} />

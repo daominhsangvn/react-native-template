@@ -35,7 +35,7 @@ const FormBaseInput = React.forwardRef(
           />
         </Box>
         {secure && (
-          <Box>
+          <Box style={{width: 30}}>
             <Button transparent onPress={toggle} style={{padding: 0}}>
               {open ? (
                 <Icon name="eye" size={rem(1.4)} style={styles.eyeIcon} />

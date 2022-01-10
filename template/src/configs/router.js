@@ -18,7 +18,7 @@ function App() {
     <AppStack.Navigator>
       <AppStack.Screen
         options={{
-          header: props => <Header {...props} />,
+          headerShown: false,
         }}
         name="Home"
         component={HomeScreen}

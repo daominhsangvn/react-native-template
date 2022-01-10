@@ -6,11 +6,13 @@ import Animated, {
 } from 'react-native-reanimated';
 import useTheme from '@lib/themes/useTheme';
 import useSchemeTransition from '@lib/themes/useSchemeTransition';
+import {HEADER_HEIGHT} from '@configs/themes/var';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const Screen = ({style = {}, children, ...props}) => {
+const Screen = ({style = {}, children, navbar = false, ...props}) => {
   const theme = useTheme();
   const {dark, light} = theme;
-
+  const insets = useSafeAreaInsets();
   const {progress} = useSchemeTransition();
 
   const backgroundStyle = useAnimatedStyle(() => {
@@ -25,7 +27,7 @@ const Screen = ({style = {}, children, ...props}) => {
 
   return (
     <Animated.View
-      style={[backgroundStyle, ...mergeStyles({flex: 1}, style)]}
+      style={[backgroundStyle, ...mergeStyles({flex: 1}, style, navbar && { paddingTop: HEADER_HEIGHT + insets.top + (style.padding || style.paddingTop || style.paddingVertical || 0) })]}
       {...props}>
       {children}
     </Animated.View>

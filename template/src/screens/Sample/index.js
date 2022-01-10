@@ -67,6 +67,7 @@ const SampleScreen = props => {
     <Screen>
       <NavBar title="Sample" y={scrollClamp} />
       <ScrollView
+        navbar
         style={[StyleSheet.absoluteFillObject]}
         contentContainerStyle={styles.container}
         onScroll={scrollHandler}>
@@ -300,8 +301,7 @@ const SampleScreen = props => {
 export default withTheme(SampleScreen, () =>
   StyleSheet.create({
     container: {
-      paddingHorizontal: rem(2),
-      paddingTop: 50,
+      padding: rem(2),
     },
     heading: {
       fontSize: rem(1.5),

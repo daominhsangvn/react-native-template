@@ -5,7 +5,7 @@ import Button from '@components/Button';
 import {rem} from '@lib/themes/utils';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
 import Text from '@components/Text';
-import Grid from '@components/layouts/Grid';
+import EvenCols from '@components/layouts/EvenCols';
 import Spacer from '@components/layouts/Spacer';
 import Gap from '@components/Gap';
 import * as yup from 'yup';
@@ -26,6 +26,7 @@ import NavBar from '@components/NavBar';
 import ScrollView from '@components/ScrollView';
 import useCollapsibleNavBar from '@lib/hooks/useCollapsibleNavBar';
 import useStyles from '@lib/themes/useStyles';
+import DelayRender from '@components/DelayRender';
 
 const schema = yup.object().shape({
   // password: yup
@@ -79,119 +80,122 @@ const SampleScreen = () => {
         style={[StyleSheet.absoluteFillObject]}
         contentContainerStyle={styles.container}
         onScroll={scrollHandler}>
-        <Spacer>
-          <Box>
-            <Text style={styles.heading}>Dark/Light</Text>
-            <Gap v={1} />
-            <Button
-              onPress={() => {
-                dispatch(
-                  setScheme({scheme: scheme === 'dark' ? 'light' : 'dark'}),
-                );
-              }}>
-              Toggle
-            </Button>
-          </Box>
+        <Box>
+          <Text style={styles.heading}>Dark/Light</Text>
+          <Gap v={1} />
+          <Button
+            onPress={() => {
+              dispatch(
+                setScheme({scheme: scheme === 'dark' ? 'light' : 'dark'}),
+              );
+            }}>
+            Toggle
+          </Button>
+        </Box>
 
+        <Gap v={1} />
+        <Box>
+          <Text style={styles.heading}>Alerts</Text>
+          <Gap v={1} />
           <Box>
-            <Text style={styles.heading}>Alerts</Text>
-            <Gap v={1} />
-            <Box>
-              <Grid cols={3}>
-                <Grid.Item>
-                  <Button onPress={() => showError('Error message')}>
-                    Error
-                  </Button>
-                </Grid.Item>
-                <Grid.Item>
-                  <Button onPress={() => showSuccess('Success message')}>
-                    Success
-                  </Button>
-                </Grid.Item>
-                <Grid.Item>
-                  <Button onPress={() => showWarning('Warning message')}>
-                    Warning
-                  </Button>
-                </Grid.Item>
-              </Grid>
-            </Box>
-          </Box>
-
-          <Box>
-            <Text style={styles.heading}>Buttons</Text>
-            <Gap v={1} />
-            <Grid cols={3}>
-              <Grid.Item>
-                <Button>Normal</Button>
-              </Grid.Item>
-              <Grid.Item>
-                <Button outline>Outline</Button>
-              </Grid.Item>
-              <Grid.Item>
-                <Button loading>Loading</Button>
-              </Grid.Item>
-            </Grid>
-            <Gap v={1} />
-            <Button disabled>Disabled</Button>
-            <Gap v={1} />
-            <Grid cols={2}>
-              <Grid.Item>
-                <Button left>Left align</Button>
-              </Grid.Item>
-              <Grid.Item>
-                <Button right>Right align</Button>
-              </Grid.Item>
-            </Grid>
-            <Gap v={1} />
-            <Grid cols={2}>
-              <Grid.Item>
-                <Button
-                  leftAccessory={<Icon name="ios-person-outline" size={12} />}
-                  leftAccessoryAbsolute>
-                  Left icon button
+            <EvenCols cols={3}>
+              <EvenCols.Item>
+                <Button onPress={() => showError('Error message')}>
+                  Error
                 </Button>
-              </Grid.Item>
-              <Grid.Item>
-                <Button
-                  rightAccessory={<Icon name="ios-person-outline" size={12} />}
-                  rightAccessoryAbsolute>
-                  Right icon button
+              </EvenCols.Item>
+              <EvenCols.Item>
+                <Button onPress={() => showSuccess('Success message')}>
+                  Success
                 </Button>
-              </Grid.Item>
-            </Grid>
+              </EvenCols.Item>
+              <EvenCols.Item>
+                <Button onPress={() => showWarning('Warning message')}>
+                  Warning
+                </Button>
+              </EvenCols.Item>
+            </EvenCols>
           </Box>
+        </Box>
 
-          <Box>
-            <Text style={styles.heading}>Form</Text>
-            <Gap v={1} />
+        <Gap v={1} />
+        <Box>
+          <Text style={styles.heading}>Buttons</Text>
+          <Gap v={1} />
+          <EvenCols cols={3}>
+            <EvenCols.Item>
+              <Button>Normal</Button>
+            </EvenCols.Item>
+            <EvenCols.Item>
+              <Button outline>Outline</Button>
+            </EvenCols.Item>
+            <EvenCols.Item>
+              <Button loading>Loading</Button>
+            </EvenCols.Item>
+          </EvenCols>
+          <Gap v={1} />
+          <Button disabled>Disabled</Button>
+          <Gap v={1} />
+          <EvenCols cols={2}>
+            <EvenCols.Item>
+              <Button left>Left align</Button>
+            </EvenCols.Item>
+            <EvenCols.Item>
+              <Button right>Right align</Button>
+            </EvenCols.Item>
+          </EvenCols>
+          <Gap v={1} />
+          <EvenCols cols={2}>
+            <EvenCols.Item>
+              <Button
+                leftAccessory={<Icon name="ios-person-outline" size={12} />}
+                leftAccessoryAbsolute>
+                Left icon button
+              </Button>
+            </EvenCols.Item>
+            <EvenCols.Item>
+              <Button
+                rightAccessory={<Icon name="ios-person-outline" size={12} />}
+                rightAccessoryAbsolute>
+                Right icon button
+              </Button>
+            </EvenCols.Item>
+          </EvenCols>
+        </Box>
 
-            <FormField
-              name="email"
-              control={control}
-              label="Input"
-              leading={<Icon name="mail" size={rem(1.4)} />}>
-              <FormTextInput placeholder="Type your email" />
-            </FormField>
-            <FormField
-              name="username"
-              control={control}
-              trailing={<Icon name="ios-people" size={rem(1.4)} />}>
-              <FormTextInput placeholder="Type your username" />
-            </FormField>
-            <FormField
-              name="password"
-              control={control}
-              leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
-              <FormTextInput placeholder="Type your password" secure />
-            </FormField>
-            <FormField
-              name="confirmPassword"
-              control={control}
-              leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
-              <FormTextInput placeholder="Type your password again" secure />
-            </FormField>
-          </Box>
+        <Gap v={1} />
+        <Box>
+          <Text style={styles.heading}>Form</Text>
+          <Gap v={1} />
 
+          <FormField
+            name="email"
+            control={control}
+            label="Input"
+            leading={<Icon name="mail" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your email" />
+          </FormField>
+          <FormField
+            name="username"
+            control={control}
+            trailing={<Icon name="ios-people" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your username" />
+          </FormField>
+          <FormField
+            name="password"
+            control={control}
+            leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your password" secure />
+          </FormField>
+          <FormField
+            name="confirmPassword"
+            control={control}
+            leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Type your password again" secure />
+          </FormField>
+        </Box>
+        <DelayRender>
+          <Gap v={1} />
           <Box>
             <FormField
               name="datetime"
@@ -214,6 +218,7 @@ const SampleScreen = () => {
             </FormField>
           </Box>
 
+          <Gap v={1} />
           <Box>
             <FormField
               name="select"
@@ -233,6 +238,7 @@ const SampleScreen = () => {
             </FormField>
           </Box>
 
+          <Gap v={1} />
           <Box>
             <FormField
               name="checkbox"
@@ -243,6 +249,7 @@ const SampleScreen = () => {
             </FormField>
           </Box>
 
+          <Gap v={1} />
           <Box>
             <FormField
               name="choices"
@@ -259,6 +266,7 @@ const SampleScreen = () => {
             </FormField>
           </Box>
 
+          <Gap v={1} />
           <Box>
             <FormField
               name="mediaphoto"
@@ -299,12 +307,12 @@ const SampleScreen = () => {
             </FormField>
           </Box>
 
+          <Gap v={1} />
           <Box>
             <Button onPress={handleSubmit(onSubmit)}>SUBMIT</Button>
           </Box>
-
-          <Text>{JSON.stringify(formValue, null, 3)}</Text>
-        </Spacer>
+        </DelayRender>
+        <Text>{JSON.stringify(formValue, null, 3)}</Text>
       </ScrollView>
     </Screen>
   );

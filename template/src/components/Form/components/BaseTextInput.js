@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
-import withTheme from '@lib/themes/withTheme';
 import {mergeStyles} from '@lib/utils/helpers';
 import {rem} from '@lib/themes/utils';
 import useSchemeValue from '@lib/themes/useSchemeValue';
@@ -8,13 +7,32 @@ import Box from '@components/layouts/Box';
 import Icon from '@components/Icon';
 import Button from '@components/Button';
 import useToggle from '@lib/hooks/useToggle';
+import useStyles from '@lib/themes/useStyles';
+
+const _styles = {
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  eyeIcon: {
+    paddingLeft: rem(0.4),
+    paddingRight: rem(0.4),
+  },
+};
 
 const FormBaseInput = React.forwardRef(
   ({theme, style = {}, secure = false, ...props}, ref) => {
-    const {styles} = theme;
+    const styles = useStyles(_styles);
     const {open, toggle} = useToggle(secure);
     const inputTextColor = useSchemeValue('INPUT.text');
     const placeholderTextColor = useSchemeValue('INPUT.placeholder');
+
+    const toggleIcon = useMemo(() => {
+      if (!open) {
+        return <Icon name="eye-off" size={rem(1.4)} style={styles.eyeIcon} />;
+      }
+      return <Icon name="eye" size={rem(1.4)} style={styles.eyeIcon} />;
+    }, [open, styles.eyeIcon]);
 
     return (
       <Box style={styles.container}>
@@ -36,12 +54,8 @@ const FormBaseInput = React.forwardRef(
         </Box>
         {secure && (
           <Box>
-            <Button transparent onPress={toggle} style={{padding: 0}}>
-              {open ? (
-                <Icon name="eye" size={rem(1.4)} style={styles.eyeIcon} />
-              ) : (
-                <Icon name="eye-off" size={rem(1.4)} style={styles.eyeIcon} />
-              )}
+            <Button transparent onPress={toggle} style={{padding: 0, backgroundColor: 'red'}}>
+              {toggleIcon}
             </Button>
           </Box>
         )}
@@ -50,15 +64,4 @@ const FormBaseInput = React.forwardRef(
   },
 );
 
-export default withTheme(FormBaseInput, () =>
-  StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    eyeIcon: {
-      paddingLeft: rem(0.4),
-      paddingRight: rem(0.4),
-    },
-  }),
-);
+export default FormBaseInput;

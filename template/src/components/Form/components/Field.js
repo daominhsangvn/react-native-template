@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Box from '@components/layouts/Box';
 import Text from '@components/Text';
 import {mergeStyles} from '@lib/utils/helpers';
@@ -37,6 +37,42 @@ const FormField = ({
   const hintErrorColor = useSchemeValue('INPUT.hint_error');
   const inputIconColor = useSchemeValue('INPUT.icon');
 
+  const renderLeading = useMemo(() => {
+    if (leading) {
+      return (
+        <Box
+          style={{
+            minWidth: 20,
+            alignItems: 'center',
+            marginRight: rem(0.5),
+          }}>
+          {React.cloneElement(leading, {
+            color: inputIconColor,
+          })}
+        </Box>
+      );
+    }
+    return null;
+  }, [leading, inputIconColor]);
+
+  const renderTrailing = useMemo(() => {
+    if (trailing) {
+      return (
+        <Box
+          style={{
+            minWidth: 20,
+            alignItems: 'center',
+            marginLeft: rem(0.5),
+          }}>
+          {React.cloneElement(trailing, {
+            color: inputIconColor,
+          })}
+        </Box>
+      );
+    }
+    return null;
+  }, [trailing, inputIconColor]);
+
   return (
     <FormFieldContext.Provider value={{...controller, disabled}}>
       <Box style={styles.container} pointerEvents={disabled ? 'none' : 'auto'}>
@@ -53,31 +89,9 @@ const FormField = ({
             {borderBottomColor},
             containerStyle,
           )}>
-          {leading && (
-            <Box
-              style={{
-                minWidth: 20,
-                alignItems: 'center',
-                marginRight: rem(0.5),
-              }}>
-              {React.cloneElement(leading, {
-                color: inputIconColor,
-              })}
-            </Box>
-          )}
+          {renderLeading}
           <Box style={{flex: 1}}>{children}</Box>
-          {trailing && (
-            <Box
-              style={{
-                minWidth: 20,
-                alignItems: 'center',
-                marginLeft: rem(0.5),
-              }}>
-              {React.cloneElement(trailing, {
-                color: inputIconColor,
-              })}
-            </Box>
-          )}
+          {renderTrailing}
         </Box>
         {error && (
           <Box style={styles.hint}>

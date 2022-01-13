@@ -5,15 +5,12 @@ import Box from '@components/layouts/Box';
 import FormBaseInput from './BaseTextInput';
 import {mergeStyles} from '@lib/utils/helpers';
 import useField from '@components/Form/useField';
+import useStyles from '@lib/themes/useStyles';
 
-const FormTextInput = ({
-  theme,
-  style = {},
-  inputStyle = {},
-  ...props
-}) => {
-  const {styles} = theme;
+const _styles = {};
 
+const FormTextInput = ({style = {}, inputStyle = {}, ...props}) => {
+  const styles = useStyles(_styles);
   const {
     field: {name, onChange, ref, value},
     fieldState: {error},
@@ -36,10 +33,4 @@ const FormTextInput = ({
   );
 };
 
-export default withTheme(FormTextInput, () =>
-  StyleSheet.create({
-    container: {
-    },
-    input: {},
-  }),
-);
+export default FormTextInput;

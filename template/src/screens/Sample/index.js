@@ -1,7 +1,6 @@
 import Box from '@components/layouts/Box';
 import React, {useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
-import withTheme from '@lib/themes/withTheme';
 import Button from '@components/Button';
 import {rem} from '@lib/themes/utils';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
@@ -26,6 +25,7 @@ import FormMedia from '@components/Form/components/Media';
 import NavBar from '@components/NavBar';
 import ScrollView from '@components/ScrollView';
 import useCollapsibleNavBar from '@lib/hooks/useCollapsibleNavBar';
+import useStyles from '@lib/themes/useStyles';
 
 const schema = yup.object().shape({
   // password: yup
@@ -39,11 +39,19 @@ const schema = yup.object().shape({
   // mediaphoto: yup.string().nullable().required('Photo is required'),
 });
 
-const SampleScreen = props => {
-  const {theme} = props;
+const _styles = {
+  container: {
+    padding: rem(1),
+  },
+  heading: {
+    fontSize: rem(1.5),
+  },
+};
+
+const SampleScreen = () => {
   const dispatch = useDispatch();
   const scheme = useSelector(selectThemeScheme);
-  const {styles} = theme;
+  const styles = useStyles(_styles);
   const {showError, showSuccess, showWarning} = useAlertDiaLog();
   const [formValue, setFormValue] = useState({});
   const {scrollClamp, scrollHandler} = useCollapsibleNavBar();
@@ -67,6 +75,7 @@ const SampleScreen = props => {
     <Screen>
       <NavBar title="Sample" y={scrollClamp} />
       <ScrollView
+        navbar
         style={[StyleSheet.absoluteFillObject]}
         contentContainerStyle={styles.container}
         onScroll={scrollHandler}>
@@ -249,16 +258,17 @@ const SampleScreen = props => {
               />
             </FormField>
           </Box>
+
           <Box>
             <FormField
               name="mediaphoto"
               label="Media (Photo)"
               control={control}
-              front={false}
               containerStyle={{borderBottomWidth: 0}}>
-              <FormMedia mediaType="photo" mime="jpeg" />
+              <FormMedia mediaType="photo" mime="jpeg" front={false} />
             </FormField>
           </Box>
+
           <Box>
             <FormField
               name="mediaphotocrop"
@@ -268,6 +278,7 @@ const SampleScreen = props => {
               <FormMedia mediaType="photo" cropping />
             </FormField>
           </Box>
+
           <Box>
             <FormField
               name="mediavideo"
@@ -277,6 +288,7 @@ const SampleScreen = props => {
               <FormMedia mediaType="video" />
             </FormField>
           </Box>
+
           <Box>
             <FormField
               name="mediaany"
@@ -286,6 +298,7 @@ const SampleScreen = props => {
               <FormMedia />
             </FormField>
           </Box>
+
           <Box>
             <Button onPress={handleSubmit(onSubmit)}>SUBMIT</Button>
           </Box>
@@ -297,14 +310,4 @@ const SampleScreen = props => {
   );
 };
 
-export default withTheme(SampleScreen, () =>
-  StyleSheet.create({
-    container: {
-      paddingHorizontal: rem(2),
-      paddingTop: 50,
-    },
-    heading: {
-      fontSize: rem(1.5),
-    },
-  }),
-);
+export default SampleScreen;

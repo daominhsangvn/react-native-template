@@ -2,8 +2,7 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import useField from '@components/Form/useField';
 import Box from '@components/layouts/Box';
 import ActionSheet from '@components/ActionSheet';
-import {Image, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
-import withTheme from '@lib/themes/withTheme';
+import {Image, TextInput, TouchableOpacity} from 'react-native';
 import Icon from '@components/Icon';
 import Spacer from '@components/layouts/Spacer';
 import {rem} from '@lib/themes/utils';
@@ -13,9 +12,33 @@ import * as mimeTypes from 'react-native-mime-types';
 import Text from '@components/Text';
 import Video from '@components/Video';
 import Gap from '@components/Gap';
+import useStyles from '@lib/themes/useStyles';
+
+const _styles = {
+  container: {
+    flex: 1
+  },
+  button: {
+    alignItems: 'center',
+    padding: rem(0.7),
+  },
+  buttonText: {
+    fontWeight: '500',
+  },
+  imageContainer: {
+    width: '100%',
+    backgroundColor: '#cccccc',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    position: 'relative',
+  },
+  actionContainer: {
+    padding: rem(1),
+  },
+};
 
 const FormMedia = ({
-  theme,
   mediaType,
   cropping = false,
   width,
@@ -26,7 +49,7 @@ const FormMedia = ({
   front = true,
   mime = null,
 }) => {
-  const {styles} = theme;
+  const styles = useStyles(_styles);
   const {
     field: {name, onChange, ref, value},
     fieldState: {error, isDirty},
@@ -214,26 +237,4 @@ const FormMedia = ({
   );
 };
 
-export default withTheme(FormMedia, () =>
-  StyleSheet.create({
-    container: {},
-    button: {
-      alignItems: 'center',
-      padding: rem(0.7),
-    },
-    buttonText: {
-      fontWeight: '500',
-    },
-    imageContainer: {
-      width: '100%',
-      backgroundColor: '#cccccc',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 4,
-      position: 'relative',
-    },
-    actionContainer: {
-      padding: rem(1),
-    },
-  }),
-);
+export default FormMedia;

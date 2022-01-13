@@ -5632,7 +5632,7 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.2.3"
 
-mime-db@1.51.0, "mime-db@>= 1.43.0 < 2", mime-db@^1.51.0:
+mime-db@1.51.0, "mime-db@>= 1.43.0 < 2":
   version "1.51.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.51.0.tgz#d9ff62451859b18342d960850dc3cfb77e63fb0c"
   integrity sha512-5y8A56jg7XVQx2mbv1lu49NR4dokRnhZYTtL+KGfaa27uq4pSTXkwQkFJl4pkRMyNFz/EtYDSkiiEHx3F7UN6g==
@@ -6453,16 +6453,6 @@ react-native-bootsplash@4.0.2:
     fs-extra "^10.0.0"
     jimp "^0.16.1"
 
-react-native-bouncy-checkbox-group@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-bouncy-checkbox-group/-/react-native-bouncy-checkbox-group-0.1.0.tgz#ce38bb70f42d764f0984953cfc8fb2d38dac2857"
-  integrity sha512-ip9vEJOmI2hriuARKyI6mxJvH0ZSwZTbUEOHioMsfH+B7zFZ+a7DNUlyV59T24/7D+R8eu8+mgveRHP5yGXLtg==
-
-react-native-bouncy-checkbox@2.1.9:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/react-native-bouncy-checkbox/-/react-native-bouncy-checkbox-2.1.9.tgz#b15db336e3c76d3c2dcb8fb9ba3a98cbf083a7d8"
-  integrity sha512-XPdGLS7/QcfRH7J7dngvh0xzm2o+5V48TP4OJGXPjMPWH7grdXZS3PKOYVTErlZHCbbdm0gE+Iw7aXVSNQnIQQ==
-
 react-native-codegen@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.7.tgz#86651c5c5fec67a8077ef7f4e36f7ed459043e14"
@@ -6513,7 +6503,7 @@ react-native-linear-gradient@2.5.6:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
   integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
 
-react-native-mime-types@^2.3.0:
+react-native-mime-types@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-native-mime-types/-/react-native-mime-types-2.3.0.tgz#1278602c3da94ffb47c6400ef861901c4ebac420"
   integrity sha512-9l/kkT1QM0i0xAKkOADkP6jIMhqiS+R/eSKBS/lsUmuMYMqboClyrwTFFZwUcaVIN0SpeH4wOKhYTqCnFgRsEw==

@@ -1,30 +1,26 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import {StyleSheet, TouchableOpacity, View, Platform} from 'react-native';
-import withTheme from '@lib/themes/withTheme';
-import {FormFieldContext} from '@components/forms/Form/FieldContext';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {TouchableOpacity} from 'react-native';
 import Box from '@components/layouts/Box';
-import Button from '@components/Button';
 import FormBaseInput from './BaseTextInput';
-import {mergeStyles, windowWidth} from '@lib/utils/helpers';
+import {mergeStyles} from '@lib/utils/helpers';
 import useField from '@components/Form/useField';
-import {rem} from '@lib/themes/utils';
 import SelectPicker from './Select.Picker';
+import useStyles from '@lib/themes/useStyles';
+
+const _styles = {
+  container: {
+    flex: 1,
+  },
+  input: {},
+};
 
 const FormSelect = ({
-  theme,
   style = {},
   inputProps = {},
   options = [],
   placeholder = '',
 }) => {
-  const {styles} = theme;
+  const styles = useStyles(_styles);
   const {
     field: {name, onBlur, onChange, ref, value},
     fieldState: {error, invalid, isDirty, isTouched},
@@ -71,10 +67,7 @@ const FormSelect = ({
 
   return (
     <Box style={mergeStyles(styles.container, style)}>
-      <TouchableOpacity
-        disabled={disabled}
-        onPress={onPress}
-        style={{width: '100%'}}>
+      <TouchableOpacity disabled={disabled} onPress={onPress}>
         <FormBaseInput
           value={selectedText}
           placeholder={placeholder}
@@ -97,9 +90,4 @@ const FormSelect = ({
   );
 };
 
-export default withTheme(FormSelect, () =>
-  StyleSheet.create({
-    container: {},
-    input: {},
-  }),
-);
+export default FormSelect;

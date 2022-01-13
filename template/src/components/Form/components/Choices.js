@@ -1,20 +1,19 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {StyleSheet, TextInput} from 'react-native';
-import withTheme from '@lib/themes/withTheme';
+import {TextInput} from 'react-native';
 import Box from '@components/layouts/Box';
 import {mergeStyles} from '@lib/utils/helpers';
 import {rem} from '@lib/themes/utils';
 import useField from '@components/Form/useField';
 import CheckBox from '@components/Checkbox';
+import useStyles from '@lib/themes/useStyles';
 
-const FormChoices = ({
-  theme,
-  style = {},
-  options,
-  textStyle = {},
-  cols = 1,
-}) => {
-  const {styles} = theme;
+const _styles = {
+  container: {},
+  input: {},
+};
+
+const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
+  const styles = useStyles(_styles);
 
   const {
     field: {name, onBlur, onChange, ref, value},
@@ -59,7 +58,7 @@ const FormChoices = ({
       />
 
       {options.map(op => (
-        <Box style={{marginBottom: rem(0.4)}}>
+        <Box key={`choices-${op.value}`} style={{marginBottom: rem(0.4)}}>
           <CheckBox
             onChange={onValueChange}
             disabled={disabled}
@@ -74,9 +73,4 @@ const FormChoices = ({
   );
 };
 
-export default withTheme(FormChoices, () =>
-  StyleSheet.create({
-    container: {},
-    input: {},
-  }),
-);
+export default FormChoices;

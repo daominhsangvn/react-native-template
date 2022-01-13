@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import GridItem from './Item';
 import Box from '../Box';
 import {StyleSheet} from 'react-native';
-import { rem } from "@lib/themes/utils";
+import {rem} from '@lib/themes/utils';
 
 const Grid = ({children, cols = 1, gap = rem(1), ...rest}) => {
   const [width, setWidth] = useState(0);

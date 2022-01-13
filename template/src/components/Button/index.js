@@ -1,9 +1,8 @@
 import React, {useCallback, useMemo} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Text, View} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
 import LinearGradient from 'react-native-linear-gradient';
 import {rem} from '@lib/themes/utils';
-import withTheme from '@lib/themes/withTheme';
 import {TapGestureHandler} from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
@@ -14,6 +13,25 @@ import Animated, {
 } from 'react-native-reanimated';
 import useSchemeValue from '@lib/themes/useSchemeValue';
 import Box from '@components/layouts/Box';
+import useStyles from '@lib/themes/useStyles';
+
+const _styles = {
+  container: {
+    padding: rem(1),
+    borderRadius: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  textStyle: {
+    fontWeight: '400',
+    color: 'white',
+  },
+  loading: {
+    height: 19,
+  },
+};
 
 const Button = ({
   color = 'primary',
@@ -24,7 +42,6 @@ const Button = ({
   icon = null,
   textStyle = {},
   loading = false,
-  theme,
   onPress,
   disabled = false,
   transparent,
@@ -35,7 +52,7 @@ const Button = ({
   rightAccessory,
   rightAccessoryAbsolute = false,
 }) => {
-  const {styles} = theme;
+  const styles = useStyles(_styles);
 
   const buttonDisabledColorValue = useSchemeValue('BUTTON.disabled');
   const buttonColorValue = useSchemeValue(`BUTTON.${color}`);
@@ -285,22 +302,4 @@ const Button = ({
   );
 };
 
-export default withTheme(Button, theme =>
-  StyleSheet.create({
-    container: {
-      padding: rem(1),
-      borderRadius: 50,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-    },
-    textStyle: {
-      fontWeight: '400',
-      color: 'white',
-    },
-    loading: {
-      height: 19,
-    },
-  }),
-);
+export default Button;

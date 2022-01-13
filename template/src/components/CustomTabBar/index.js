@@ -1,13 +1,33 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
-import withTheme from '@lib/themes/withTheme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import { BOTTOM_TAB_HEIGHT } from "@configs/themes/var";
+import {BOTTOM_TAB_HEIGHT} from '@configs/themes/var';
+import useStyles from '@lib/themes/useStyles';
+
+const _styles = {
+  container: {
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    height: BOTTOM_TAB_HEIGHT,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 6.84,
+    //
+    // elevation: 11,
+  },
+  buttonContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  label: {fontSize: 12, marginTop: 3, color: '#4E5969'},
+  labelFocused: {color: '#fd6654'},
+};
 
 const CustomTabBar = props => {
   const {theme} = props;
-  const {styles} = theme;
+  const styles = useStyles(_styles);
   const {state, descriptors, navigation} = props;
   return (
     <GestureHandlerRootView>
@@ -99,24 +119,4 @@ const CustomTabBar = props => {
   );
 };
 
-export default withTheme(CustomTabBar, theme =>
-  StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      backgroundColor: '#ffffff',
-      height: BOTTOM_TAB_HEIGHT,
-      // shadowColor: '#000',
-      // shadowOffset: {
-      //   width: 0,
-      //   height: 3,
-      // },
-      // shadowOpacity: 0.25,
-      // shadowRadius: 6.84,
-      //
-      // elevation: 11,
-    },
-    buttonContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-    label: {fontSize: 12, marginTop: 3, color: '#4E5969'},
-    labelFocused: {color: '#fd6654'},
-  }),
-);
+export default CustomTabBar;

@@ -56,7 +56,9 @@ export const mergeStyles = (styles, ...otherStyles) => {
   }, []);
 
   if (Array.isArray(styles)) {
-    return [...styles, ...normalizeStyles];
+    styles.push(...normalizeStyles);
+    return styles;
+    // return [...styles, ...normalizeStyles];
   }
 
   return [styles, ...normalizeStyles];

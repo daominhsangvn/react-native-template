@@ -10,10 +10,9 @@ import {
 import {selectIsAuth} from '@features/authentication/store/user/slice';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
 import {rem} from '@lib/themes/utils';
-import withTheme from '@lib/themes/withTheme';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useDispatch, useSelector} from 'react-redux';
 import * as yup from 'yup';
@@ -26,18 +25,44 @@ import Gap from '@components/Gap';
 import Text from '@components/Text';
 import FormField from '@components/Form/components/Field';
 import FormTextInput from '@components/Form/components/TextInput';
+import useStyles from '@lib/themes/useStyles';
 
-let schema = yup.object().shape({
+const schema = yup.object().shape({
   email: yup.string().required().email().min(6).max(50),
   password: yup.string().required().min(6).max(20),
 });
 
-const SignInScreen = ({theme, navigation}) => {
+const _styles = {
+  container: {
+    flex: 1,
+    padding: rem(2),
+  },
+  contain__title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: rem(1.5),
+    // color: CARD.text,
+    marginTop: rem(3),
+    marginBottom: rem(4),
+  },
+  contain__link: {
+    marginBottom: rem(2),
+    fontSize: rem(1.4),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  error: {
+    // color: COLORS.error,
+  },
+};
+
+const SignInScreen = ({navigation}) => {
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
-  const {styles} = theme;
+  const styles = useStyles(_styles);
   const {showError} = useAlertDiaLog();
 
   const {control, handleSubmit} = useForm({
@@ -155,29 +180,4 @@ const SignInScreen = ({theme, navigation}) => {
   );
 };
 
-export default withTheme(SignInScreen, () =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: rem(2),
-    },
-    contain__title: {
-      textAlign: 'center',
-      fontWeight: 'bold',
-      fontSize: rem(1.5),
-      // color: CARD.text,
-      marginTop: rem(3),
-      marginBottom: rem(4),
-    },
-    contain__link: {
-      marginBottom: rem(2),
-      fontSize: rem(1.4),
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    error: {
-      // color: COLORS.error,
-    },
-  }),
-);
+export default SignInScreen;

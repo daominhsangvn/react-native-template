@@ -1,13 +1,15 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import withTheme from '@lib/themes/withTheme';
 import Box from '@components/layouts/Box';
 import FormBaseInput from './BaseTextInput';
 import {mergeStyles} from '@lib/utils/helpers';
 import useField from '@components/Form/useField';
 import useStyles from '@lib/themes/useStyles';
 
-const _styles = {};
+const _styles = {
+  container: {
+    flex: 1,
+  },
+};
 
 const FormTextInput = ({style = {}, inputStyle = {}, ...props}) => {
   const styles = useStyles(_styles);

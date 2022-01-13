@@ -6,5 +6,6 @@ if (__DEV__) {
   whyDidYouRender(React, {
     trackAllPureComponents: true,
     trackExtraHooks: [[ReactRedux, 'useSelector']],
+    exclude: [/^StaticContainer/],
   });
 }

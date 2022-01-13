@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {TextInput} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
 import {rem} from '@lib/themes/utils';
 import useSchemeValue from '@lib/themes/useSchemeValue';
@@ -53,8 +53,8 @@ const FormBaseInput = React.forwardRef(
           />
         </Box>
         {secure && (
-          <Box>
-            <Button transparent onPress={toggle} style={{padding: 0, backgroundColor: 'red'}}>
+          <Box style={{width: 30}}>
+            <Button transparent onPress={toggle} style={{padding: 0}}>
               {toggleIcon}
             </Button>
           </Box>

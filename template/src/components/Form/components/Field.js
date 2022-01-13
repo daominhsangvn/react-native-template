@@ -3,16 +3,30 @@ import Box from '@components/layouts/Box';
 import Text from '@components/Text';
 import {mergeStyles} from '@lib/utils/helpers';
 import useSchemeValue from '@lib/themes/useSchemeValue';
-import withTheme from '@lib/themes/withTheme';
-import {StyleSheet} from 'react-native';
 import {rem} from '@lib/themes/utils';
 import {useController} from 'react-hook-form';
 import {FormFieldContext} from '@components/Form/FieldContext';
+import useStyles from '@lib/themes/useStyles';
+import FieldLeading from '@components/Form/components/Field.Leading';
+
+const _styles = {
+  container: {},
+  label: {},
+  inputContainer: {
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: rem(0.5),
+  },
+  hint: {},
+  hintText: {
+    fontSize: rem(1),
+  },
+};
 
 const FormField = ({
   control,
   name,
-  theme,
   children,
   disabled = false,
   label,
@@ -29,7 +43,7 @@ const FormField = ({
     fieldState: {error},
   } = controller;
 
-  const {styles} = theme;
+  const styles = useStyles(_styles);
 
   const borderBottomColor = useSchemeValue('INPUT.border');
   const labelColor = useSchemeValue('INPUT.label');
@@ -90,7 +104,7 @@ const FormField = ({
             containerStyle,
           )}>
           {renderLeading}
-          <Box style={{flex: 1}}>{children}</Box>
+          {children}
           {renderTrailing}
         </Box>
         {error && (
@@ -105,19 +119,6 @@ const FormField = ({
   );
 };
 
-export default withTheme(FormField, () =>
-  StyleSheet.create({
-    container: {},
-    label: {},
-    inputContainer: {
-      borderBottomWidth: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingVertical: rem(0.5),
-    },
-    hint: {},
-    hintText: {
-      fontSize: rem(1),
-    },
-  }),
-);
+FormField.Leading = FieldLeading;
+
+export default FormField;

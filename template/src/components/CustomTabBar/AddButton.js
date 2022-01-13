@@ -1,6 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Text, Dimensions} from 'react-native';
-import withTheme from '@lib/themes/withTheme';
+import React, {useEffect, useRef} from 'react';
+import {Text, Dimensions} from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -13,7 +12,9 @@ import Animated, {
 import {PanGestureHandler} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {BOTTOM_TAB_HEIGHT} from '@configs/themes/var';
-import Logger from "@lib/utils/Logger";
+import Logger from '@lib/utils/Logger';
+import useTheme from '@lib/themes/useTheme';
+import useStyles from '@lib/themes/useStyles';
 
 const {width, height} = Dimensions.get('window');
 
@@ -27,9 +28,56 @@ const ACTIONS = {
   VIDEO: 2,
   STATUS: 3,
 };
+const _styles = theme => ({
+  container: {},
+  dim: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    zIndex: 1,
+    width,
+    height: height - 24 - BOTTOM_TAB_HEIGHT,
+  },
+  buttonContainer: {
+    width: BUTTON_SIZE,
+    height: BUTTON_SIZE,
+    borderRadius: BUTTON_SIZE / 2,
+    backgroundColor: '#ffffff',
+    top: -10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: BORDER,
+    borderColor: '#ffffff',
+    zIndex: 10,
+  },
+  button: {
+    width: BUTTON_SIZE - BORDER * 2,
+    height: BUTTON_SIZE - BORDER * 2,
+    borderRadius: BUTTON_SIZE / 2,
+    backgroundColor: theme.COLORS.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    zIndex: 15,
+  },
+  buttonText: {fontSize: 30, color: 'white', top: -1},
+  actionButton: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 16,
+    width: ACTION_BUTTON_SIZE,
+    height: ACTION_BUTTON_SIZE,
+    borderRadius: ACTION_BUTTON_SIZE / 2,
+    borderWidth: 1,
+    borderColor: '#ffffff',
+    // left: -5,
+  },
+});
 
 const AddButton = ({theme, navigation}) => {
-  const {styles, COLORS} = theme;
+  const {COLORS} = useTheme();
+  const styles = useStyles(_styles);
+
   const btnRef = useRef(null);
 
   const active = useSharedValue(false);
@@ -262,50 +310,4 @@ const AddButton = ({theme, navigation}) => {
   );
 };
 
-export default withTheme(AddButton, theme =>
-  StyleSheet.create({
-    container: {},
-    dim: {
-      position: 'absolute',
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      zIndex: 1,
-      width,
-      height: height - 24 - BOTTOM_TAB_HEIGHT,
-    },
-    buttonContainer: {
-      width: BUTTON_SIZE,
-      height: BUTTON_SIZE,
-      borderRadius: BUTTON_SIZE / 2,
-      backgroundColor: '#ffffff',
-      top: -10,
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderWidth: BORDER,
-      borderColor: '#ffffff',
-      zIndex: 10,
-    },
-    button: {
-      width: BUTTON_SIZE - BORDER * 2,
-      height: BUTTON_SIZE - BORDER * 2,
-      borderRadius: BUTTON_SIZE / 2,
-      backgroundColor: theme.COLORS.primary,
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-      zIndex: 15,
-    },
-    buttonText: {fontSize: 30, color: 'white', top: -1},
-    actionButton: {
-      position: 'absolute',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 16,
-      width: ACTION_BUTTON_SIZE,
-      height: ACTION_BUTTON_SIZE,
-      borderRadius: ACTION_BUTTON_SIZE / 2,
-      borderWidth: 1,
-      borderColor: '#ffffff',
-      // left: -5,
-    },
-  }),
-);
+export default AddButton;

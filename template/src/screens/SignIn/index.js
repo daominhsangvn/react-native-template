@@ -26,6 +26,7 @@ import Text from '@components/Text';
 import FormField from '@components/Form/components/Field';
 import FormTextInput from '@components/Form/components/TextInput';
 import useStyles from '@lib/themes/useStyles';
+import ScrollView from '@components/ScrollView';
 
 const schema = yup.object().shape({
   email: yup.string().required().email().min(6).max(50),
@@ -35,7 +36,9 @@ const schema = yup.object().shape({
 const _styles = {
   container: {
     flex: 1,
-    padding: rem(2),
+  },
+  scrollView: {
+    padding: rem(1),
   },
   contain__title: {
     textAlign: 'center',
@@ -105,77 +108,79 @@ const SignInScreen = ({navigation}) => {
 
   return (
     <Screen style={styles.container}>
-      <Box center style={{marginVertical: rem(2)}}>
-        <Logo width={100} height={100} />
-      </Box>
-
-      <Spacer spacing={2}>
-        <FormField
-          name="email"
-          label="Email"
-          control={control}
-          leading={<Icon name="mail" size={rem(1.4)} />}>
-          <FormTextInput placeholder="Your email" />
-        </FormField>
-
-        <Box>
-          <FormField
-            name="password"
-            label="Password"
-            control={control}
-            leading={
-              <Icon component={IconFontAwesome} name="lock" size={rem(1.4)} />
-            }>
-            <FormTextInput secure placeholder="Your password" />
-          </FormField>
-
-          <Box right>
-            <Gap v={1} />
-            <LinkButton
-              textStyle={{
-                textDecorationLine: 'underline',
-              }}
-              onPress={forgotPassword}>
-              Forgot your password?
-            </LinkButton>
-          </Box>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Box center style={{marginVertical: rem(2)}}>
+          <Logo width={100} height={100} />
         </Box>
 
+        <Spacer spacing={2}>
+          <FormField
+            name="email"
+            label="Email"
+            control={control}
+            leading={<Icon name="mail" size={rem(1.4)} />}>
+            <FormTextInput placeholder="Your email" />
+          </FormField>
+
+          <Box>
+            <FormField
+              name="password"
+              label="Password"
+              control={control}
+              leading={
+                <Icon component={IconFontAwesome} name="lock" size={rem(1.4)} />
+              }>
+              <FormTextInput secure placeholder="Your password" />
+            </FormField>
+
+            <Box right>
+              <Gap v={1} />
+              <LinkButton
+                textStyle={{
+                  textDecorationLine: 'underline',
+                }}
+                onPress={forgotPassword}>
+                Forgot your password?
+              </LinkButton>
+            </Box>
+          </Box>
+
+          <Button
+            loading={isLoading}
+            disabled={isLoading}
+            onPress={handleSubmit(onSubmit)}
+            style={{marginLeft: rem(3), marginRight: rem(3)}}>
+            LOGIN
+          </Button>
+        </Spacer>
+
+        <Gap v={2} />
+
         <Button
-          loading={isLoading}
-          disabled={isLoading}
-          onPress={handleSubmit(onSubmit)}
-          style={{marginLeft: rem(3), marginRight: rem(3)}}>
-          LOGIN
-        </Button>
-      </Spacer>
-
-      <Gap v={2} />
-
-      <Button
-        outline
-        onPress={() => {
-          dispatch(toggleScheme());
-        }}>
-        {({color}) => {
-          return (
-            <Text style={{color, textAlign: 'center', flex: 1}}>Toggle</Text>
-          );
-        }}
-      </Button>
-
-      <Gap v={2} />
-
-      <View style={styles.contain__link}>
-        <Text>Have not account yet? </Text>
-        <LinkButton
-          onPress={signup}
-          textStyle={{
-            textDecorationLine: 'underline',
+          outline
+          onPress={() => {
+            dispatch(toggleScheme());
           }}>
-          Signup
-        </LinkButton>
-      </View>
+          {({color}) => {
+            return (
+              <Text style={{color, textAlign: 'center', flex: 1}}>Toggle</Text>
+            );
+          }}
+        </Button>
+
+        <Gap v={2} />
+
+        <View style={styles.contain__link}>
+          <Text>Have not account yet? </Text>
+          <LinkButton
+            onPress={signup}
+            textStyle={{
+              textDecorationLine: 'underline',
+            }}>
+            Signup
+          </LinkButton>
+        </View>
+      </ScrollView>
     </Screen>
   );
 };

@@ -2,6 +2,9 @@ import React from 'react';
 import {View} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
 import {rem} from '@lib/themes/utils';
+import CardHeader from '@components/layouts/Card/Header';
+import CardFooter from '@components/layouts/Card/Footer';
+import CardBody from '@components/layouts/Card/Body';
 
 const Card = ({children, style, ...rest}) => {
   return (
@@ -18,7 +21,6 @@ const Card = ({children, style, ...rest}) => {
 
           elevation: 11,
 
-          padding: rem(1),
           backgroundColor: '#ffffff',
           borderRadius: 8,
           margin: rem(1),
@@ -30,5 +32,9 @@ const Card = ({children, style, ...rest}) => {
     </View>
   );
 };
+
+Card.Header = CardHeader;
+Card.Footer = CardFooter;
+Card.Body = CardBody;
 
 export default Card;

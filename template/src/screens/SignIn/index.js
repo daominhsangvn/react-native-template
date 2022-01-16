@@ -10,10 +10,8 @@ import {
 import {selectIsAuth} from '@features/authentication/store/user/slice';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
 import {rem} from '@lib/themes/utils';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {View} from 'react-native';
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useDispatch, useSelector} from 'react-redux';
 import * as yup from 'yup';
 import {yupResolver} from '@lib/utils/yupResolver';
@@ -27,6 +25,7 @@ import FormField from '@components/Form/components/Field';
 import FormTextInput from '@components/Form/components/TextInput';
 import useStyles from '@lib/themes/useStyles';
 import ScrollView from '@components/ScrollView';
+import NavBar from '@components/NavBar';
 
 const schema = yup.object().shape({
   email: yup.string().required().email().min(6).max(50),
@@ -38,22 +37,7 @@ const _styles = {
     flex: 1,
   },
   scrollView: {
-    padding: rem(1),
-  },
-  contain__title: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: rem(1.5),
-    // color: CARD.text,
-    marginTop: rem(3),
-    marginBottom: rem(4),
-  },
-  contain__link: {
-    marginBottom: rem(2),
-    fontSize: rem(1.4),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: rem(3),
   },
   error: {
     // color: COLORS.error,
@@ -107,7 +91,8 @@ const SignInScreen = ({navigation}) => {
   }, [showError, error]);
 
   return (
-    <Screen style={styles.container}>
+    <Screen navbar style={styles.container}>
+      <NavBar transparent />
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Box center style={{marginVertical: rem(2)}}>
           <Logo width={100} height={100} />
@@ -116,30 +101,22 @@ const SignInScreen = ({navigation}) => {
         <Spacer spacing={2}>
           <FormField
             name="email"
-            label="Email"
             control={control}
-            leading={<Icon name="mail" size={rem(1.4)} />}>
+            leading={<Icon name="mail-outline" />}>
             <FormTextInput placeholder="Your email" />
           </FormField>
 
           <Box>
             <FormField
               name="password"
-              label="Password"
               control={control}
-              leading={
-                <Icon component={IconFontAwesome} name="lock" size={rem(1.4)} />
-              }>
+              leading={<Icon name="lock-closed-outline" />}>
               <FormTextInput secure placeholder="Your password" />
             </FormField>
 
             <Box right>
               <Gap v={1} />
-              <LinkButton
-                textStyle={{
-                  textDecorationLine: 'underline',
-                }}
-                onPress={forgotPassword}>
+              <LinkButton onPress={forgotPassword}>
                 Forgot your password?
               </LinkButton>
             </Box>
@@ -148,8 +125,7 @@ const SignInScreen = ({navigation}) => {
           <Button
             loading={isLoading}
             disabled={isLoading}
-            onPress={handleSubmit(onSubmit)}
-            style={{marginLeft: rem(3), marginRight: rem(3)}}>
+            onPress={handleSubmit(onSubmit)}>
             LOGIN
           </Button>
         </Spacer>
@@ -158,28 +134,19 @@ const SignInScreen = ({navigation}) => {
 
         <Button
           outline
+          color="btn1"
           onPress={() => {
             dispatch(toggleScheme());
           }}>
-          {({color}) => {
-            return (
-              <Text style={{color, textAlign: 'center', flex: 1}}>Toggle</Text>
-            );
-          }}
+          Toggle
         </Button>
 
         <Gap v={2} />
 
-        <View style={styles.contain__link}>
+        <Box row center>
           <Text>Have not account yet? </Text>
-          <LinkButton
-            onPress={signup}
-            textStyle={{
-              textDecorationLine: 'underline',
-            }}>
-            Signup
-          </LinkButton>
-        </View>
+          <LinkButton onPress={signup}>Signup</LinkButton>
+        </Box>
       </ScrollView>
     </Screen>
   );

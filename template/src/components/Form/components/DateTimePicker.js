@@ -87,9 +87,11 @@ const FormDateTimePicker = ({
 
   return (
     <Box style={styles.container}>
-      <TouchableOpacity disabled={disabled} onPress={onPress} style={{flex: 1}}>
+      <Box style={{flex: 1}}>
         <FormBaseInput
           {...inputProps}
+          onPress={onPress}
+          onClear={clear}
           pointerEvents="none"
           placeholder={placeholder}
           name={name}
@@ -98,12 +100,7 @@ const FormDateTimePicker = ({
           editable={false}
           disabled={disabled}
         />
-      </TouchableOpacity>
-      {clearable && !!value && (
-        <TouchableOpacity onPress={clear}>
-          <Icon name="ios-close" size={16} color={'#8d8d8d'} />
-        </TouchableOpacity>
-      )}
+      </Box>
       <RNDatePicker
         modal
         mode="datetime"

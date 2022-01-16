@@ -1,29 +1,21 @@
 import React from 'react';
 import Box from '@components/layouts/Box';
 import {mergeStyles} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
 import useField from '@components/Form/useField';
 import CheckBox from '@components/Checkbox';
 import useStyles from '@lib/themes/useStyles';
+import Text from '@components/Text';
+import useSchemeValue from '@lib/themes/useSchemeValue';
+import ThemeStyles from '@configs/themes/styles';
 
-const SIZE = 20;
 const _styles = {
-  container: {},
-  input: {},
-  checkBox: {
-    width: SIZE,
-    height: SIZE,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: SIZE / 2,
-    borderWidth: 1,
-    borderColor: '#a9a9a9',
-    backgroundColor: '#fff',
-    marginRight: rem(0.5),
+  container: {
+    flexDirection: 'row',
   },
+  input: {},
 };
 
-const FormCheckBox = ({style = {}, textStyle = {}, text}) => {
+const FormCheckBox = ({style = {}, children}) => {
   const styles = useStyles(_styles);
 
   const {
@@ -33,17 +25,24 @@ const FormCheckBox = ({style = {}, textStyle = {}, text}) => {
     disabled,
   } = useField();
 
+  const textColor = useSchemeValue('CHECKBOX.text');
+
   return (
     <Box style={mergeStyles(styles.container, style)}>
-      <CheckBox
-        name={name}
-        ref={ref}
-        onChange={onChange}
-        disabled={disabled}
-        checked={value}
-        text={text}
-        textStyle={textStyle}
-      />
+      <Box>
+        <CheckBox
+          name={name}
+          ref={ref}
+          onChange={onChange}
+          disabled={disabled}
+          checked={value}
+        />
+      </Box>
+      <Box>
+        <Text style={mergeStyles(ThemeStyles.checkBoxText, {color: textColor})}>
+          {children}
+        </Text>
+      </Box>
     </Box>
   );
 };

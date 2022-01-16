@@ -58,7 +58,7 @@ const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
       />
 
       {options.map(op => (
-        <Box key={`choices-${op.value}`} style={{marginBottom: rem(0.4)}}>
+        <Box key={`choices-${op.value}`} style={{marginBottom: 7}}>
           <CheckBox
             onChange={onValueChange}
             disabled={disabled}

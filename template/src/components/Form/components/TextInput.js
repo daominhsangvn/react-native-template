@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import Box from '@components/layouts/Box';
 import FormBaseInput from './BaseTextInput';
 import {mergeStyles} from '@lib/utils/helpers';
@@ -20,12 +20,17 @@ const FormTextInput = ({style = {}, inputStyle = {}, ...props}) => {
     disabled,
   } = useField();
 
+  const onClear = useCallback(() => {
+    onChange('');
+  }, []);
+
   return (
     <Box style={mergeStyles(styles.container, style)}>
       <FormBaseInput
         style={mergeStyles(styles.input, inputStyle)}
         disabled={disabled}
         onChangeText={onChange}
+        onClear={onClear}
         value={value}
         ref={ref}
         name={name}

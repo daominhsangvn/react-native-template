@@ -16,7 +16,7 @@ import useStyles from '@lib/themes/useStyles';
 
 const _styles = {
   container: {
-    flex: 1
+    flex: 1,
   },
   button: {
     alignItems: 'center',
@@ -27,7 +27,7 @@ const _styles = {
   },
   imageContainer: {
     width: '100%',
-    backgroundColor: '#cccccc',
+    backgroundColor: '#f6f6f6',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,

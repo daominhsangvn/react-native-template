@@ -1,6 +1,6 @@
 import Box from '@components/layouts/Box';
 import React, {useCallback, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet, View } from "react-native";
 import Button from '@components/Button';
 import {rem} from '@lib/themes/utils';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
@@ -27,6 +27,7 @@ import ScrollView from '@components/ScrollView';
 import useCollapsibleNavBar from '@lib/hooks/useCollapsibleNavBar';
 import useStyles from '@lib/themes/useStyles';
 import DelayRender from '@components/DelayRender';
+import FormSwitch from '@components/Form/components/Switch';
 
 const schema = yup.object().shape({
   // password: yup
@@ -42,10 +43,7 @@ const schema = yup.object().shape({
 
 const _styles = {
   container: {
-    padding: rem(1),
-  },
-  heading: {
-    fontSize: rem(1.5),
+    padding: rem(3),
   },
 };
 
@@ -81,7 +79,7 @@ const SampleScreen = () => {
         contentContainerStyle={styles.container}
         onScroll={scrollHandler}>
         <Box>
-          <Text style={styles.heading}>Dark/Light</Text>
+          <Text category="h6">Dark/Light</Text>
           <Gap v={1} />
           <Button
             onPress={() => {
@@ -95,7 +93,7 @@ const SampleScreen = () => {
 
         <Gap v={1} />
         <Box>
-          <Text style={styles.heading}>Alerts</Text>
+          <Text category="h6">Alerts</Text>
           <Gap v={1} />
           <Box>
             <EvenCols cols={3}>
@@ -120,21 +118,25 @@ const SampleScreen = () => {
 
         <Gap v={1} />
         <Box>
-          <Text style={styles.heading}>Buttons</Text>
+          <Text category="h6">Buttons</Text>
           <Gap v={1} />
           <EvenCols cols={3}>
             <EvenCols.Item>
               <Button>Normal</Button>
             </EvenCols.Item>
             <EvenCols.Item>
-              <Button outline>Outline</Button>
+              <Button outline color="btn1">
+                Outline
+              </Button>
             </EvenCols.Item>
             <EvenCols.Item>
               <Button loading>Loading</Button>
             </EvenCols.Item>
           </EvenCols>
           <Gap v={1} />
-          <Button disabled>Disabled</Button>
+          <View onLayout={(e) => console.log(e.nativeEvent.layout)}>
+            <Button disabled>Disabled</Button>
+          </View>
           <Gap v={1} />
           <EvenCols cols={2}>
             <EvenCols.Item>
@@ -148,16 +150,16 @@ const SampleScreen = () => {
           <EvenCols cols={2}>
             <EvenCols.Item>
               <Button
-                leftAccessory={<Icon name="ios-person-outline" size={12} />}
+                leftAccessory={<Icon name="ios-person-outline" size={16} />}
                 leftAccessoryAbsolute>
-                Left icon button
+                Left icon
               </Button>
             </EvenCols.Item>
             <EvenCols.Item>
               <Button
-                rightAccessory={<Icon name="ios-person-outline" size={12} />}
+                rightAccessory={<Icon name="ios-person-outline" size={16} />}
                 rightAccessoryAbsolute>
-                Right icon button
+                Right icon
               </Button>
             </EvenCols.Item>
           </EvenCols>
@@ -165,28 +167,30 @@ const SampleScreen = () => {
 
         <Gap v={1} />
         <Box>
-          <Text style={styles.heading}>Form</Text>
+          <Text category="h6">Form</Text>
           <Gap v={1} />
 
           <FormField
             name="email"
             control={control}
-            label="Input"
             leading={<Icon name="mail" size={rem(1.4)} />}>
             <FormTextInput placeholder="Type your email" />
           </FormField>
+          <Gap v={1} />
           <FormField
             name="username"
             control={control}
             trailing={<Icon name="ios-people" size={rem(1.4)} />}>
             <FormTextInput placeholder="Type your username" />
           </FormField>
+          <Gap v={1} />
           <FormField
             name="password"
             control={control}
             leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
             <FormTextInput placeholder="Type your password" secure />
           </FormField>
+          <Gap v={1} />
           <FormField
             name="confirmPassword"
             control={control}
@@ -200,16 +204,17 @@ const SampleScreen = () => {
             <FormField
               name="datetime"
               control={control}
-              label="Date/Time"
               leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
               <FormDateTimePicker placeholder="Select date/time" />
             </FormField>
+            <Gap v={1} />
             <FormField
               name="date"
               control={control}
               leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
               <FormDateTimePicker mode="date" placeholder="Select a date" />
             </FormField>
+            <Gap v={1} />
             <FormField
               name="time"
               control={control}
@@ -222,7 +227,6 @@ const SampleScreen = () => {
           <Box>
             <FormField
               name="select"
-              label="Select"
               control={control}
               trailing={
                 <Icon name="ios-chevron-down-outline" size={rem(1.4)} />
@@ -240,22 +244,27 @@ const SampleScreen = () => {
 
           <Gap v={1} />
           <Box>
-            <FormField
-              name="checkbox"
-              label="Checkbox"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
-              <FormCheckBox text="Are you agree?" />
+            <FormField borderless noPadding name="checkbox" control={control}>
+              <FormCheckBox>
+                Are you agree? 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+                20 21 22 23 24 25 26 27 28 29 30
+              </FormCheckBox>
             </FormField>
           </Box>
 
           <Gap v={1} />
           <Box>
-            <FormField
-              name="choices"
-              label="Choices"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
+            <FormField borderless noPadding name="switch" control={control}>
+              <FormSwitch>
+                Are you agree? 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+                20 21 22 23 24 25 26 27 28 29 30
+              </FormSwitch>
+            </FormField>
+          </Box>
+
+          <Gap v={1} />
+          <Box>
+            <FormField noPadding borderless name="choices" control={control}>
               <FormChoices
                 options={[
                   {label: 'Javascript', value: 'js'},
@@ -269,40 +278,44 @@ const SampleScreen = () => {
           <Gap v={1} />
           <Box>
             <FormField
+              noPadding
+              borderless
               name="mediaphoto"
               label="Media (Photo)"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
+              control={control}>
               <FormMedia mediaType="photo" mime="jpeg" front={false} />
             </FormField>
           </Box>
 
           <Box>
             <FormField
+              noPadding
+              borderless
               name="mediaphotocrop"
               label="Media (Photo Cropping)"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
+              control={control}>
               <FormMedia mediaType="photo" cropping />
             </FormField>
           </Box>
 
           <Box>
             <FormField
+              noPadding
+              borderless
               name="mediavideo"
               label="Media (Video)"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
+              control={control}>
               <FormMedia mediaType="video" />
             </FormField>
           </Box>
 
           <Box>
             <FormField
+              noPadding
+              borderless
               name="mediaany"
               label="Media (Any)"
-              control={control}
-              containerStyle={{borderBottomWidth: 0}}>
+              control={control}>
               <FormMedia />
             </FormField>
           </Box>

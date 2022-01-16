@@ -8,19 +8,21 @@ import {useController} from 'react-hook-form';
 import {FormFieldContext} from '@components/Form/FieldContext';
 import useStyles from '@lib/themes/useStyles';
 import FieldLeading from '@components/Form/components/Field.Leading';
+import ThemeStyles from '@configs/themes/styles';
 
 const _styles = {
   container: {},
   label: {},
   inputContainer: {
-    borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: rem(0.5),
+    ...ThemeStyles.form_field,
   },
-  hint: {},
-  hintText: {
-    fontSize: rem(1),
+  errorContainer: {
+    ...ThemeStyles.form_error_container,
+  },
+  errorText: {
+    ...ThemeStyles.form_error_message,
   },
 };
 
@@ -33,6 +35,8 @@ const FormField = ({
   leading,
   trailing,
   containerStyle = {},
+  borderless = false,
+  noPadding = false,
 }) => {
   const controller = useController({
     control,
@@ -45,7 +49,8 @@ const FormField = ({
 
   const styles = useStyles(_styles);
 
-  const borderBottomColor = useSchemeValue('INPUT.border');
+  const borderColor = useSchemeValue('INPUT.border');
+  const borderErrorColor = useSchemeValue('INPUT.border_error');
   const labelColor = useSchemeValue('INPUT.label');
   const labelErrorColor = useSchemeValue('INPUT.label_error');
   const hintErrorColor = useSchemeValue('INPUT.hint_error');
@@ -55,13 +60,16 @@ const FormField = ({
     if (leading) {
       return (
         <Box
-          style={{
-            minWidth: 20,
-            alignItems: 'center',
-            marginRight: rem(0.5),
-          }}>
+          style={[
+            ThemeStyles.form_leading,
+            {
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+          ]}>
           {React.cloneElement(leading, {
             color: inputIconColor,
+            ...ThemeStyles.form_trailing_icon,
           })}
         </Box>
       );
@@ -73,13 +81,15 @@ const FormField = ({
     if (trailing) {
       return (
         <Box
-          style={{
-            minWidth: 20,
-            alignItems: 'center',
-            marginLeft: rem(0.5),
-          }}>
+          style={[
+            ThemeStyles.form_trailing,
+            {
+              alignItems: 'center',
+            },
+          ]}>
           {React.cloneElement(trailing, {
             color: inputIconColor,
+            ...ThemeStyles.form_trailing_icon,
           })}
         </Box>
       );
@@ -100,7 +110,10 @@ const FormField = ({
         <Box
           style={mergeStyles(
             styles.inputContainer,
-            {borderBottomColor},
+            {borderColor: error ? borderErrorColor : borderColor},
+            !trailing && !noPadding && {paddingRight: rem(1)},
+            !leading && !noPadding && {paddingLeft: rem(1)},
+            borderless && {borderWidth: 0},
             containerStyle,
           )}>
           {renderLeading}
@@ -108,8 +121,8 @@ const FormField = ({
           {renderTrailing}
         </Box>
         {error && (
-          <Box style={styles.hint}>
-            <Text style={[styles.hintText, {color: hintErrorColor}]}>
+          <Box style={[styles.errorContainer]}>
+            <Text style={[styles.errorText, {color: hintErrorColor}]}>
               {error.message}
             </Text>
           </Box>

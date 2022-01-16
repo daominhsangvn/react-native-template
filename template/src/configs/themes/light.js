@@ -1,34 +1,51 @@
+import {COLORS} from './var';
+
 export default {
   BUTTON: {
-    primary: '#fd6654',
+    primary: COLORS.blue1,
+    primary_text: '#ffffff',
     style1: ['red', 'pink'],
-    link: '#023d85',
-    disabled: '#6e6e6e',
+    link: COLORS.blue1,
+    disabled: COLORS.grayscale600,
+    btn1: COLORS.grayscale200,
+    btn1_text: COLORS.grayscale800,
   },
   CARD: {
     text: '#354052',
   },
   BACKGROUND: {
-    primary: '#dcdcdc',
+    primary: '#ffffff',
   },
   TEXT: {
-    default: 'rgba(53, 64, 82, 1)',
+    primary: COLORS.grayscale800,
+    text1: COLORS.grayscale800,
+    text2: COLORS.grayscale600,
+    text3: COLORS.grayscale500,
   },
   INPUT: {
-    icon: 'rgb(147,147,147)',
-    border: 'rgb(189,189,189)',
+    icon: COLORS.grayscale600,
+    border: COLORS.grayscale200,
     border_error: 'rgb(224,0,0)',
-    text: 'rgba(53, 64, 82, 1)',
-    placeholder: 'rgba(138,138,138,0.5)',
+    text: COLORS.grayscale800,
+    placeholder: COLORS.grayscale500,
     label: 'rgba(53, 64, 82, 1)',
     label_error: 'rgb(224,0,0)',
     hint: 'rgba(53, 64, 82, 1)',
     hint_error: 'rgb(224,0,0)',
   },
   CHECKBOX: {
-    primary: '#FF0000',
+    primary: COLORS.blue1,
+    disabled_background: '#cecece',
+    disabled_border: '#bbbbbb',
+    unfill_background: '#ffffff',
+    unfill_border: '#a9a9a9',
+    text: COLORS.grayscale600,
+  },
+  SWITCH: {
+    background_inactive: '#cccccc',
+    background_active: COLORS.blue1,
   },
   NAVBAR: {
-    background: '#cccccc'
-  }
+    background: '#cccccc',
+  },
 };

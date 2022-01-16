@@ -56,6 +56,11 @@ const FormSelect = ({
     [initial, options, onChange],
   );
 
+  const onClear = useCallback(() => {
+    onChange(null);
+    setSelectedValue(null);
+  }, []);
+
   useEffect(() => {
     if (!isDirty && value && options) {
       const itemIndex = options.findIndex(o => o.value === value);
@@ -67,18 +72,18 @@ const FormSelect = ({
 
   return (
     <Box style={mergeStyles(styles.container, style)}>
-      <TouchableOpacity disabled={disabled} onPress={onPress}>
-        <FormBaseInput
-          value={selectedText}
-          placeholder={placeholder}
-          name={name}
-          ref={ref}
-          editable={false}
-          disabled={disabled}
-          pointerEvents="none"
-          {...inputProps}
-        />
-      </TouchableOpacity>
+      <FormBaseInput
+        value={selectedText}
+        placeholder={placeholder}
+        name={name}
+        ref={ref}
+        editable={false}
+        disabled={disabled}
+        pointerEvents="none"
+        onPress={onPress}
+        onClear={onClear}
+        {...inputProps}
+      />
 
       <SelectPicker
         ref={pickerRef}

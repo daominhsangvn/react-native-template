@@ -14,19 +14,18 @@ import Animated, {
 import useSchemeValue from '@lib/themes/useSchemeValue';
 import Box from '@components/layouts/Box';
 import useStyles from '@lib/themes/useStyles';
+import ThemeStyles from '@configs/themes/styles';
 
 const _styles = {
   container: {
-    padding: rem(1),
-    borderRadius: 50,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
+    ...ThemeStyles.btn,
   },
   textStyle: {
-    fontWeight: '400',
-    color: 'white',
+    ...ThemeStyles.btn_text,
   },
   loading: {
     height: 19,
@@ -35,7 +34,6 @@ const _styles = {
 
 const Button = ({
   color = 'primary',
-  full = true,
   style,
   children,
   outline = false,
@@ -56,6 +54,7 @@ const Button = ({
 
   const buttonDisabledColorValue = useSchemeValue('BUTTON.disabled');
   const buttonColorValue = useSchemeValue(`BUTTON.${color}`);
+  const textColorValue = useSchemeValue(`BUTTON.${color}_text`);
 
   const renderIcon = useCallback(() => {
     if (icon) {
@@ -165,12 +164,12 @@ const Button = ({
     let tc = 'white';
     if (/^#/.test(color)) {
       tc = color;
-    } else if (outline && !Array.isArray(buttonColorValue)) {
-      tc = buttonColorValue;
+    } else if (outline && !Array.isArray(textColorValue)) {
+      tc = textColorValue;
     }
 
     return tc;
-  }, [buttonColorValue, color, outline]);
+  }, [textColorValue, color, outline]);
 
   const textAlign = useMemo(() => {
     if (left) {
@@ -239,7 +238,7 @@ const Button = ({
     }
 
     return (
-      <Box style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+      <Box center style={{flex: 1, flexDirection: 'row'}}>
         {leftContent}
         {_children}
         {rightContent}
@@ -279,16 +278,11 @@ const Button = ({
 
         {!Array.isArray(backgroundColor) && (
           <Animated.View
-            style={[
-              ...mergeStyles(
-                styles.container,
-                {
-                  borderWidth: 1,
-                },
-                {backgroundColor, borderColor},
-                style,
-              ),
-            ]}>
+            style={mergeStyles(
+              styles.container,
+              {backgroundColor, borderColor},
+              style,
+            )}>
             {renderIcon()}
             {loading ? (
               <ActivityIndicator size="small" color={'white'} />

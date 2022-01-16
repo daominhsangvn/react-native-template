@@ -8,23 +8,33 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Text from '@components/Text';
-import {HEADER_HEIGHT} from '@configs/themes/var';
-import BackChevronIcon from '@assets/svg/back-chevron.svg';
+import {COLORS, HEADER_HEIGHT} from '@configs/themes/var';
 import useSchemeValue from '@lib/themes/useSchemeValue';
-import {rem} from '@lib/themes/utils';
 import useStyles from '@lib/themes/useStyles';
+import Icon from '@components/Icon';
+import useSchemeValueSwitch from '@lib/themes/useSchemeValueSwitch';
+import ThemeStyles from '@configs/themes/styles';
+import Box from '@components/layouts/Box';
 
 const _styles = {
   container: {
-    zIndex: 50,
+    ...ThemeStyles.navbar,
   },
 };
 
-const NavBar = ({title, y}) => {
+const NavBar = ({title, y, transparent = false}) => {
   const styles = useStyles(_styles);
   const navigation = useNavigation();
+  const {type} = navigation.getState();
   const insets = useSafeAreaInsets();
   const navbarColorValue = useSchemeValue('NAVBAR.background');
+  const backIconColor = useSchemeValueSwitch(COLORS.grayscale900, '#ffffff');
+
+  // console.log('navigation', navigation);
+  // console.log('navigation.canGoBack()', navigation.canGoBack());
+  // console.log('navigation.getState()', navigation.getState());g('navigation', navigation);
+  //   // console.log('navigation.canGoBack()', navigation.canGoBack());
+  //   // console.log(
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -57,7 +67,7 @@ const NavBar = ({title, y}) => {
         styles.container,
         {
           height: HEADER_HEIGHT + insets.top,
-          backgroundColor: navbarColorValue,
+          backgroundColor: transparent ? 'transparent' : navbarColorValue,
           paddingTop: insets.top,
         },
       ]}>
@@ -68,21 +78,16 @@ const NavBar = ({title, y}) => {
           flexDirection: 'row',
           flex: 1,
         }}>
-        {navigation.canGoBack() && (
-          <View style={{paddingLeft: rem(1), position: 'absolute', zIndex: 20}}>
+        {navigation.canGoBack() && type === 'stack' && (
+          <View style={{position: 'absolute', zIndex: 20}}>
             <TouchableOpacity onPress={goBack}>
-              <BackChevronIcon width={20} height={20} />
+              <Icon name="arrow-back-outline" size={24} color={backIconColor} />
             </TouchableOpacity>
           </View>
         )}
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+        <Box flex center>
           <Text>{title}</Text>
-        </View>
+        </Box>
       </View>
     </Animated.View>
   );

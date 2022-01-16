@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import WelcomeScreen from '@screens/Welcome';
 import HomeScreen from '@screens/Home';
 import SampleScreen from '@screens/Sample';
 import SignInScreen from '@screens/SignIn';
 import {useSelector} from 'react-redux';
 import {selectIsAuth} from '@features/authentication/store/user/slice';
 import RNBootSplash from 'react-native-bootsplash';
-import Header from '@components/Header';
 
 const AuthStack = createNativeStackNavigator();
 const AppStack = createNativeStackNavigator();
@@ -15,18 +15,12 @@ const MainStack = createNativeStackNavigator();
 
 function App() {
   return (
-    <AppStack.Navigator>
+    <AppStack.Navigator screenOptions={{headerShown: false}}>
       <AppStack.Screen
-        options={{
-          headerShown: false,
-        }}
         name="Home"
         component={HomeScreen}
       />
       <AppStack.Screen
-        options={{
-          headerShown: false,
-        }}
         name="Sample"
         component={SampleScreen}
       />
@@ -40,6 +34,10 @@ function Auth() {
       screenOptions={{
         headerShown: false,
       }}>
+      <AuthStack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+      />
       <AuthStack.Screen name="SignIn" component={SignInScreen} />
     </AuthStack.Navigator>
   );

@@ -1,55 +1,38 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Pressable, TextInput} from 'react-native';
 import Box from '@components/layouts/Box';
 import {mergeStyles} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
 import {MotiView} from 'moti';
 import Icon from '@components/Icon';
-import Text from '@components/Text';
-import useTheme from '@lib/themes/useTheme';
 import useStyles from '@lib/themes/useStyles';
-
-const SIZE = 20;
+import ThemeStyles from '@configs/themes/styles';
+import useSchemeValue from '@lib/themes/useSchemeValue';
 
 const _styles = {
-  container: {},
+  container: {
+    flex: 1,
+  },
   input: {},
+  checkBoxContainer: {
+    ...ThemeStyles.checkBoxContainer,
+  },
   checkBox: {
-    width: SIZE,
-    height: SIZE,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: SIZE / 2,
-    borderWidth: 1,
-    borderColor: '#a9a9a9',
-    backgroundColor: '#fff',
-    marginRight: rem(0.5),
+    ...ThemeStyles.checkBox,
   },
 };
 
 const CheckBox = React.forwardRef(
-  (
-    {
-      style = {},
-      textStyle = {},
-      disabled,
-      onChange,
-      name,
-      text,
-      checked,
-      value,
-    },
-    ref,
-  ) => {
-    const {scheme, light, dark} = useTheme();
+  ({style = {}, disabled, onChange, name, checked, value}, ref) => {
     const styles = useStyles(_styles);
 
     const [isChecked, setIsChecked] = useState(checked);
-
-    const fillColor = useMemo(() => {
-      return scheme === 'dark' ? dark.CHECKBOX.primary : light.CHECKBOX.primary;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scheme]);
+    const disabledBackgroundColor = useSchemeValue(
+      'CHECKBOX.disabled_background',
+    );
+    const disabledBorderColor = useSchemeValue('CHECKBOX.disabled_border');
+    const unfillBackgroundColor = useSchemeValue('CHECKBOX.unfill_background');
+    const unfillBorderColor = useSchemeValue('CHECKBOX.unfill_border');
+    const fillColor = useSchemeValue('CHECKBOX.primary');
 
     const onPress = useCallback(() => {
       if (disabled) {
@@ -76,11 +59,18 @@ const CheckBox = React.forwardRef(
             position: 'absolute',
           }}
         />
-        <Pressable onPress={onPress} style={{flexDirection: 'row'}}>
+        <Pressable onPress={onPress}>
           <MotiView
             style={[
-              styles.checkBox,
-              disabled && {backgroundColor: '#cecece', borderColor: '#bbbbbb'},
+              styles.checkBoxContainer,
+              {
+                backgroundColor: unfillBackgroundColor,
+                borderColor: unfillBorderColor,
+              },
+              disabled && {
+                backgroundColor: disabledBackgroundColor,
+                borderColor: disabledBorderColor,
+              },
             ]}>
             <MotiView
               animate={{
@@ -90,14 +80,12 @@ const CheckBox = React.forwardRef(
                 type: 'timing',
                 duration: 100,
               }}
-              style={{
-                backgroundColor: disabled ? '#cecece' : fillColor,
-                borderRadius: SIZE / 2,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: SIZE,
-                height: SIZE,
-              }}>
+              style={[
+                styles.checkBox,
+                {
+                  backgroundColor: disabled ? '#cecece' : fillColor,
+                },
+              ]}>
               <MotiView
                 animate={{
                   transform: [{scale: isChecked ? 1 : 0}],
@@ -111,12 +99,6 @@ const CheckBox = React.forwardRef(
               </MotiView>
             </MotiView>
           </MotiView>
-          <Box style={{flexShrink: 1}}>
-            <Text
-              style={mergeStyles({marginTop: 1, lineHeight: 19}, textStyle)}>
-              {text}
-            </Text>
-          </Box>
         </Pressable>
       </Box>
     );

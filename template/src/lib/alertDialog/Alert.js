@@ -5,7 +5,7 @@ import Box from '@components/layouts/Box';
 import LottieView from 'lottie-react-native';
 import Spacer from '@components/layouts/Spacer';
 import Button from '@components/Button';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 
 const alertConfig = {
   error: {
@@ -93,9 +93,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    paddingHorizontal: rem(1),
-    paddingVertical: rem(1),
-    borderRadius: rem(0.5),
+    paddingHorizontal: remScale(1),
+    paddingVertical: remScale(1),
+    borderRadius: remScale(0.5),
   },
   content: {
     justifyContent: 'center',
@@ -106,12 +106,12 @@ const styles = StyleSheet.create({
   content__title: {
     fontSize: 18,
     fontWeight: 'bold',
-    paddingHorizontal: rem(1),
+    paddingHorizontal: remScale(1),
     color: '#282828',
   },
   content_description: {
     textAlign: 'center',
-    paddingHorizontal: rem(1),
+    paddingHorizontal: remScale(1),
     color: '#464646',
   },
   header: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   content_buttonContain: {
     width: '100%',
     alignSelf: 'center',
-    marginTop: rem(1),
+    marginTop: remScale(1),
   },
   content_buttonContain__button: {
     color: '#ffffff',

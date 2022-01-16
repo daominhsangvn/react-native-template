@@ -16,9 +16,11 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import {clamp, snapPoint} from 'react-native-redash';
-import {scale} from 'react-native-size-matters';
 import usePreviousState from '@lib/hooks/usePreviousState';
 import useSchemeValue from '@lib/themes/useSchemeValue';
+import {remScale} from '@lib/themes/utils';
+import ThemeStyles from '@configs/themes/styles';
+import useTheme from '@lib/themes/useTheme';
 
 const config = {
   overshootClamping: true,
@@ -30,10 +32,10 @@ const Switch = React.forwardRef(
       checked,
       onChange,
       name,
-      width = scale(50),
-      height = scale(26),
-      circle = scale(24),
-      border = scale(1),
+      width = remScale(6.5),
+      height = remScale(3.8),
+      circle = remScale(3.6),
+      border = remScale(0.2),
     },
     ref,
   ) => {
@@ -41,9 +43,11 @@ const Switch = React.forwardRef(
       usePreviousState(checked);
     const translateX = useSharedValue(0);
     const trackCircleWidth = useSharedValue(width - circle - border * 2);
-
     const inActiveBackground = useSchemeValue('SWITCH.background_inactive');
     const activeBackground = useSchemeValue('SWITCH.background_active');
+    const circleActiveColor = useSchemeValue('SWITCH.circle_active');
+    const circleInActiveColor = useSchemeValue('SWITCH.circle_inactive');
+    const {scheme} = useTheme();
 
     useEffect(() => {
       if (isToggled !== isToggledPrevious) {
@@ -73,6 +77,16 @@ const Switch = React.forwardRef(
           translateX.value,
           [0, trackCircleWidth.value / 3, trackCircleWidth.value],
           [circle, (circle / 2) * 2.5, circle],
+        ),
+        backgroundColor: interpolateColor(
+          translateX.value,
+          [0, trackCircleWidth.value],
+          [circleInActiveColor, circleActiveColor],
+        ),
+        borderWidth: interpolate(
+          translateX.value,
+          [0, trackCircleWidth.value],
+          [0, scheme === 'light' ? 2 : 0],
         ),
       };
     });
@@ -134,10 +148,9 @@ const Switch = React.forwardRef(
                 animatedStyle,
                 styles.circle,
                 {
-                  borderColor: 'transparent',
                   width: circle,
                   height: circle,
-                  borderWidth: border,
+                  ...ThemeStyles.switchCircle,
                 },
               ]}
             />
@@ -159,7 +172,6 @@ const styles = StyleSheet.create({
   circle: {
     alignSelf: 'center',
     borderRadius: 999,
-    elevation: 18,
-    backgroundColor: 'white',
+    elevation: 3,
   },
 });

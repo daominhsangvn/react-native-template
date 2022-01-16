@@ -1,11 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {TextInput} from 'react-native';
+import {TextInput, TouchableOpacity} from 'react-native';
 import Box from '@components/layouts/Box';
 import {mergeStyles} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
 import useField from '@components/Form/useField';
 import CheckBox from '@components/Checkbox';
 import useStyles from '@lib/themes/useStyles';
+import Text from '@components/Text';
+import ThemeStyles from '@configs/themes/styles';
+import useSchemeValue from '@lib/themes/useSchemeValue';
+import {remScale} from '@lib/themes/utils';
 
 const _styles = {
   container: {},
@@ -22,6 +25,8 @@ const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
     disabled,
   } = useField();
 
+  const textColor = useSchemeValue('CHECKBOX.text');
+
   const [selectedValue, setSelectedValue] = useState(null);
 
   const onValueChange = useCallback(
@@ -29,8 +34,14 @@ const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
       if (disabled) {
         return;
       }
-      setSelectedValue(selectedItem);
-      onChange(selectedItem);
+
+      if (!checked) {
+        setSelectedValue(null);
+        onChange(null);
+      } else {
+        setSelectedValue(selectedItem);
+        onChange(selectedItem);
+      }
     },
     [disabled, onChange],
   );
@@ -56,17 +67,34 @@ const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
           position: 'absolute',
         }}
       />
-
-      {options.map(op => (
-        <Box key={`choices-${op.value}`} style={{marginBottom: 7}}>
-          <CheckBox
-            onChange={onValueChange}
+      {options.map((op, idx) => (
+        <Box
+          key={`choices-${op.value}-${idx}`}
+          style={{
+            marginBottom: remScale(1),
+            flexDirection: 'row',
+          }}>
+          <Box>
+            <CheckBox
+              onChange={onValueChange}
+              disabled={disabled}
+              checked={selectedValue === op.value}
+              value={op.value}
+            />
+          </Box>
+          <TouchableOpacity
             disabled={disabled}
-            checked={selectedValue === op.value}
-            text={op.label}
-            value={op.value}
-            textStyle={textStyle}
-          />
+            onPress={() => onValueChange(selectedValue !== op.value, op.value)}
+            style={{flexShrink: 1}}>
+            <Text
+              style={mergeStyles(
+                ThemeStyles.checkBoxText,
+                {color: textColor},
+                textStyle,
+              )}>
+              {op.label}
+            </Text>
+          </TouchableOpacity>
         </Box>
       ))}
     </Box>

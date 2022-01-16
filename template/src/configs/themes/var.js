@@ -13,8 +13,8 @@ export const COLORS = {
   background_end: '#FD5E2C',
   text: '#4E5969',
   secondaryColor: '#ffffff',
-  grayscale50: '',
-  grayscale100: '',
+  grayscale50: '#FAFAFA',
+  grayscale100: '#F5F5F5',
   grayscale200: '#E8E8E8',
   grayscale300: '#D6D6D6',
   grayscale400: '#B8B8B8',
@@ -26,8 +26,8 @@ export const COLORS = {
   blue1: '#4D6EFD',
   blue2: '',
   blue3: '#F5F7FB',
-  blue4: '',
+  blue4: '#1E293B',
   blue5: '#121826',
-  stroke: '',
+  stroke: '#334155',
 };
 export const HEADER_HEIGHT = 50;

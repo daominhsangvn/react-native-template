@@ -1,11 +1,11 @@
 import React from 'react';
 import Box from '@components/layouts/Box';
 import useStyles from '@lib/themes/useStyles';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 
 const _styles = {
   container: {
-    padding: rem(1.5),
+    padding: remScale(1.5),
   },
 };
 

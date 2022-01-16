@@ -1,7 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {TextInput, TouchableOpacity} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
 import useSchemeValue from '@lib/themes/useSchemeValue';
 import Box from '@components/layouts/Box';
 import Icon from '@components/Icon';

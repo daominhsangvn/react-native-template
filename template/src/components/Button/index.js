@@ -2,7 +2,6 @@ import React, {useCallback, useMemo} from 'react';
 import {ActivityIndicator, Text, View} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
 import LinearGradient from 'react-native-linear-gradient';
-import {rem} from '@lib/themes/utils';
 import {TapGestureHandler} from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
@@ -267,7 +266,7 @@ const Button = ({
             {loading ? (
               <ActivityIndicator
                 size="small"
-                style={{margin: rem(0)}}
+                style={{margin: 0}}
                 color={textColor}
               />
             ) : (

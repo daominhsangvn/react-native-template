@@ -4,13 +4,18 @@ import {mergeStyles} from '@lib/utils/helpers';
 import useField from '@components/Form/useField';
 import Switch from '@components/Switch';
 import useStyles from '@lib/themes/useStyles';
+import Text from '@components/Text';
+import ThemeStyles from '@configs/themes/styles';
+import useSchemeValue from "@lib/themes/useSchemeValue";
 
 const _styles = {
-  container: {},
+  container: {
+    flexDirection: 'row',
+  },
   input: {},
 };
 
-const FormSwitch = ({style = {}, textStyle = {}, text}) => {
+const FormSwitch = ({style = {}, children}) => {
   const styles = useStyles(_styles);
 
   const {
@@ -20,15 +25,24 @@ const FormSwitch = ({style = {}, textStyle = {}, text}) => {
     disabled,
   } = useField();
 
+  const textColor = useSchemeValue('SWITCH.text');
+
   return (
     <Box style={mergeStyles(styles.container, style)}>
-      <Switch
-        name={name}
-        ref={ref}
-        onChange={onChange}
-        disabled={disabled}
-        checked={value}
-      />
+      <Box style={{flexShrink: 1, flex: 1}}>
+        <Text style={mergeStyles(ThemeStyles.switchText, {color: textColor})}>
+          {children}
+        </Text>
+      </Box>
+      <Box>
+        <Switch
+          name={name}
+          ref={ref}
+          onChange={onChange}
+          disabled={disabled}
+          checked={value}
+        />
+      </Box>
     </Box>
   );
 };

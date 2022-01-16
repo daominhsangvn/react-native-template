@@ -1,34 +1,43 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {selectIsThemeAuto, selectThemeScheme} from '@lib/themes/store';
-import {useColorScheme} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 import lightTheme from '../../configs/themes/light';
 import darkTheme from '../../configs/themes/dark';
 import {ThemeContext} from './context';
 import {COLORS} from '@configs/themes/var';
 
-const themes = {
-  dark: darkTheme,
-  light: lightTheme,
-};
-
 const ThemeProvider = ({children}) => {
-  const scheme = useColorScheme();
+  const deviceScheme = useColorScheme();
   const autoTheme = useSelector(selectIsThemeAuto);
-  const schemeTheme = useSelector(selectThemeScheme);
-  // const defaultTheme = autoTheme ? themes[scheme] : themes[schemeTheme];
-  // const [theme, setTheme] = useState(defaultTheme);
+  const themeScheme = useSelector(selectThemeScheme);
 
-  // useEffect(() => {
-  //   setTheme(autoTheme ? themes[scheme] : themes[schemeTheme]);
-  // }, [autoTheme, scheme, schemeTheme]);
+  const scheme = useMemo(() => {
+    return autoTheme ? deviceScheme : themeScheme;
+  }, [autoTheme, deviceScheme, themeScheme]);
+
+  useEffect(() => {
+    if (scheme === 'dark') {
+      StatusBar.setBarStyle('light-content');
+    } else {
+      StatusBar.setBarStyle('dark-content');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (scheme === 'dark') {
+      StatusBar.setBarStyle('light-content');
+    } else {
+      StatusBar.setBarStyle('dark-content');
+    }
+  }, [scheme]);
 
   return (
     <ThemeContext.Provider
       value={{
         dark: darkTheme,
         light: lightTheme,
-        scheme: autoTheme ? scheme : schemeTheme,
+        scheme,
         COLORS,
       }}>
       {children}

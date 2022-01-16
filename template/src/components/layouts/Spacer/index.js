@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 
 const Spacer = ({children, horizontal = false, spacing = 1, ...rest}) => {
   return (
@@ -14,7 +14,7 @@ const Spacer = ({children, horizontal = false, spacing = 1, ...rest}) => {
                 <>
                   {React.cloneElement(child)}
                   {!!children[idx + 1] && (
-                    <View style={{height: rem(spacing)}} />
+                    <View style={{height: remScale(spacing)}} />
                   )}
                 </>
               );

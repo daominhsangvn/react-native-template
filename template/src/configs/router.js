@@ -8,6 +8,7 @@ import SignInScreen from '@screens/SignIn';
 import {useSelector} from 'react-redux';
 import {selectIsAuth} from '@features/authentication/store/user/slice';
 import RNBootSplash from 'react-native-bootsplash';
+import {StatusBar} from 'react-native';
 
 const AuthStack = createNativeStackNavigator();
 const AppStack = createNativeStackNavigator();
@@ -16,14 +17,8 @@ const MainStack = createNativeStackNavigator();
 function App() {
   return (
     <AppStack.Navigator screenOptions={{headerShown: false}}>
-      <AppStack.Screen
-        name="Home"
-        component={HomeScreen}
-      />
-      <AppStack.Screen
-        name="Sample"
-        component={SampleScreen}
-      />
+      <AppStack.Screen name="Home" component={HomeScreen} />
+      <AppStack.Screen name="Sample" component={SampleScreen} />
     </AppStack.Navigator>
   );
 }
@@ -34,10 +29,7 @@ function Auth() {
       screenOptions={{
         headerShown: false,
       }}>
-      <AuthStack.Screen
-        name="Welcome"
-        component={WelcomeScreen}
-      />
+      <AuthStack.Screen name="Welcome" component={WelcomeScreen} />
       <AuthStack.Screen name="SignIn" component={SignInScreen} />
     </AuthStack.Navigator>
   );
@@ -62,6 +54,7 @@ const Router = () => {
   const onNavigationReady = useCallback(() => {
     setTimeout(() => {
       RNBootSplash.hide({fade: true});
+      StatusBar.setHidden(false);
     }, 1000);
   }, []);
 

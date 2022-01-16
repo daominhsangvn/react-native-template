@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {StatusBar, Text} from 'react-native';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -22,6 +22,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={<Text>Loading....</Text>} persistor={persistor}>
+        <StatusBar hidden />
         <GestureHandlerRootView style={{flex: 1}}>
           <AuthenticationProvider>
             <ThemeProvider>

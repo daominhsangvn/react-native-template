@@ -11,6 +11,7 @@ import useSchemeValue from '@lib/themes/useSchemeValue';
 const _styles = {
   container: {
     flex: 1,
+    position: 'relative',
   },
   input: {},
   checkBoxContainer: {
@@ -83,7 +84,9 @@ const CheckBox = React.forwardRef(
               style={[
                 styles.checkBox,
                 {
-                  backgroundColor: disabled ? '#cecece' : fillColor,
+                  backgroundColor: disabled
+                    ? disabledBackgroundColor
+                    : fillColor,
                 },
               ]}>
               <MotiView

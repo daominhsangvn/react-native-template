@@ -6,7 +6,7 @@ const name = 'themes';
 const whitelist = ['auto', 'scheme'];
 const selector = state => state[name];
 const initialState = {
-  auto: false,
+  auto: true,
   scheme: 'light',
 };
 

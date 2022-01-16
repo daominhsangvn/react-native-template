@@ -1,8 +1,8 @@
 import Box from '@components/layouts/Box';
 import React, {useCallback, useState} from 'react';
-import { StyleSheet, View } from "react-native";
+import {StyleSheet, View} from 'react-native';
 import Button from '@components/Button';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
 import Text from '@components/Text';
 import EvenCols from '@components/layouts/EvenCols';
@@ -28,6 +28,7 @@ import useCollapsibleNavBar from '@lib/hooks/useCollapsibleNavBar';
 import useStyles from '@lib/themes/useStyles';
 import DelayRender from '@components/DelayRender';
 import FormSwitch from '@components/Form/components/Switch';
+import LinkButton from '@components/LinkButton';
 
 const schema = yup.object().shape({
   // password: yup
@@ -43,7 +44,7 @@ const schema = yup.object().shape({
 
 const _styles = {
   container: {
-    padding: rem(3),
+    padding: remScale(3),
   },
 };
 
@@ -134,9 +135,7 @@ const SampleScreen = () => {
             </EvenCols.Item>
           </EvenCols>
           <Gap v={1} />
-          <View onLayout={(e) => console.log(e.nativeEvent.layout)}>
-            <Button disabled>Disabled</Button>
-          </View>
+          <Button disabled>Disabled</Button>
           <Gap v={1} />
           <EvenCols cols={2}>
             <EvenCols.Item>
@@ -166,6 +165,12 @@ const SampleScreen = () => {
         </Box>
 
         <Gap v={1} />
+
+        <Box center>
+          <LinkButton>Link Button</LinkButton>
+        </Box>
+
+        <Gap v={1} />
         <Box>
           <Text category="h6">Form</Text>
           <Gap v={1} />
@@ -173,28 +178,32 @@ const SampleScreen = () => {
           <FormField
             name="email"
             control={control}
-            leading={<Icon name="mail" size={rem(1.4)} />}>
+            leading={<Icon name="mail" size={remScale(1.4)} />}>
             <FormTextInput placeholder="Type your email" />
           </FormField>
           <Gap v={1} />
           <FormField
             name="username"
             control={control}
-            trailing={<Icon name="ios-people" size={rem(1.4)} />}>
+            trailing={<Icon name="ios-people" size={remScale(1.4)} />}>
             <FormTextInput placeholder="Type your username" />
           </FormField>
           <Gap v={1} />
           <FormField
             name="password"
             control={control}
-            leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
+            leading={
+              <Icon name="ios-lock-closed-outline" size={remScale(1.4)} />
+            }>
             <FormTextInput placeholder="Type your password" secure />
           </FormField>
           <Gap v={1} />
           <FormField
             name="confirmPassword"
             control={control}
-            leading={<Icon name="ios-lock-closed-outline" size={rem(1.4)} />}>
+            leading={
+              <Icon name="ios-lock-closed-outline" size={remScale(1.4)} />
+            }>
             <FormTextInput placeholder="Type your password again" secure />
           </FormField>
         </Box>
@@ -204,21 +213,27 @@ const SampleScreen = () => {
             <FormField
               name="datetime"
               control={control}
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+              leading={
+                <Icon name="ios-calendar-outline" size={remScale(1.4)} />
+              }>
               <FormDateTimePicker placeholder="Select date/time" />
             </FormField>
             <Gap v={1} />
             <FormField
               name="date"
               control={control}
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+              leading={
+                <Icon name="ios-calendar-outline" size={remScale(1.4)} />
+              }>
               <FormDateTimePicker mode="date" placeholder="Select a date" />
             </FormField>
             <Gap v={1} />
             <FormField
               name="time"
               control={control}
-              leading={<Icon name="ios-calendar-outline" size={rem(1.4)} />}>
+              leading={
+                <Icon name="ios-calendar-outline" size={remScale(1.4)} />
+              }>
               <FormDateTimePicker mode="time" placeholder="Select a time" />
             </FormField>
           </Box>
@@ -229,7 +244,7 @@ const SampleScreen = () => {
               name="select"
               control={control}
               trailing={
-                <Icon name="ios-chevron-down-outline" size={rem(1.4)} />
+                <Icon name="ios-chevron-down-outline" size={remScale(1.4)} />
               }>
               <FormSelect
                 placeholder="Select a value"
@@ -244,21 +259,22 @@ const SampleScreen = () => {
 
           <Gap v={1} />
           <Box>
-            <FormField borderless noPadding name="checkbox" control={control}>
-              <FormCheckBox>
-                Are you agree? 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
-                20 21 22 23 24 25 26 27 28 29 30
-              </FormCheckBox>
+            <FormField borderless noPadding name="switch" control={control}>
+              <FormSwitch>Are you agree?</FormSwitch>
             </FormField>
           </Box>
 
           <Gap v={1} />
           <Box>
-            <FormField borderless noPadding name="switch" control={control}>
-              <FormSwitch>
+            <FormField
+              borderless
+              noPadding
+              name="checkbox"
+              control={control}>
+              <FormCheckBox>
                 Are you agree? 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
                 20 21 22 23 24 25 26 27 28 29 30
-              </FormSwitch>
+              </FormCheckBox>
             </FormField>
           </Box>
 

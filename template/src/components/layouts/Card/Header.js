@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@components/layouts/Box';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 import useStyles from '@lib/themes/useStyles';
 
 const _styles = {
@@ -9,7 +9,7 @@ const _styles = {
     borderBottomColor: '#e0e0e0',
   },
   content: {
-    padding: rem(1.5),
+    padding: remScale(1.5),
   },
 };
 

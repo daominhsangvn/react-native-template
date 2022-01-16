@@ -1,14 +1,14 @@
 import React from 'react';
 import {View} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 
 const Gap = ({h, v, ...rest}) => {
   return (
     <View
       style={mergeStyles(
-        h && {width: rem(h)},
-        v && {height: rem(v)},
+        h && {width: remScale(h)},
+        v && {height: remScale(v)},
         rest.style,
       )}
     />

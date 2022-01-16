@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 import CardHeader from '@components/layouts/Card/Header';
 import CardFooter from '@components/layouts/Card/Footer';
 import CardBody from '@components/layouts/Card/Body';
@@ -23,7 +23,7 @@ const Card = ({children, style, ...rest}) => {
 
           backgroundColor: '#ffffff',
           borderRadius: 8,
-          margin: rem(1),
+          margin: remScale(1),
         },
         style,
       )}

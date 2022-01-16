@@ -1,14 +1,12 @@
 import React, {useCallback, useMemo} from 'react';
-import {TouchableOpacity} from 'react-native';
 import {isDate, toFullDate, toShortDate, toTime} from '@lib/utils/helpers';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 import Box from '@components/layouts/Box';
 import useToggle from '@lib/hooks/useToggle';
 import RNDatePicker from 'react-native-date-picker';
 import FormBaseInput from '@components/Form/components/BaseTextInput';
 import useField from '@components/Form/useField';
 import useStyles from '@lib/themes/useStyles';
-import Icon from '@components/Icon';
 
 const _styles = {
   container: {
@@ -17,8 +15,8 @@ const _styles = {
     flex: 1,
   },
   eyeIcon: {
-    paddingLeft: rem(0.4),
-    paddingRight: rem(0.4),
+    paddingLeft: remScale(0.4),
+    paddingRight: remScale(0.4),
   },
 };
 

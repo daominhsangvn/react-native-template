@@ -3,7 +3,7 @@ import Box from '@components/layouts/Box';
 import Text from '@components/Text';
 import {mergeStyles} from '@lib/utils/helpers';
 import useSchemeValue from '@lib/themes/useSchemeValue';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 import {useController} from 'react-hook-form';
 import {FormFieldContext} from '@components/Form/FieldContext';
 import useStyles from '@lib/themes/useStyles';
@@ -44,12 +44,13 @@ const FormField = ({
   });
 
   const {
-    fieldState: {error},
+    fieldState: {error, isDirty},
   } = controller;
 
   const styles = useStyles(_styles);
 
   const borderColor = useSchemeValue('INPUT.border');
+  const validBorderColor = useSchemeValue('INPUT.border_valid');
   const borderErrorColor = useSchemeValue('INPUT.border_error');
   const labelColor = useSchemeValue('INPUT.label');
   const labelErrorColor = useSchemeValue('INPUT.label_error');
@@ -110,9 +111,9 @@ const FormField = ({
         <Box
           style={mergeStyles(
             styles.inputContainer,
-            {borderColor: error ? borderErrorColor : borderColor},
-            !trailing && !noPadding && {paddingRight: rem(1)},
-            !leading && !noPadding && {paddingLeft: rem(1)},
+            {borderColor: error ? borderErrorColor : (isDirty && !error) ? validBorderColor : borderColor},
+            !trailing && !noPadding && {paddingRight: remScale(2)},
+            !leading && !noPadding && {paddingLeft: remScale(2)},
             borderless && {borderWidth: 0},
             containerStyle,
           )}>

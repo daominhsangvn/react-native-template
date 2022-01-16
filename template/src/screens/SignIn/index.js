@@ -9,7 +9,7 @@ import {
 } from '@features/authentication/store/sign-in/slice';
 import {selectIsAuth} from '@features/authentication/store/user/slice';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 import React, {useCallback, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
@@ -37,7 +37,7 @@ const _styles = {
     flex: 1,
   },
   scrollView: {
-    padding: rem(3),
+    padding: remScale(3),
   },
   error: {
     // color: COLORS.error,
@@ -94,7 +94,7 @@ const SignInScreen = ({navigation}) => {
     <Screen navbar style={styles.container}>
       <NavBar transparent />
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <Box center style={{marginVertical: rem(2)}}>
+        <Box center style={{marginVertical: remScale(2)}}>
           <Logo width={100} height={100} />
         </Box>
 

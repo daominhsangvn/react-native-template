@@ -2,17 +2,17 @@ import React from 'react';
 import Text from '@components/Text';
 import Screen from '@components/layouts/Screen';
 import Button from '@components/Button';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 import WelcomeImage from '@assets/images/welcome-image.png';
-import { Image, View } from "react-native";
+import {Image} from 'react-native';
 import Box from '@components/layouts/Box';
 import Logo from '@assets/svg/logo.svg';
 import Gap from '@components/Gap';
 
 const WelcomeScreen = ({navigation}) => {
   return (
-    <Screen style={{padding: rem(3)}}>
-      <Box center style={{flex: 1}}>
+    <Screen style={{padding: remScale(3)}}>
+      <Box center style={{flex: 1, paddingTop: remScale(2)}}>
         <Image source={WelcomeImage} resizeMode={'contain'} />
       </Box>
       <Box style={{flex: 1}}>

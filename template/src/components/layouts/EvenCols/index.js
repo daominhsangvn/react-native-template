@@ -2,9 +2,9 @@ import React from 'react';
 import ColItem from './Item';
 import Box from '../Box';
 import {StyleSheet} from 'react-native';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 
-const EvenCols = ({children, cols = 1, gap = rem(1), ...rest}) => {
+const EvenCols = ({children, cols = 1, gap = remScale(1), ...rest}) => {
   return (
     <Box style={styles.container} {...rest}>
       {!Array.isArray(children) && children}

@@ -6,45 +6,45 @@ const ThemeStyles = {
     paddingHorizontal: remScale(3),
   },
   h1: {
-    fontSize: 40,
+    fontSize: remScale(5),
     fontWeight: '700',
   },
   h2: {
-    fontSize: 32,
+    fontSize: remScale(4),
     fontWeight: '600',
   },
   h3: {
-    fontSize: 24,
+    fontSize: remScale(3),
     fontWeight: '600',
   },
   h4: {
-    fontSize: 20,
+    fontSize: remScale(2.5),
     fontWeight: '600',
   },
   h5: {
-    fontSize: 18,
+    fontSize: remScale(2.25),
     fontWeight: '600',
   },
   h6: {
-    fontSize: 16,
+    fontSize: remScale(2),
     fontWeight: '600',
   },
   b1: {
-    fontSize: 18,
+    fontSize: remScale(2.25),
     fontWeight: '500',
   },
   b2: {
-    fontSize: 16,
+    fontSize: remScale(2),
   },
   b3: {
-    fontSize: 14,
+    fontSize: remScale(1.75),
   },
   b4: {
-    fontSize: 12,
+    fontSize: remScale(1.5),
   },
   btn: {
     padding: remScale(2),
-    borderRadius: 12,
+    borderRadius: remScale(1.5),
     borderWidth: 1,
     height: remScale(7),
   },
@@ -57,16 +57,17 @@ const ThemeStyles = {
   },
   form_field: {
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: remScale(1.5),
   },
   form_leading: {
-    minWidth: remScale(5),
+    minWidth: remScale(6),
+    // paddingHorizontal: remScale(2),
   },
   form_leading_icon: {
     size: remScale(3),
   },
   form_trailing: {
-    minWidth: remScale(5),
+    minWidth: remScale(6),
   },
   form_trailing_icon: {
     size: remScale(3),
@@ -86,30 +87,38 @@ const ThemeStyles = {
     width: remScale(4),
   },
   input_secure_onoff_btn: {
-    width: remScale(4),
+    width: remScale(3.2),
   },
   checkBoxContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: remScale(2.5),
-    height: remScale(2.5),
-    borderRadius: remScale(3),
-    borderWidth: 1,
+    width: remScale(3),
+    height: remScale(3),
+    borderRadius: remScale(1),
     marginRight: remScale(1),
+    overflow: 'hidden',
   },
   checkBox: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: remScale(2.5),
-    height: remScale(2.5),
-    borderRadius: remScale(2.5),
+    width: remScale(3),
+    height: remScale(3),
+    borderRadius: remScale(1),
   },
   checkBoxTextContainer: {
     flexShrink: 1,
     paddingLeft: remScale(2.5 + 1),
   },
   checkBoxText: {
-    marginTop: 0,
+    marginTop: 1,
+    lineHeight: remScale(2 + 0.5),
+    fontSize: remScale(2),
+  },
+  switchCircle: {
+    borderColor: 'white',
+  },
+  switchText: {
+    marginTop: 3,
     lineHeight: remScale(2 + 0.5),
     fontSize: remScale(2),
   },

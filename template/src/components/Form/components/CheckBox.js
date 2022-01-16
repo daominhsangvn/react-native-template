@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import Box from '@components/layouts/Box';
 import {mergeStyles} from '@lib/utils/helpers';
 import useField from '@components/Form/useField';
@@ -7,6 +7,7 @@ import useStyles from '@lib/themes/useStyles';
 import Text from '@components/Text';
 import useSchemeValue from '@lib/themes/useSchemeValue';
 import ThemeStyles from '@configs/themes/styles';
+import {TouchableOpacity} from 'react-native';
 
 const _styles = {
   container: {
@@ -27,6 +28,10 @@ const FormCheckBox = ({style = {}, children}) => {
 
   const textColor = useSchemeValue('CHECKBOX.text');
 
+  const onPress = useCallback(() => {
+    onChange(!value);
+  }, [onChange, value]);
+
   return (
     <Box style={mergeStyles(styles.container, style)}>
       <Box>
@@ -38,11 +43,14 @@ const FormCheckBox = ({style = {}, children}) => {
           checked={value}
         />
       </Box>
-      <Box>
+      <TouchableOpacity
+        disabled={disabled}
+        style={{flexShrink: 1}}
+        onPress={onPress}>
         <Text style={mergeStyles(ThemeStyles.checkBoxText, {color: textColor})}>
           {children}
         </Text>
-      </Box>
+      </TouchableOpacity>
     </Box>
   );
 };

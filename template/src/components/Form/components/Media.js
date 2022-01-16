@@ -5,7 +5,7 @@ import ActionSheet from '@components/ActionSheet';
 import {Image, TextInput, TouchableOpacity} from 'react-native';
 import Icon from '@components/Icon';
 import Spacer from '@components/layouts/Spacer';
-import {rem} from '@lib/themes/utils';
+import {remScale} from '@lib/themes/utils';
 import ImagePicker from 'react-native-image-crop-picker';
 import * as mimeTypes from 'react-native-mime-types';
 
@@ -20,7 +20,7 @@ const _styles = {
   },
   button: {
     alignItems: 'center',
-    padding: rem(0.7),
+    padding: remScale(0.7),
   },
   buttonText: {
     fontWeight: '500',
@@ -34,7 +34,7 @@ const _styles = {
     position: 'relative',
   },
   actionContainer: {
-    padding: rem(1),
+    padding: remScale(1),
   },
 };
 

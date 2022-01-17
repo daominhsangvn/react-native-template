@@ -23,12 +23,15 @@ const useCollapsibleNavBar = ({clampBound} = {}) => {
         y = 0;
       } else {
         const dy = y - (ctx?.prevY ?? 0);
-        scrollClamp.value = diffClamp(scrollClamp.value + dy, 0, !clampBound ? HEADER_HEIGHT + insets.top : clampBound);
+        scrollClamp.value = diffClamp(
+          scrollClamp.value + dy,
+          0,
+          !clampBound ? HEADER_HEIGHT + insets.top : clampBound,
+        );
 
         // the clamp function always returns a value between 0 and 50
         ctx.prevY = y;
       }
-      
 
       scrollY.value = event.contentOffset.y;
     },

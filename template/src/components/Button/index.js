@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {ActivityIndicator, Text, View} from 'react-native';
+import { ActivityIndicator, Keyboard, Text, View } from "react-native";
 import {mergeStyles} from '@lib/utils/helpers';
 import LinearGradient from 'react-native-linear-gradient';
 import {TapGestureHandler} from 'react-native-gesture-handler';
@@ -48,6 +48,7 @@ const Button = ({
   leftAccessoryAbsolute = false,
   rightAccessory,
   rightAccessoryAbsolute = false,
+  data,
 }) => {
   const styles = useStyles(_styles);
 
@@ -77,6 +78,13 @@ const Button = ({
     };
   });
 
+  const handlePress = useCallback(() => {
+    Keyboard.dismiss();
+    if (onPress) {
+      onPress(data);
+    }
+  }, []);
+
   const gestureHandler = useAnimatedGestureHandler({
     onStart: () => {
       if (!disabled) {
@@ -88,7 +96,7 @@ const Button = ({
     },
     onEnd: () => {
       if (onPress && !disabled) {
-        runOnJS(onPress)();
+        runOnJS(handlePress)();
       }
 
       active.value = false;
@@ -255,7 +263,7 @@ const Button = ({
 
   return (
     <TapGestureHandler onGestureEvent={gestureHandler}>
-      <Animated.View style={[activeStyle]}>
+      <Animated.View style={[activeStyle, {alignItems: 'center'}]}>
         {Array.isArray(backgroundColor) && (
           <LinearGradient
             start={{x: 0, y: 0}}

@@ -6,6 +6,7 @@
 - xCode 13.0
 
 ## Icon & SplashScreen
+### `react-native-bootsplash`
 - Dependencies
     - `$ npm install -g app-icon`
     - Icon file size 1024x1024
@@ -18,12 +19,27 @@ $ app-icon generate -i assets/icon-ios.png -p ios
 ```
 $ yarn react-native generate-bootsplash assets/splashscreen.png --background-color=FFFFFF --logo-width=200
 ```
+### `react-native-splash-screen`
+- Icon & Splash generator: https://appicon.co
+- Tutorial: check `react-native-splash-screen-tutor.png` in `guides` folder for setup guide
+- Notes:
+  - Create new `Image Set` named `launch_screen` inside `Images.xcassets` and drag and drop images into 3 blocks
+  - To create `Image View`, select `View` layer then click `+` button on the top right of the xCode, find the `Image View` then drag into the `View`
+  - Android: Add following to prevent the white/black splash before splashscreen
+```
+<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowDisablePreview">true</item>
+</style>
+```
 
 ## Bottom TabBar
 ```
 # router.js
 
-import CustomTabBar from '@components/CustomTabBar';
++ import CustomTabBar from '@components/CustomTabBar';
+
+- const AppStack = createNativeStackNavigator();
++ const AppStack = createBottomTabNavigator();
 
 function App() {
   return (

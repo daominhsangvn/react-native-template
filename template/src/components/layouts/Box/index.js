@@ -3,7 +3,7 @@ import {mergeStyles} from '@lib/utils/helpers';
 import {View} from 'react-native';
 
 const Box = React.forwardRef(
-  ({center, flex, row, col, right, style, ...rest}, ref) => {
+  ({center, flex, row, col, right, style, items, justify, ...rest}, ref) => {
     return (
       <View
         {...rest}
@@ -12,14 +12,13 @@ const Box = React.forwardRef(
           typeof flex !== 'undefined' && {
             flex: Number.isInteger(flex) ? flex : 1,
           },
-          center &&
-            !row &&
-            !col && {alignItems: 'center', justifyContent: 'center'},
+          center && !col && {alignItems: 'center', justifyContent: 'center'},
           row && {flexDirection: 'row'},
-          center && row && {justifyContent: 'center'},
           col && {flexDirection: 'column'},
           center && col && {alignItems: 'center'},
           right && {alignItems: 'flex-end'},
+          items && {alignItems: items},
+          justify && {justifyContent: justify},
           style,
         )}
       />

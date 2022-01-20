@@ -2,9 +2,8 @@ import React from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {BOTTOM_TAB_HEIGHT} from '@configs/themes/var';
+import {BOTTOM_TAB_HEIGHT, COLORS} from '@configs/themes/var';
 import useStyles from '@lib/themes/useStyles';
-import useTheme from '@lib/themes/useTheme';
 
 const _styles = {
   container: {
@@ -22,14 +21,13 @@ const _styles = {
     // elevation: 11,
   },
   buttonContainer: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-  label: {fontSize: 10, marginTop: 3, color: '#4E5969'},
+  label: {fontSize: 12, marginTop: 3, color: '#4E5969'},
   labelFocused: {color: '#fd6654'},
 };
 
-const BottomTabBar = props => {
+const CustomTabBar = props => {
   const styles = useStyles(_styles);
   const {state, descriptors, navigation} = props;
-  const theme = useTheme();
   return (
     <GestureHandlerRootView>
       <View style={styles.container}>
@@ -39,12 +37,8 @@ const BottomTabBar = props => {
             options.tabBarLabel !== undefined
               ? options.tabBarLabel
               : options.title !== undefined
-              ? options.title
-              : route.name;
-          const showLabel =
-            typeof options.tabBarShowLabel === 'undefined'
-              ? true
-              : options.tabBarShowLabel;
+                ? options.title
+                : route.name;
 
           const isFocused = state.index === index;
 
@@ -84,24 +78,35 @@ const BottomTabBar = props => {
               onLongPress={onLongPress}
               style={mergeStyles(styles.buttonContainer, {
                 borderBottomWidth: 1,
-                borderBottomColor: isFocused
-                  ? theme.COLORS.primary
-                  : 'transparent',
+                borderBottomColor: isFocused ? COLORS.primary : 'transparent',
               })}>
-              {options.tabBarIcon &&
-                options.tabBarIcon({
-                  color: isFocused ? theme.COLORS.primary : '#4E5969',
-                  focused: isFocused,
-                  navigation,
-                })}
-              {showLabel && (
-                <Text
-                  style={[
-                    styles.label,
-                    isFocused ? styles.labelFocused : styles.label,
-                  ]}>
-                  {label}
-                </Text>
+              {options.tabBarIcon ? (
+                <>
+                  {options.tabBarIcon({
+                    color: isFocused ? COLORS.primary : '#4E5969',
+                    focused: isFocused,
+                    navigation,
+                  })}
+                  {options.labelShown && (
+                    <Text
+                      style={[
+                        styles.label,
+                        isFocused ? styles.labelFocused : styles.label,
+                      ]}>
+                      {label}
+                    </Text>
+                  )}
+                </>
+              ) : (
+                options.labelShown && (
+                  <Text
+                    style={[
+                      styles.label,
+                      isFocused ? styles.labelFocused : styles.label,
+                    ]}>
+                    {label}
+                  </Text>
+                )
               )}
             </TouchableOpacity>
           );
@@ -111,4 +116,4 @@ const BottomTabBar = props => {
   );
 };
 
-export default BottomTabBar;
+export default CustomTabBar;

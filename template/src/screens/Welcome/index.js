@@ -38,10 +38,7 @@ const WelcomeScreen = ({navigation}) => {
             Create Account
           </Button>
           <Gap v={2} />
-          <Button
-            outline
-            color="btn1"
-            onPress={() => navigation.navigate('SignIn')}>
+          <Button color="btn1" onPress={() => navigation.navigate('SignIn')}>
             Already have an account
           </Button>
         </Box>

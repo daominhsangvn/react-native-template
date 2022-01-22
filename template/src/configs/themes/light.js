@@ -2,16 +2,62 @@ import {COLORS} from './var';
 
 export default {
   BUTTON: {
-    primary: COLORS.blue1,
-    primary_text: '#ffffff',
-    style1: ['red', 'pink'],
-    link: COLORS.blue1,
-    disabled: COLORS.grayscale600,
-    btn1: COLORS.grayscale200,
-    btn1_text: COLORS.grayscale800,
+    primary: {
+      background: COLORS.blue1,
+      border: COLORS.blue1,
+      text: {
+        color: '#ffffff',
+      },
+      icon: {
+        color: '#ffffff',
+      },
+    },
+    link: {
+      text: {
+        color: COLORS.blue1,
+      },
+    },
+    disabled: {
+      background: COLORS.grayscale600,
+      border: COLORS.grayscale600,
+      text: {
+        color: COLORS.grayscale200,
+      },
+      icon: {
+        color: COLORS.grayscale200,
+      },
+    },
+    transparent: {
+      background: 'transparent',
+      border: 'transparent',
+      text: {
+        color: COLORS.grayscale200,
+      },
+      icon: {
+        color: COLORS.grayscale200,
+      },
+    },
+    btn1: {
+      background: 'white',
+      border: COLORS.grayscale200,
+      text: {
+        color: COLORS.grayscale800,
+      },
+      icon: {
+        color: COLORS.grayscale800,
+      },
+    },
   },
   CARD: {
-    text: '#354052',
+    primary: {
+      background: COLORS.grayscale100,
+      shadowColor: '#000',
+      border: 'transparent',
+      separator: COLORS.grayscale300,
+      text: {
+        color: COLORS.grayscale700,
+      },
+    },
   },
   BACKGROUND: {
     primary: '#ffffff',
@@ -35,19 +81,41 @@ export default {
     hint_error: 'rgb(224,0,0)',
   },
   CHECKBOX: {
-    primary: COLORS.blue1,
-    disabled_background: COLORS.grayscale500,
-    disabled_border: '#bbbbbb',
-    unfill_background: COLORS.grayscale200,
-    unfill_border: '#FFFFFF',
-    text: COLORS.grayscale600,
+    primary: {
+      disabled: {
+        background: COLORS.grayscale500,
+        border: '#bbbbbb',
+      },
+      uncheck: {
+        background: COLORS.grayscale200,
+        border: '#FFFFFF',
+      },
+      checked: {
+        background: COLORS.blue1,
+        border: COLORS.blue1,
+      },
+      icon: {
+        color: '#ffffff',
+      },
+    },
   },
   SWITCH: {
-    background_inactive: COLORS.grayscale200,
-    background_active: COLORS.blue3,
-    text: COLORS.grayscale600,
-    circle_active: COLORS.blue1,
-    circle_inactive: '#ffffff',
+    primary: {
+      active: {
+        background: COLORS.blue3,
+      },
+      inactive: {
+        background: COLORS.grayscale200,
+      },
+      circle: {
+        active: {
+          background: COLORS.blue1,
+        },
+        inactive: {
+          background: '#ffffff',
+        },
+      },
+    },
   },
   NAVBAR: {
     background: '#cccccc',

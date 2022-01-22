@@ -28,6 +28,7 @@ const config = {
 const Switch = React.forwardRef(
   (
     {
+      color = 'primary',
       value,
       checked,
       onChange,
@@ -43,10 +44,7 @@ const Switch = React.forwardRef(
       usePreviousState(checked);
     const translateX = useSharedValue(0);
     const trackCircleWidth = useSharedValue(width - circle - border * 2);
-    const inActiveBackground = useSchemeValue('SWITCH.background_inactive');
-    const activeBackground = useSchemeValue('SWITCH.background_active');
-    const circleActiveColor = useSchemeValue('SWITCH.circle_active');
-    const circleInActiveColor = useSchemeValue('SWITCH.circle_inactive');
+    const switchColor = useSchemeValue(`SWITCH.${color}`);
     const {scheme} = useTheme();
 
     useEffect(() => {
@@ -81,7 +79,10 @@ const Switch = React.forwardRef(
         backgroundColor: interpolateColor(
           translateX.value,
           [0, trackCircleWidth.value],
-          [circleInActiveColor, circleActiveColor],
+          [
+            switchColor.circle.inactive.background,
+            switchColor.circle.active.background,
+          ],
         ),
         borderWidth: interpolate(
           translateX.value,
@@ -96,7 +97,7 @@ const Switch = React.forwardRef(
         backgroundColor: interpolateColor(
           translateX.value,
           [0, trackCircleWidth.value],
-          [inActiveBackground, activeBackground],
+          [switchColor.inactive.background, switchColor.active.background],
         ),
       };
     });

@@ -1,7 +1,9 @@
 import {Dimensions} from 'react-native';
+const {width, height} = Dimensions.get('window');
 
 export const REM_SIZE = 8;
-export const SCALE_FACTOR = Dimensions.get('window').width / 450;
+export const SCALE_FACTOR_W = width / 450;
+export const SCALE_FACTOR_H = height / 950;
 export const BOTTOM_TAB_HEIGHT = 50;
 export const INTERPOLATE_COLOR_DURATION = 200;
 export const COLORS = {

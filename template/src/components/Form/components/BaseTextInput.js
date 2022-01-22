@@ -97,7 +97,7 @@ const FormBaseInput = React.forwardRef(
       }
       return (
         <Button
-          transparent
+          color="transparent"
           onPress={handleClear}
           style={[{padding: 0}, ThemeStyles.input_clear_btn]}>
           <Icon
@@ -115,7 +115,7 @@ const FormBaseInput = React.forwardRef(
         {clearBtn}
         {secure && (
           <Button
-            transparent
+            color="transparent"
             onPress={toggle}
             style={[{padding: 0}, ThemeStyles.input_secure_onoff_btn]}>
             {toggleIcon}

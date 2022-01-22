@@ -6,7 +6,6 @@ import Switch from '@components/Switch';
 import useStyles from '@lib/themes/useStyles';
 import Text from '@components/Text';
 import ThemeStyles from '@configs/themes/styles';
-import useSchemeValue from "@lib/themes/useSchemeValue";
 
 const _styles = {
   container: {
@@ -25,14 +24,10 @@ const FormSwitch = ({style = {}, children}) => {
     disabled,
   } = useField();
 
-  const textColor = useSchemeValue('SWITCH.text');
-
   return (
     <Box style={mergeStyles(styles.container, style)}>
       <Box style={{flexShrink: 1, flex: 1}}>
-        <Text style={mergeStyles(ThemeStyles.switchText, {color: textColor})}>
-          {children}
-        </Text>
+        <Text style={mergeStyles(ThemeStyles.switchText)}>{children}</Text>
       </Box>
       <Box>
         <Switch

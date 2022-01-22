@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {mergeStyles} from '@lib/utils/helpers';
 import Animated, {
   interpolateColor,
@@ -9,7 +9,7 @@ import useSchemeTransition from '@lib/themes/useSchemeTransition';
 import {HEADER_HEIGHT} from '@configs/themes/var';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const Screen = ({style = {}, children, navbar = false, ...props}) => {
+const Screen = ({style = {}, children, safe = false, navbar, ...props}) => {
   const theme = useTheme();
   const {dark, light} = theme;
   const insets = useSafeAreaInsets();
@@ -25,21 +25,20 @@ const Screen = ({style = {}, children, navbar = false, ...props}) => {
     return {backgroundColor};
   });
 
+  const paddingTop = useMemo(() => {
+    let value = style.padding || style.paddingTop || style.paddingVertical || 0;
+    if (safe) {
+      value = value + insets.top;
+    }
+    if (navbar) {
+      value = value + HEADER_HEIGHT;
+    }
+    return value;
+  }, [style, safe]);
+
   return (
     <Animated.View
-      style={[
-        backgroundStyle,
-        ...mergeStyles(
-          {flex: 1},
-          style,
-          navbar && {
-            paddingTop:
-              HEADER_HEIGHT +
-              insets.top +
-              (style.padding || style.paddingTop || style.paddingVertical || 0),
-          },
-        ),
-      ]}
+      style={[backgroundStyle, ...mergeStyles({flex: 1}, style, {paddingTop})]}
       {...props}>
       {children}
     </Animated.View>

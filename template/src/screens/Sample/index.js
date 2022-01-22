@@ -1,12 +1,11 @@
 import Box from '@components/layouts/Box';
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Button from '@components/Button';
 import {remScale} from '@lib/themes/utils';
 import useAlertDiaLog from '@lib/alertDialog/useAlertDialog';
 import Text from '@components/Text';
 import EvenCols from '@components/layouts/EvenCols';
-import Spacer from '@components/layouts/Spacer';
 import Gap from '@components/Gap';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
@@ -29,6 +28,7 @@ import useStyles from '@lib/themes/useStyles';
 import DelayRender from '@components/DelayRender';
 import FormSwitch from '@components/Form/components/Switch';
 import LinkButton from '@components/LinkButton';
+import FormMultiChoices from '@components/Form/components/MultiChoices';
 
 const schema = yup.object().shape({
   // password: yup
@@ -44,7 +44,7 @@ const schema = yup.object().shape({
 
 const _styles = {
   container: {
-    padding: remScale(3),
+    padding: remScale(2),
   },
 };
 
@@ -65,6 +65,7 @@ const SampleScreen = () => {
     defaultValues: {
       checkbox: true,
       choices: 'react',
+      multi: ['js', 'ng'],
       // mediaphoto: 'https://placeimg.com/640/480/any',
       // mediavideo:
       //   'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4',
@@ -76,6 +77,7 @@ const SampleScreen = () => {
       <NavBar title="Sample" y={scrollClamp} />
       <ScrollView
         navbar
+        safe
         style={[StyleSheet.absoluteFillObject]}
         contentContainerStyle={styles.container}
         onScroll={scrollHandler}>
@@ -266,11 +268,7 @@ const SampleScreen = () => {
 
           <Gap v={1} />
           <Box>
-            <FormField
-              borderless
-              noPadding
-              name="checkbox"
-              control={control}>
+            <FormField borderless noPadding name="checkbox" control={control}>
               <FormCheckBox>
                 Are you agree? 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
                 20 21 22 23 24 25 26 27 28 29 30
@@ -279,9 +277,26 @@ const SampleScreen = () => {
           </Box>
 
           <Gap v={1} />
+          <Text category="h4">Choices</Text>
+          <Gap v={1} />
           <Box>
             <FormField noPadding borderless name="choices" control={control}>
               <FormChoices
+                options={[
+                  {label: 'Javascript', value: 'js'},
+                  {label: 'Angular', value: 'ng'},
+                  {label: 'ReactJS', value: 'react'},
+                ]}
+              />
+            </FormField>
+          </Box>
+
+          <Gap v={1} />
+          <Text category="h4">Multi Choices</Text>
+          <Gap v={1} />
+          <Box>
+            <FormField noPadding borderless name="multi" control={control}>
+              <FormMultiChoices
                 options={[
                   {label: 'Javascript', value: 'js'},
                   {label: 'Angular', value: 'ng'},

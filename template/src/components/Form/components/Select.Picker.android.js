@@ -1,10 +1,14 @@
 import React, {useCallback, useImperativeHandle, useRef} from 'react';
 import {Picker} from '@react-native-picker/picker';
 import {windowWidth} from '@lib/utils/helpers';
+import useTheme from '@lib/themes/useTheme';
+import {COLORS} from '@configs/themes/var';
 
 const SelectPicker = React.forwardRef((props, ref) => {
   const {value, onChange, options} = props;
   const pickerRef = useRef();
+
+  const {scheme} = useTheme();
 
   const show = useCallback(() => {
     pickerRef.current?.focus();
@@ -28,7 +32,13 @@ const SelectPicker = React.forwardRef((props, ref) => {
           label={op.label}
           value={op.value}
           key={op.value}
-          color={value === op.value ? 'red' : 'black'}
+          color={
+            value === op.value
+              ? COLORS.primary
+              : scheme === 'dark'
+              ? 'white'
+              : 'black'
+          }
         />
       ))}
     </Picker>

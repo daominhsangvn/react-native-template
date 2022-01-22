@@ -91,7 +91,7 @@ const SignInScreen = ({navigation}) => {
   }, [showError, error]);
 
   return (
-    <Screen navbar style={styles.container}>
+    <Screen safe navbar style={styles.container}>
       <NavBar transparent />
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Box center style={{marginVertical: remScale(2)}}>

@@ -111,7 +111,13 @@ const FormField = ({
         <Box
           style={mergeStyles(
             styles.inputContainer,
-            {borderColor: error ? borderErrorColor : (isDirty && !error) ? validBorderColor : borderColor},
+            {
+              borderColor: error
+                ? borderErrorColor
+                : isDirty && !error
+                ? validBorderColor
+                : borderColor,
+            },
             !trailing && !noPadding && {paddingRight: remScale(2)},
             !leading && !noPadding && {paddingLeft: remScale(2)},
             borderless && {borderWidth: 0},

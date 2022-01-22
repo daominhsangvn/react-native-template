@@ -5,7 +5,6 @@ import useField from '@components/Form/useField';
 import CheckBox from '@components/Checkbox';
 import useStyles from '@lib/themes/useStyles';
 import Text from '@components/Text';
-import useSchemeValue from '@lib/themes/useSchemeValue';
 import ThemeStyles from '@configs/themes/styles';
 import {TouchableOpacity} from 'react-native';
 
@@ -26,8 +25,6 @@ const FormCheckBox = ({style = {}, children}) => {
     disabled,
   } = useField();
 
-  const textColor = useSchemeValue('CHECKBOX.text');
-
   const onPress = useCallback(() => {
     onChange(!value);
   }, [onChange, value]);
@@ -47,9 +44,7 @@ const FormCheckBox = ({style = {}, children}) => {
         disabled={disabled}
         style={{flexShrink: 1}}
         onPress={onPress}>
-        <Text style={mergeStyles(ThemeStyles.checkBoxText, {color: textColor})}>
-          {children}
-        </Text>
+        <Text style={mergeStyles(ThemeStyles.checkBoxText)}>{children}</Text>
       </TouchableOpacity>
     </Box>
   );

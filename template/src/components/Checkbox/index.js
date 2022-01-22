@@ -23,17 +23,24 @@ const _styles = {
 };
 
 const CheckBox = React.forwardRef(
-  ({style = {}, disabled, onChange, name, checked, value}, ref) => {
+  (
+    {
+      style = {},
+      customStyles = {},
+      icon,
+      disabled,
+      onChange,
+      name,
+      checked,
+      value,
+      color = 'primary',
+    },
+    ref,
+  ) => {
     const styles = useStyles(_styles);
 
     const [isChecked, setIsChecked] = useState(checked);
-    const disabledBackgroundColor = useSchemeValue(
-      'CHECKBOX.disabled_background',
-    );
-    const disabledBorderColor = useSchemeValue('CHECKBOX.disabled_border');
-    const unfillBackgroundColor = useSchemeValue('CHECKBOX.unfill_background');
-    const unfillBorderColor = useSchemeValue('CHECKBOX.unfill_border');
-    const fillColor = useSchemeValue('CHECKBOX.primary');
+    const checkBoxColor = useSchemeValue(`CHECKBOX.${color}`);
 
     const onPress = useCallback(() => {
       if (disabled) {
@@ -65,13 +72,14 @@ const CheckBox = React.forwardRef(
             style={[
               styles.checkBoxContainer,
               {
-                backgroundColor: unfillBackgroundColor,
-                borderColor: unfillBorderColor,
+                backgroundColor: checkBoxColor.uncheck.background,
+                borderColor: checkBoxColor.uncheck.border,
               },
               disabled && {
-                backgroundColor: disabledBackgroundColor,
-                borderColor: disabledBorderColor,
+                backgroundColor: checkBoxColor.disabled.background,
+                borderColor: checkBoxColor.disabled.border,
               },
+              customStyles.container,
             ]}>
             <MotiView
               animate={{
@@ -83,10 +91,14 @@ const CheckBox = React.forwardRef(
               }}
               style={[
                 styles.checkBox,
+                customStyles.checkbox,
                 {
                   backgroundColor: disabled
-                    ? disabledBackgroundColor
-                    : fillColor,
+                    ? checkBoxColor.disabled.background
+                    : checkBoxColor.checked.background,
+                  borderColor: disabled
+                    ? checkBoxColor.disabled.border
+                    : checkBoxColor.checked.border,
                 },
               ]}>
               <MotiView
@@ -98,7 +110,15 @@ const CheckBox = React.forwardRef(
                   type: 'timing',
                   duration: 100,
                 }}>
-                <Icon name="ios-checkmark-outline" size={15} color="#fff" />
+                {icon ? (
+                  React.cloneElement(icon, {color: checkBoxColor.icon.color})
+                ) : (
+                  <Icon
+                    name="ios-checkmark-outline"
+                    size={15}
+                    color={checkBoxColor.icon.color}
+                  />
+                )}
               </MotiView>
             </MotiView>
           </MotiView>

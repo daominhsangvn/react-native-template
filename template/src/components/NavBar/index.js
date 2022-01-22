@@ -22,17 +22,25 @@ const _styles = {
   },
 };
 
-const NavBar = ({title, y, transparent = false}) => {
+const NavBar = ({
+  title,
+  y,
+  transparent = false,
+  headerRight,
+  absolute = true,
+}) => {
   const styles = useStyles(_styles);
   const navigation = useNavigation();
   const {type} = navigation.getState();
   const insets = useSafeAreaInsets();
   const navbarColorValue = useSchemeValue('NAVBAR.background');
-  const backIconColor = useSchemeValueSwitch(COLORS.grayscale900, '#ffffff');
+  const navbarTitleColor = useSchemeValue('NAVBAR.title');
+  const backIconColor = useSchemeValueSwitch(COLORS.grayscale500, '#ffffff');
+  const navigationState = navigation.getState();
 
   // console.log('navigation', navigation);
   // console.log('navigation.canGoBack()', navigation.canGoBack());
-  // console.log('navigation.getState()', navigation.getState());g('navigation', navigation);
+  // console.log('navigation.getState()', navigation.getState());
   //   // console.log('navigation.canGoBack()', navigation.canGoBack());
   //   // console.log(
 
@@ -63,7 +71,7 @@ const NavBar = ({title, y, transparent = false}) => {
     <Animated.View
       style={[
         navBarStyle,
-        StyleSheet.absoluteFill,
+        absolute && StyleSheet.absoluteFill,
         styles.container,
         {
           height: HEADER_HEIGHT + insets.top,
@@ -78,15 +86,26 @@ const NavBar = ({title, y, transparent = false}) => {
           flexDirection: 'row',
           flex: 1,
         }}>
-        {navigation.canGoBack() && type === 'stack' && (
-          <View style={{position: 'absolute', zIndex: 20}}>
-            <TouchableOpacity onPress={goBack}>
-              <Icon name="arrow-back-outline" size={24} color={backIconColor} />
-            </TouchableOpacity>
-          </View>
-        )}
+        <Box style={{width: 50, alignItems: 'flex-start'}}>
+          {navigation.canGoBack() &&
+            type === 'stack' &&
+            navigationState.routes.length > 1 && (
+              <TouchableOpacity onPress={goBack}>
+                <Icon
+                  name="chevron-back-outline"
+                  size={24}
+                  color={backIconColor}
+                />
+              </TouchableOpacity>
+            )}
+        </Box>
         <Box flex center>
-          <Text>{title}</Text>
+          <Text color={navbarTitleColor} style={[ThemeStyles.navbarTitle]}>
+            {title}
+          </Text>
+        </Box>
+        <Box style={{width: 50, alignItems: 'flex-end'}}>
+          {headerRight && headerRight()}
         </Box>
       </View>
     </Animated.View>

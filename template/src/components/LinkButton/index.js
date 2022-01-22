@@ -5,7 +5,7 @@ import useSchemeValue from '@lib/themes/useSchemeValue';
 import ThemeStyles from '@configs/themes/styles';
 
 const LinkButton = ({children, textStyle, style, ...rest}) => {
-  const textColorValue = useSchemeValue('BUTTON.link');
+  const linkButtonColor = useSchemeValue('BUTTON.link');
 
   return (
     <TouchableOpacity {...rest} style={mergeStyles({}, style)}>
@@ -13,7 +13,7 @@ const LinkButton = ({children, textStyle, style, ...rest}) => {
         <Text
           style={mergeStyles(
             ThemeStyles.btn_link,
-            {color: textColorValue},
+            {color: linkButtonColor.text.color},
             textStyle,
           )}>
           {children}

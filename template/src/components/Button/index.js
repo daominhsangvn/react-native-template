@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import { ActivityIndicator, Keyboard, Text, View } from "react-native";
+import {ActivityIndicator, Keyboard, Text, View} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
 import LinearGradient from 'react-native-linear-gradient';
 import {TapGestureHandler} from 'react-native-gesture-handler';
@@ -35,13 +35,11 @@ const Button = ({
   color = 'primary',
   style,
   children,
-  outline = false,
   icon = null,
   textStyle = {},
   loading = false,
   onPress,
   disabled = false,
-  transparent,
   left,
   right,
   leftAccessory,
@@ -52,9 +50,8 @@ const Button = ({
 }) => {
   const styles = useStyles(_styles);
 
-  const buttonDisabledColorValue = useSchemeValue('BUTTON.disabled');
-  const buttonColorValue = useSchemeValue(`BUTTON.${color}`);
-  const textColorValue = useSchemeValue(`BUTTON.${color}_text`);
+  const buttonColor = useSchemeValue(`BUTTON.${color}`);
+  const buttonDisabledColor = useSchemeValue('BUTTON.disabled');
 
   const renderIcon = useCallback(() => {
     if (icon) {
@@ -83,7 +80,7 @@ const Button = ({
     if (onPress) {
       onPress(data);
     }
-  }, []);
+  }, [data, onPress]);
 
   const gestureHandler = useAnimatedGestureHandler({
     onStart: () => {
@@ -109,74 +106,52 @@ const Button = ({
   });
 
   const backgroundColor = useMemo(() => {
-    let bg = 'transparent';
-
-    if (transparent || outline) {
-      return bg;
-    }
+    let bg = buttonDisabledColor.background;
 
     if (!disabled) {
       if (/^#/.test(color)) {
         bg = color;
       } else {
-        bg = buttonColorValue;
+        bg = buttonColor.background;
 
         if (!bg) {
           throw new Error(`Color '${color}' doesn't existed`);
         }
       }
-    } else {
-      bg = buttonDisabledColorValue;
     }
 
     return bg;
-  }, [
-    transparent,
-    outline,
-    disabled,
-    color,
-    buttonColorValue,
-    buttonDisabledColorValue,
-  ]);
+  }, [disabled, color, buttonColor, buttonDisabledColor]);
 
   const borderColor = useMemo(() => {
-    let bc = 'transparent';
-
-    if (transparent) {
-      return bc;
-    }
+    let bc = buttonDisabledColor.border;
 
     if (disabled) {
-      bc = buttonDisabledColorValue;
       return bc;
     }
 
     if (/^#/.test(color)) {
       bc = color;
-    } else if (outline && !Array.isArray(buttonColorValue)) {
-      bc = buttonColorValue;
+    } else {
+      bc = buttonColor.border;
     }
 
     return bc;
-  }, [
-    transparent,
-    disabled,
-    color,
-    outline,
-    buttonColorValue,
-    buttonDisabledColorValue,
-  ]);
+  }, [disabled, color, buttonColor, buttonDisabledColor]);
 
   const textColor = useMemo(() => {
-    let tc = 'white';
+    let tc = buttonDisabledColor.text.color;
+    if (disabled) {
+      return tc;
+    }
     if (/^#/.test(color)) {
       tc = color;
-    } else if (outline && !Array.isArray(textColorValue)) {
-      tc = textColorValue;
+    } else {
+      tc = buttonColor.text.color;
     }
 
     return tc;
-  }, [textColorValue, color, outline]);
+  }, [buttonColor, color, buttonDisabledColor, disabled]);
 
   const textAlign = useMemo(() => {
     if (left) {
@@ -292,7 +267,9 @@ const Button = ({
             )}>
             {renderIcon()}
             {loading ? (
-              <ActivityIndicator size="small" color={'white'} />
+              <Box center style={{flex: 1, flexDirection: 'row'}}>
+                <ActivityIndicator size="small" color={'white'} />
+              </Box>
             ) : (
               buttonChildren
             )}

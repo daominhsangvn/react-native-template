@@ -12,19 +12,13 @@ import {remScale} from '@lib/themes/utils';
 const _styles = {
   container: {},
   input: {},
-  choiceContainer: {
-    ...ThemeStyles.choice_container,
-  },
-  choice: {
-    ...ThemeStyles.choice,
-  },
   row: {
     marginBottom: remScale(1),
     flexDirection: 'row',
-  },
+  }
 };
 
-const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
+const FormMultiChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
   const styles = useStyles(_styles);
 
   const {
@@ -34,7 +28,7 @@ const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
     disabled,
   } = useField();
 
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState([]);
 
   const onValueChange = useCallback(
     (checked, selectedItem) => {
@@ -42,23 +36,34 @@ const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
         return;
       }
 
-      if (!checked) {
-        setSelectedValue(null);
-        onChange(null);
+      let newSelected = [...selectedValue];
+
+      if (checked) {
+        newSelected.push(selectedItem);
       } else {
-        setSelectedValue(selectedItem);
-        onChange(selectedItem);
+        newSelected = newSelected.filter(s => s !== selectedItem);
       }
+
+      setSelectedValue(newSelected);
+      onChange(newSelected);
+
+      // if (!checked) {
+      //   setSelectedValue(null);
+      //   onChange(null);
+      // } else {
+      //   setSelectedValue(selectedItem);
+      //   onChange(selectedItem);
+      // }
     },
     [disabled, onChange],
   );
 
   useEffect(() => {
     if (!isDirty && value !== null && typeof value !== 'undefined' && options) {
-      const itemIndex = options.findIndex(o => o.value === value);
-      if (itemIndex !== -1) {
-        setSelectedValue(options[itemIndex].value);
-      }
+      const defaultSelected = options
+        .filter(o => value.includes(o.value))
+        .map(o => o.value);
+      setSelectedValue(defaultSelected);
     }
   }, [isDirty, options, value]);
 
@@ -75,23 +80,22 @@ const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
         }}
       />
       {options.map((op, idx) => (
-        <Box key={`choices-${op.value}-${idx}`} style={styles.row}>
+        <Box
+          key={`multi-${op.value}-${idx}`}
+          style={styles.row}>
           <Box>
             <CheckBox
               onChange={onValueChange}
               disabled={disabled}
-              checked={selectedValue === op.value}
+              checked={selectedValue.includes(op.value)}
               value={op.value}
-              icon={<Box />}
-              customStyles={{
-                container: styles.choiceContainer,
-                checkbox: styles.choice,
-              }}
             />
           </Box>
           <TouchableOpacity
             disabled={disabled}
-            onPress={() => onValueChange(selectedValue !== op.value, op.value)}
+            onPress={() =>
+              onValueChange(!selectedValue.includes(op.value), op.value)
+            }
             style={{flexShrink: 1}}>
             <Text style={mergeStyles(ThemeStyles.checkBoxText, textStyle)}>
               {op.label}
@@ -103,4 +107,4 @@ const FormChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
   );
 };
 
-export default FormChoices;
+export default FormMultiChoices;

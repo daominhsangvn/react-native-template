@@ -32,36 +32,6 @@ $ yarn react-native generate-bootsplash assets/splashscreen.png --background-col
 </style>
 ```
 
-## Bottom TabBar
-```
-# router.js
-
-+ import CustomTabBar from '@components/CustomTabBar';
-
-- const AppStack = createNativeStackNavigator();
-+ const AppStack = createBottomTabNavigator();
-
-function App() {
-  return (
-    <AppStack.Navigator tabBar={props => <CustomTabBar {...props} />}>
-      <AppStack.Screen
-        options={{
-          headerShown: false,
-          labelShown: true,
-          tabBarIcon: ({color, focused}) => (
-            <Icon />
-          ),
-        }}
-        ...
-      />
-      ...
-    </AppStack.Navigator>
-  );
-}
-```
-
-## CodePush
-
 ## Firebase
 - Follow instruction at https://rnfirebase.io/ to setup Firebase and download `google-services.json`
 - Install additional dependencies:

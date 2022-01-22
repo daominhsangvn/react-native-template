@@ -122,6 +122,44 @@ const ThemeStyles = {
     lineHeight: remScale(2 + 0.5),
     fontSize: remScale(2),
   },
+  card: {
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+
+    borderRadius: 8,
+    // margin: remScale(1),
+  },
+  card_header: {
+    borderBottomWidth: 0.5,
+  },
+  card_header_content: {
+    padding: remScale(1.5),
+  },
+  card_footer: {
+    borderTopWidth: 0.5,
+  },
+  card_footer_content: {
+    padding: remScale(1.5),
+  },
+  card_body_content: {
+    padding: remScale(1.5),
+  },
+  choice_container: {
+    width: remScale(3),
+    height: remScale(3),
+    borderRadius: remScale(3),
+  },
+  choice: {
+    width: remScale(2),
+    height: remScale(2),
+    borderRadius: remScale(2),
+  },
 };
 
 export default ThemeStyles;

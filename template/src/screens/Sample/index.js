@@ -9,7 +9,13 @@ import EvenCols from '@components/layouts/EvenCols';
 import Gap from '@components/Gap';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectThemeScheme, setScheme} from '@lib/themes/store';
+import {
+  selectIsThemeAuto,
+  selectThemeScheme,
+  setAutoScheme,
+  setScheme,
+  toggleScheme,
+} from '@lib/themes/store';
 import Icon from '@components/Icon';
 import Screen from '@components/layouts/Screen';
 import {useForm} from 'react-hook-form';
@@ -29,6 +35,8 @@ import DelayRender from '@components/DelayRender';
 import FormSwitch from '@components/Form/components/Switch';
 import LinkButton from '@components/LinkButton';
 import FormMultiChoices from '@components/Form/components/MultiChoices';
+import useTheme from '@lib/themes/useTheme';
+import Switch from '@components/Switch';
 
 const schema = yup.object().shape({
   // password: yup
@@ -50,14 +58,32 @@ const _styles = {
 
 const SampleScreen = () => {
   const dispatch = useDispatch();
-  const scheme = useSelector(selectThemeScheme);
+  const {scheme} = useTheme();
   const styles = useStyles(_styles);
   const {showError, showSuccess, showWarning} = useAlertDiaLog();
   const [formValue, setFormValue] = useState({});
   const {scrollClamp, scrollHandler} = useCollapsibleNavBar();
+  const isAutoScheme = useSelector(selectIsThemeAuto);
+
+  const [largeList] = useState(
+    Array.from(Array(500)).map((_, index) => ({
+      label: `Javascript ${index}`,
+      value: `js${index}`,
+    })),
+  );
 
   const onSubmit = useCallback(data => {
     setFormValue(data);
+  }, []);
+
+  const customRender = useCallback(({data, checked}) => {
+    return (
+      <Box row items="center">
+        <Box flex>
+          <Text>{data.item.label}</Text>
+        </Box>
+      </Box>
+    );
   }, []);
 
   const {control, handleSubmit} = useForm({
@@ -66,6 +92,9 @@ const SampleScreen = () => {
       checkbox: true,
       choices: 'react',
       multi: ['js', 'ng'],
+      selectSimple: ['js3'],
+      select: ['js3'],
+      selectMulti: ['js3', 'js1'],
       // mediaphoto: 'https://placeimg.com/640/480/any',
       // mediavideo:
       //   'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4',
@@ -81,18 +110,35 @@ const SampleScreen = () => {
         style={[StyleSheet.absoluteFillObject]}
         contentContainerStyle={styles.container}
         onScroll={scrollHandler}>
-        <Box>
-          <Text category="h6">Dark/Light</Text>
-          <Gap v={1} />
-          <Button
-            onPress={() => {
-              dispatch(
-                setScheme({scheme: scheme === 'dark' ? 'light' : 'dark'}),
-              );
-            }}>
-            Toggle
-          </Button>
+        <Box row>
+          <Box style={{flexShrink: 1, flex: 1}}>
+            <Text>Use Device Scheme</Text>
+          </Box>
+          <Box>
+            <Switch
+              onChange={checked => {
+                dispatch(setAutoScheme({auto: checked}));
+              }}
+              checked={isAutoScheme}
+            />
+          </Box>
         </Box>
+
+        {!isAutoScheme && (
+          <Box row style={{marginTop: remScale(2)}}>
+            <Box style={{flexShrink: 1, flex: 1}}>
+              <Text>{scheme === 'dark' ? 'Dark' : 'Light'}</Text>
+            </Box>
+            <Box>
+              <Switch
+                onChange={() => {
+                  dispatch(toggleScheme());
+                }}
+                checked={scheme === 'dark'}
+              />
+            </Box>
+          </Box>
+        )}
 
         <Gap v={1} />
         <Box>
@@ -241,6 +287,22 @@ const SampleScreen = () => {
           </Box>
 
           <Gap v={1} />
+          <Text category="h6">Select simple</Text>
+          <Gap v={1} />
+          <Box>
+            <FormField
+              name="selectSimple"
+              control={control}
+              trailing={
+                <Icon name="ios-chevron-down-outline" size={remScale(1.4)} />
+              }>
+              <FormSelect placeholder="Select a value" options={largeList} />
+            </FormField>
+          </Box>
+
+          <Gap v={1} />
+          <Text category="h6">Select single modal</Text>
+          <Gap v={1} />
           <Box>
             <FormField
               name="select"
@@ -250,11 +312,65 @@ const SampleScreen = () => {
               }>
               <FormSelect
                 placeholder="Select a value"
-                options={[
-                  {label: 'Javascript', value: 'js'},
-                  {label: 'Angular', value: 'ng'},
-                  {label: 'ReactJS', value: 'react'},
-                ]}
+                modal
+                options={largeList}
+              />
+            </FormField>
+          </Box>
+
+          <Gap v={1} />
+          <Text category="h6">Select Multi</Text>
+          <Gap v={1} />
+          <Box>
+            <FormField
+              name="selectMulti"
+              control={control}
+              trailing={
+                <Icon name="ios-chevron-down-outline" size={remScale(1.4)} />
+              }>
+              <FormSelect
+                placeholder="Select a value"
+                multi
+                options={largeList}
+              />
+            </FormField>
+          </Box>
+
+          <Gap v={1} />
+          <Text category="h6">Select Multi Searchable</Text>
+          <Gap v={1} />
+          <Box>
+            <FormField
+              name="selectMultiSearchable"
+              control={control}
+              trailing={
+                <Icon name="ios-chevron-down-outline" size={remScale(1.4)} />
+              }>
+              <FormSelect
+                placeholder="Select a value"
+                multi
+                modal
+                options={largeList}
+                searchable
+              />
+            </FormField>
+          </Box>
+
+          <Gap v={1} />
+          <Text category="h6">Select Custom Render</Text>
+          <Gap v={1} />
+          <Box>
+            <FormField
+              name="selectMultiCustom"
+              control={control}
+              trailing={
+                <Icon name="ios-chevron-down-outline" size={remScale(1.4)} />
+              }>
+              <FormSelect
+                placeholder="Select a value"
+                options={largeList}
+                modal
+                renderOption={customRender}
               />
             </FormField>
           </Box>
@@ -277,7 +393,7 @@ const SampleScreen = () => {
           </Box>
 
           <Gap v={1} />
-          <Text category="h4">Choices</Text>
+          <Text category="h6">Choices</Text>
           <Gap v={1} />
           <Box>
             <FormField noPadding borderless name="choices" control={control}>
@@ -292,7 +408,7 @@ const SampleScreen = () => {
           </Box>
 
           <Gap v={1} />
-          <Text category="h4">Multi Choices</Text>
+          <Text category="h6">Multi Choices</Text>
           <Gap v={1} />
           <Box>
             <FormField noPadding borderless name="multi" control={control}>

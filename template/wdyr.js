@@ -5,7 +5,8 @@ if (__DEV__) {
   const ReactRedux = require('react-redux');
   whyDidYouRender(React, {
     trackAllPureComponents: true,
+    // trackHooks: false,
     trackExtraHooks: [[ReactRedux, 'useSelector']],
-    exclude: [/^StaticContainer/],
+    exclude: [/^StaticContainer/, /^BigListItem/],
   });
 }

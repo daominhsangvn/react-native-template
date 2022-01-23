@@ -18,17 +18,17 @@ const ThemeProvider = ({children}) => {
 
   useEffect(() => {
     if (scheme === 'dark') {
-      StatusBar.setBarStyle('light-content');
-    } else {
       StatusBar.setBarStyle('dark-content');
+    } else {
+      StatusBar.setBarStyle('light-content');
     }
   }, []);
 
   useEffect(() => {
     if (scheme === 'dark') {
-      StatusBar.setBarStyle('light-content');
-    } else {
       StatusBar.setBarStyle('dark-content');
+    } else {
+      StatusBar.setBarStyle('light-content');
     }
   }, [scheme]);
 
@@ -38,6 +38,7 @@ const ThemeProvider = ({children}) => {
         dark: darkTheme,
         light: lightTheme,
         scheme,
+        deviceScheme,
         COLORS,
       }}>
       {children}

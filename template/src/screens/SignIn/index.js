@@ -17,7 +17,11 @@ import * as yup from 'yup';
 import {yupResolver} from '@lib/utils/yupResolver';
 import {CommonActions} from '@react-navigation/native';
 import Logo from '@assets/svg/logo.svg';
-import {toggleScheme} from '@lib/themes/store';
+import {
+  selectIsThemeAuto,
+  setAutoScheme,
+  toggleScheme,
+} from '@lib/themes/store';
 import Icon from '@components/Icon';
 import Gap from '@components/Gap';
 import Text from '@components/Text';
@@ -26,6 +30,8 @@ import FormTextInput from '@components/Form/components/TextInput';
 import useStyles from '@lib/themes/useStyles';
 import ScrollView from '@components/ScrollView';
 import NavBar from '@components/NavBar';
+import Switch from '@components/Switch';
+import useTheme from '@lib/themes/useTheme';
 
 const schema = yup.object().shape({
   email: yup.string().required().email().min(6).max(50),
@@ -48,6 +54,8 @@ const SignInScreen = ({navigation}) => {
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
   const isAuth = useSelector(selectIsAuth);
+  const isAutoScheme = useSelector(selectIsThemeAuto);
+  const {scheme} = useTheme();
   const dispatch = useDispatch();
   const styles = useStyles(_styles);
   const {showError} = useAlertDiaLog();
@@ -132,14 +140,35 @@ const SignInScreen = ({navigation}) => {
 
         <Gap v={2} />
 
-        <Button
-          outline
-          color="btn1"
-          onPress={() => {
-            dispatch(toggleScheme());
-          }}>
-          Toggle
-        </Button>
+        <Box row>
+          <Box style={{flexShrink: 1, flex: 1}}>
+            <Text>Use Device Scheme</Text>
+          </Box>
+          <Box>
+            <Switch
+              onChange={checked => {
+                dispatch(setAutoScheme({auto: checked}));
+              }}
+              checked={isAutoScheme}
+            />
+          </Box>
+        </Box>
+
+        {!isAutoScheme && (
+          <Box row style={{marginTop: remScale(2)}}>
+            <Box style={{flexShrink: 1, flex: 1}}>
+              <Text>{scheme === 'dark' ? 'Dark' : 'Light'}</Text>
+            </Box>
+            <Box>
+              <Switch
+                onChange={() => {
+                  dispatch(toggleScheme());
+                }}
+                checked={scheme === 'dark'}
+              />
+            </Box>
+          </Box>
+        )}
 
         <Gap v={2} />
 

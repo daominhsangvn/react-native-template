@@ -21,6 +21,7 @@ import useSchemeValue from '@lib/themes/useSchemeValue';
 import {remScale} from '@lib/themes/utils';
 import ThemeStyles from '@configs/themes/styles';
 import useTheme from '@lib/themes/useTheme';
+import useRefState from '@lib/hooks/useRefState';
 
 const config = {
   overshootClamping: true,
@@ -42,14 +43,17 @@ const Switch = React.forwardRef(
   ) => {
     const [isToggled, setIsToggled, isToggledPrevious] =
       usePreviousState(checked);
+    const [initial, setInitial, initialRef] = useRefState(true);
     const translateX = useSharedValue(0);
     const trackCircleWidth = useSharedValue(width - circle - border * 2);
     const switchColor = useSchemeValue(`SWITCH.${color}`);
     const {scheme} = useTheme();
 
     useEffect(() => {
-      if (isToggled !== isToggledPrevious) {
-        onChange(isToggled, value);
+      if (!initialRef.current) {
+        if (isToggled !== isToggledPrevious) {
+          onChange(isToggled, value);
+        }
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,6 +64,9 @@ const Switch = React.forwardRef(
     }: TapGestureHandlerStateChangeEvent) => {
       if (state !== State.ACTIVE) {
         return;
+      }
+      if (initialRef.current) {
+        setInitial(false);
       }
       setIsToggled(prevstate => !prevstate);
       translateX.value = withSpring(
@@ -124,6 +131,14 @@ const Switch = React.forwardRef(
     });
 
     const panRef = useRef(null);
+
+    useEffect(() => {
+      translateX.value = withSpring(
+        !checked ? 0 : trackCircleWidth.value,
+        config,
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
       <TapGestureHandler waitFor={panRef} onHandlerStateChange={onPress}>

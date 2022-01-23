@@ -1,7 +1,7 @@
 import React from 'react';
-import {View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import RNActionSheet from 'react-native-actions-sheet';
+import Box from '@components/layouts/Box';
 
 const ActionSheet = React.forwardRef((props, ref) => {
   const {children, ...rest} = props;
@@ -9,7 +9,7 @@ const ActionSheet = React.forwardRef((props, ref) => {
 
   return (
     <RNActionSheet {...rest} ref={ref}>
-      <View style={{paddingBottom: insets.bottom}}>{children}</View>
+      <Box style={{paddingBottom: insets.bottom}}>{children}</Box>
     </RNActionSheet>
   );
 });

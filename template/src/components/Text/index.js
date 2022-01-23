@@ -3,6 +3,7 @@ import {Text as RNText} from 'react-native';
 import {mergeStyles} from '@lib/utils/helpers';
 import useSchemeValue from '@lib/themes/useSchemeValue';
 import ThemeStyles from '@configs/themes/styles';
+import {fontWeight} from '@lib/utils/fonts';
 
 const Text = ({style, color, category, center, ...props}) => {
   const textColorValue = useSchemeValue('TEXT.primary');
@@ -32,6 +33,7 @@ const Text = ({style, color, category, center, ...props}) => {
       {...props}
       style={mergeStyles(
         {color: textColor},
+        fontWeight('400'),
         center && {textAlign: 'center'},
         themeStyles,
         style,

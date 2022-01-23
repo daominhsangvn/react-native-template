@@ -32,13 +32,12 @@ $ yarn react-native generate-bootsplash assets/splashscreen.png --background-col
 </style>
 ```
 
-## Firebase
-- Follow instruction at https://rnfirebase.io/ to setup Firebase and download `google-services.json`
-- Install additional dependencies:
-```
-yarn add --exact @react-native-firebase/app @react-native-firebase/auth @react-native-firebase/firestore @react-native-firebase/storage
-```
-- Uncomment code in `src/lib/data/dataService.js` and `src/lib/data/providers/firebase.js`
+## Fonts
+- Copy font files to `android/app/src/main/assets/fonts` and `src/assets/fonts`
+- Run `npx react-native link`
+- Open xCode > `Build Phases` > `Copy Bundle Resources` and remove all fonts from `react-native-vector-icons` (Build will be failed if you don't)
+- Open `src/lib/utils/fonts` and correct font name
+  - For Android: Use the exact font file name for bold and italic style
 
 ## Chrome Debugger
 Read more: https://reactnative.dev/docs/hermes

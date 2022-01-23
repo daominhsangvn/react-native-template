@@ -1,11 +1,10 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {selectThemeScheme} from '@lib/themes/store';
 import {useDerivedValue, withTiming} from 'react-native-reanimated';
 import {INTERPOLATE_COLOR_DURATION} from '@configs/themes/var';
+import useTheme from "@lib/themes/useTheme";
 
 const useSchemeTransition = () => {
-  const scheme = useSelector(selectThemeScheme);
+  const {scheme} = useTheme();
 
   const progress = useDerivedValue(() => {
     return scheme === 'dark'

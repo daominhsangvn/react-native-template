@@ -704,7 +704,7 @@
     pirates "^4.0.0"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.14.0":
+"@babel/runtime@^7.1.2":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.7.tgz#03ff99f64106588c9c403c6ecb8c3bafbbdff1fa"
   integrity sha512-9E9FJowqAsytyOY6LG+1KuueckRL+aQW+mKvXRXnuFGyRAyepJPmEo9vgMfXUA6O9u3IeEdv9MAkppFcaQwogQ==
@@ -6304,13 +6304,6 @@ pngjs@^3.0.0, pngjs@^3.3.3:
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.4.0.tgz#99ca7d725965fb655814eaf65f38f12bbdbf555f"
   integrity sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==
 
-polished@^4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-4.1.3.tgz#7a3abf2972364e7d97770b827eec9a9e64002cfc"
-  integrity sha512-ocPAcVBUOryJEKe0z2KLd1l9EBa1r5mSwlKpExmrLzsnIzJo4axsoU9O2BjOTkDGDT4mZ0WFE5XKTlR3nLnZOA==
-  dependencies:
-    "@babel/runtime" "^7.14.0"
-
 popmotion@9.3.1:
   version "9.3.1"
   resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-9.3.1.tgz#134319ed4b9b8e3ec506c99064f7b2f14bc05781"
@@ -6468,6 +6461,13 @@ react-native-actions-sheet@0.5.8:
   resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.5.8.tgz#9367a7a2cbadd7b0cff82eb5e72c27578c13222d"
   integrity sha512-bucvVl2lU0k0ogq6dDmJTKDa28SOGM8sMdr14qflnbqcSYEJH0YT+DWoJXzsocdNvXMBsdqM5J8bX+k6weIKFg==
 
+react-native-big-list@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-big-list/-/react-native-big-list-1.5.2.tgz#48bf730334fc4aa14a4502332000951622411e7b"
+  integrity sha512-L0pwQu0GqrHFwaAsJyvK2MwODtzyp3NnCqIm/YJxcgPGVniIyQMAJOeQvhIYhfteVpu3EGdMtz4lhx5Nm6nf7w==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-bootsplash@4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/react-native-bootsplash/-/react-native-bootsplash-4.0.2.tgz#af64537a65ea18bf1cbb09633600975cfe48c51d"
@@ -6575,13 +6575,6 @@ react-native-screens@3.10.1, react-native-screens@^3.4.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
-
-react-native-shadow-2@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-shadow-2/-/react-native-shadow-2-6.0.1.tgz#684d0660df75842a01ba8a4f7e5f4cd146a4efde"
-  integrity sha512-rRUkmk7IpfEXLK8jrT7CRy33Zz0ftQ0ow4BlGJorv2PwwkEQM05W0mFVHEAoIXU4inXPxmpirXMkTc5FI99RjQ==
-  dependencies:
-    polished "^4.1.3"
 
 react-native-svg-transformer@0.20.0:
   version "0.20.0"

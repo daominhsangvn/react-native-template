@@ -27,7 +27,9 @@ const slice = createSlice({
       state.auto = action.payload.auto;
     },
     toggleScheme(state, action) {
-      state.scheme = state.scheme === 'dark' ? 'light' : 'dark';
+      if (!state.auto) {
+        state.scheme = state.scheme === 'dark' ? 'light' : 'dark';
+      }
     },
   },
 });

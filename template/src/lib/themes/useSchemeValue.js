@@ -1,14 +1,19 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
-import {selectThemeScheme} from '@lib/themes/store';
+import React, {useMemo} from 'react';
 import useTheme from '@lib/themes/useTheme';
 import get from 'lodash/get';
 
-const useSchemeValue = path => {
-  const scheme = useSelector(selectThemeScheme);
+const useSchemeValue = (path, system) => {
+  const {scheme, deviceScheme} = useTheme();
   const {light, dark} = useTheme();
 
-  return scheme === 'dark' ? get(dark, path) : get(light, path);
+  const currentScheme = useMemo(() => {
+    if (system) {
+      return deviceScheme;
+    }
+    return scheme;
+  }, [deviceScheme, scheme, system]);
+
+  return currentScheme === 'dark' ? get(dark, path) : get(light, path);
 };
 
 export default useSchemeValue;

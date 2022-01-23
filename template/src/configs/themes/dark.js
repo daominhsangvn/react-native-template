@@ -120,4 +120,19 @@ export default {
   NAVBAR: {
     background: '#cccccc',
   },
+  SELECT: {
+    primary: {
+      selected: {
+        text: '#0091ff',
+        background: '#edf9ff',
+      },
+      text: '#ffffff',
+      background: '#ffffff',
+    },
+  },
+  DATETIMEPICKER: {
+    primary: {
+      text: '#ffffff',
+    },
+  },
 };

@@ -1,4 +1,5 @@
 import {remScale} from '@lib/themes/utils';
+import { fontWeight } from "@lib/utils/fonts";
 
 const ThemeStyles = {
   navbar: {
@@ -7,31 +8,31 @@ const ThemeStyles = {
   },
   h1: {
     fontSize: remScale(5),
-    fontWeight: '700',
+    ...fontWeight('700'),
   },
   h2: {
     fontSize: remScale(4),
-    fontWeight: '600',
+    ...fontWeight('600'),
   },
   h3: {
     fontSize: remScale(3),
-    fontWeight: '600',
+    ...fontWeight('600'),
   },
   h4: {
     fontSize: remScale(2.5),
-    fontWeight: '600',
+    ...fontWeight('600'),
   },
   h5: {
     fontSize: remScale(2.25),
-    fontWeight: '600',
+    ...fontWeight('600'),
   },
   h6: {
     fontSize: remScale(2),
-    fontWeight: '600',
+    ...fontWeight('600'),
   },
   b1: {
     fontSize: remScale(2.25),
-    fontWeight: '500',
+    ...fontWeight('500'),
   },
   b2: {
     fontSize: remScale(2),
@@ -49,11 +50,11 @@ const ThemeStyles = {
     height: remScale(7),
   },
   btn_text: {
-    fontWeight: '600',
+    ...fontWeight('600'),
     color: 'white',
   },
   btn_link: {
-    fontWeight: '500',
+    ...fontWeight('500'),
   },
   form_field: {
     borderWidth: 1,
@@ -81,6 +82,7 @@ const ThemeStyles = {
   input: {
     height: 50,
     fontSize: remScale(2),
+    ...fontWeight('400'),
   },
   input_clear_btn: {
     height: 50,

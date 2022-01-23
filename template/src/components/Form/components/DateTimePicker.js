@@ -7,6 +7,7 @@ import RNDatePicker from 'react-native-date-picker';
 import FormBaseInput from '@components/Form/components/BaseTextInput';
 import useField from '@components/Form/useField';
 import useStyles from '@lib/themes/useStyles';
+import useSchemeValue from '@lib/themes/useSchemeValue';
 
 const _styles = {
   container: {
@@ -25,6 +26,7 @@ const FormDateTimePicker = ({
   inputProps = {},
   placeholder = '',
   clearable = true,
+  color = 'primary',
   ...rest
 }) => {
   const styles = useStyles(_styles);
@@ -35,6 +37,8 @@ const FormDateTimePicker = ({
     formState: {},
     disabled,
   } = useField();
+
+  const dateTimePickerColor = useSchemeValue(`DATETIMEPICKER.${color}`, true);
 
   const formattedValue = useMemo(() => {
     if (value && isDate(value)) {
@@ -106,6 +110,8 @@ const FormDateTimePicker = ({
         date={pickerValue}
         onConfirm={onConfirm}
         onCancel={onCancel}
+        textColor={dateTimePickerColor.text}
+        title={null}
         {...rest}
       />
     </Box>

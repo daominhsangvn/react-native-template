@@ -1,11 +1,9 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Box from '@components/layouts/Box';
-import FormBaseInput from './BaseTextInput';
 import {mergeStyles} from '@lib/utils/helpers';
 import useField from '@components/Form/useField';
-import SelectPicker from './Select.Picker';
 import useStyles from '@lib/themes/useStyles';
+import Select from '@components/Select';
 
 const _styles = {
   container: {
@@ -14,12 +12,7 @@ const _styles = {
   input: {},
 };
 
-const FormSelect = ({
-  style = {},
-  inputProps = {},
-  options = [],
-  placeholder = '',
-}) => {
+const FormSelect = ({style = {}, inputProps = {}, options = [], ...rest}) => {
   const styles = useStyles(_styles);
   const {
     field: {name, onBlur, onChange, ref, value},
@@ -27,69 +20,27 @@ const FormSelect = ({
     formState: {},
     disabled,
   } = useField();
-  const [initial, setInitial] = useState(true);
-  const [selectedValue, setSelectedValue] = useState(null);
 
-  const pickerRef = useRef();
-
-  const selectedText = useMemo(() => {
-    return selectedValue ? selectedValue.label : '';
-  }, [selectedValue]);
-
-  const onPress = useCallback(() => {
-    if (disabled) {
-      return;
-    }
-
-    setInitial(false);
-
-    pickerRef?.current?.show();
-  }, [disabled]);
-
-  const onValueChange = useCallback(
-    (itemValue, itemIndex) => {
-      if (!initial) {
-        onChange(itemValue);
-        setSelectedValue(options[itemIndex]);
-      }
-    },
-    [initial, options, onChange],
-  );
-
-  const onClear = useCallback(() => {
-    onChange(null);
-    setSelectedValue(null);
-  }, []);
+  const [defaultValue, setDefaultValue] = useState([]);
 
   useEffect(() => {
     if (!isDirty && value && options) {
-      const itemIndex = options.findIndex(o => o.value === value);
-      if (itemIndex !== -1) {
-        setSelectedValue(options[itemIndex]);
-      }
+      const defaultSelected = options
+        .filter(o => value.includes(o.value))
+        .map(o => o.value);
+      console.log(name, 'default value', defaultSelected);
+      setDefaultValue(defaultSelected);
     }
   }, [isDirty, value, options]);
 
   return (
     <Box style={mergeStyles(styles.container, style)}>
-      <FormBaseInput
-        value={selectedText}
-        placeholder={placeholder}
-        name={name}
-        ref={ref}
-        editable={false}
-        disabled={disabled}
-        pointerEvents="none"
-        onPress={onPress}
-        onClear={onClear}
-        {...inputProps}
-      />
-
-      <SelectPicker
-        ref={pickerRef}
-        onChange={onValueChange}
-        value={value}
+      <Select
         options={options}
+        name={name}
+        onChange={onChange}
+        value={defaultValue}
+        {...rest}
       />
     </Box>
   );

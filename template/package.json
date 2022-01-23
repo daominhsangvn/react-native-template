@@ -26,6 +26,7 @@
     "react-hook-form": "7.22.5",
     "react-native": "0.66.4",
     "react-native-actions-sheet": "0.5.8",
+    "react-native-big-list": "^1.5.2",
     "react-native-bootsplash": "4.0.2",
     "react-native-config": "1.4.5",
     "react-native-create-thumbnail": "1.5.1",

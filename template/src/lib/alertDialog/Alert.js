@@ -6,6 +6,7 @@ import LottieView from 'lottie-react-native';
 import Spacer from '@components/layouts/Spacer';
 import Button from '@components/Button';
 import {remScale} from '@lib/themes/utils';
+import {fontWeight} from '@lib/utils/fonts';
 
 const alertConfig = {
   error: {
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
   },
   content__title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    ...fontWeight('700'),
     paddingHorizontal: remScale(1),
     color: '#282828',
   },

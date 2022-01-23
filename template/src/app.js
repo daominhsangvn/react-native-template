@@ -22,7 +22,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={<Text>Loading....</Text>} persistor={persistor}>
-        <StatusBar hidden />
+        <StatusBar hidden barStyle={'dark-content'} />
         <GestureHandlerRootView style={{flex: 1}}>
           <AuthenticationProvider>
             <ThemeProvider>

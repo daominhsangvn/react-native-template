@@ -22,7 +22,7 @@ const SimpleSelect = React.forwardRef((props, ref) => {
 
   const [selectedValue, setSelectedValue] = useRefState(value);
 
-  const selectColor = useSchemeValue(`SELECT.${color}`, true);
+  const selectColor = useSchemeValue(`SELECT.${color}`);
 
   const handleOnChange = useCallback((selectedItemValue, index) => {
     onChange([selectedItemValue]);
@@ -48,8 +48,6 @@ const SimpleSelect = React.forwardRef((props, ref) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  console.log('selectedValue', selectedValue);
-
   return (
     <ActionSheet ref={actionSheetRef}>
       <Box style={styles.container}>
@@ -71,5 +69,7 @@ const SimpleSelect = React.forwardRef((props, ref) => {
     </ActionSheet>
   );
 });
+
+SimpleSelect.displayName = 'SimpleSelect';
 
 export default SimpleSelect;

@@ -28,7 +28,6 @@ const FormSelect = ({style = {}, inputProps = {}, options = [], ...rest}) => {
       const defaultSelected = options
         .filter(o => value.includes(o.value))
         .map(o => o.value);
-      console.log(name, 'default value', defaultSelected);
       setDefaultValue(defaultSelected);
     }
   }, [isDirty, value, options]);

@@ -30,7 +30,11 @@ const _styles = {
   modal: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     flex: 1,
-    paddingTop: remScale(2),
+    ...Platform.select({
+      android: {
+        paddingTop: remScale(2),
+      },
+    }),
   },
   modalContent: {
     backgroundColor: 'white',
@@ -67,9 +71,9 @@ const _styles = {
   },
   searchBox: {
     backgroundColor: 'white',
-    borderRadius: remScale(1),
     paddingHorizontal: remScale(1),
     marginTop: remScale(2),
+    borderRadius: remScale(1),
   },
   searchInput: {
     flex: 1,
@@ -96,12 +100,14 @@ const Modal = ({
   searchable,
   onFilter,
   renderOption,
+  hideOnSelect,
 }) => {
   const styles = useStyles(_styles);
   const [selectedValues, setSelectedValues, selectedValuesRef] = useRefState(
     [],
   );
   const active = useSharedValue(false);
+  const isAndroid = useSharedValue(Platform.OS === 'android');
   const [searchValue, setSearchValue, previousSearchValue] =
     usePreviousState('');
   const [keywords, setKeywords] = useState('');
@@ -117,22 +123,28 @@ const Modal = ({
   const modalContentAnimationStyle = useAnimatedStyle(() => ({
     transform: [
       {
-        translateY: active.value
+        translateY: !isAndroid.value
+          ? 0
+          : active.value
           ? withTiming(0, {duration: TRANSITION_DURATION})
           : withTiming(height, {duration: TRANSITION_DURATION}),
       },
     ],
-    opacity: active.value
+    opacity: !isAndroid.value
+      ? 1
+      : active.value
       ? withTiming(1, {duration: TRANSITION_DURATION})
       : withTiming(0, {duration: TRANSITION_DURATION}),
   }));
 
   const close = useCallback(cb => {
-    active.value = false;
+    if (Platform.OS === 'android') {
+      active.value = false;
+    }
     setTimeout(() => {
       setVisible(false);
       cb && cb();
-    }, TRANSITION_DURATION);
+    }, Platform.select({android: TRANSITION_DURATION, ios: 0}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -147,7 +159,9 @@ const Modal = ({
   }, []);
 
   const onShow = useCallback(() => {
-    active.value = true;
+    if (Platform.OS === 'android') {
+      active.value = true;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -166,9 +180,13 @@ const Modal = ({
 
       // setSelectedOptions(data.filter(o => newSelectedValues.includes(o.value)));
       setSelectedValues(newSelectedValues);
+
+      if (hideOnSelect) {
+        onConfirm();
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [multi],
+    [multi, hideOnSelect],
   );
 
   const renderItem = useCallback(
@@ -265,6 +283,9 @@ const Modal = ({
   );
 
   const searchComponent = useMemo(() => {
+    if (!searchable) {
+      return null;
+    }
     return (
       <Box
         row
@@ -306,7 +327,7 @@ const Modal = ({
 
   return (
     <RNModal
-      animationType="fade"
+      animationType={Platform.select({android: 'fade', ios: 'slide'})}
       {...Platform.select({
         ios: {presentationStyle: 'formSheet'},
         android: {transparent: true},

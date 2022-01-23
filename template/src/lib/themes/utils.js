@@ -17,6 +17,6 @@ export const remScale = r => {
 };
 
 export const remScaleH = r => {
-  console.log('remScaleH', r, scaleH(rem(r)));
+  // console.log('remScaleH', r, scaleH(rem(r)));
   return scaleH(rem(r));
 };

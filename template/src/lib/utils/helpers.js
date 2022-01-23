@@ -1,5 +1,6 @@
 import {Dimensions} from 'react-native';
 import {format, isValid} from 'date-fns';
+import Logger from '@lib/utils/Logger';
 
 export const classNames = (...classes) => {
   return classes.filter(Boolean).join(' ');
@@ -14,9 +15,9 @@ export const asyncForEach = async (array, callback) => {
 };
 
 export const parseErrorMessage = error => {
-  console.log('parseErrorMessage', error);
-  console.log('parseErrorMessage message', error.message);
-  console.log('parseErrorMessage response', error.response);
+  Logger.log('parseErrorMessage', error);
+  Logger.log('parseErrorMessage message', error.message);
+  Logger.log('parseErrorMessage response', error.response);
 
   if (typeof error === 'string') {
     return error;
@@ -27,7 +28,7 @@ export const parseErrorMessage = error => {
       return error.message.data;
     }
     if (typeof error.message.data === 'object') {
-      console.log(error.message.data);
+      Logger.log(error.message.data);
       return 'Data object error';
     }
 

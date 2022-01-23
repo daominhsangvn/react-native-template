@@ -11,9 +11,7 @@ import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   selectIsThemeAuto,
-  selectThemeScheme,
   setAutoScheme,
-  setScheme,
   toggleScheme,
 } from '@lib/themes/store';
 import Icon from '@components/Icon';
@@ -313,6 +311,7 @@ const SampleScreen = () => {
               <FormSelect
                 placeholder="Select a value"
                 modal
+                hideOnSelect
                 options={largeList}
               />
             </FormField>

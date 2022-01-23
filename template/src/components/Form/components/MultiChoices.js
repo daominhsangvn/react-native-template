@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {TextInput, TouchableOpacity} from 'react-native';
 import Box from '@components/layouts/Box';
 import {mergeStyles} from '@lib/utils/helpers';
@@ -8,6 +8,7 @@ import useStyles from '@lib/themes/useStyles';
 import Text from '@components/Text';
 import ThemeStyles from '@configs/themes/styles';
 import {remScale} from '@lib/themes/utils';
+import useRefState from '@lib/hooks/useRefState';
 
 const _styles = {
   container: {},
@@ -15,7 +16,7 @@ const _styles = {
   row: {
     marginBottom: remScale(1),
     flexDirection: 'row',
-  }
+  },
 };
 
 const FormMultiChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
@@ -28,7 +29,7 @@ const FormMultiChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
     disabled,
   } = useField();
 
-  const [selectedValue, setSelectedValue] = useState([]);
+  const [selectedValue, setSelectedValue, selectedValueRef] = useRefState([]);
 
   const onValueChange = useCallback(
     (checked, selectedItem) => {
@@ -36,7 +37,7 @@ const FormMultiChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
         return;
       }
 
-      let newSelected = [...selectedValue];
+      let newSelected = [...selectedValueRef.current];
 
       if (checked) {
         newSelected.push(selectedItem);
@@ -46,14 +47,6 @@ const FormMultiChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
 
       setSelectedValue(newSelected);
       onChange(newSelected);
-
-      // if (!checked) {
-      //   setSelectedValue(null);
-      //   onChange(null);
-      // } else {
-      //   setSelectedValue(selectedItem);
-      //   onChange(selectedItem);
-      // }
     },
     [disabled, onChange],
   );
@@ -80,9 +73,7 @@ const FormMultiChoices = ({style = {}, options, textStyle = {}, cols = 1}) => {
         }}
       />
       {options.map((op, idx) => (
-        <Box
-          key={`multi-${op.value}-${idx}`}
-          style={styles.row}>
+        <Box key={`multi-${op.value}-${idx}`} style={styles.row}>
           <Box>
             <CheckBox
               onChange={onValueChange}

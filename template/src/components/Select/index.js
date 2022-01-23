@@ -23,7 +23,8 @@ const Select = React.forwardRef((props, ref) => {
     itemHeight = 50,
     modal = false,
     onFilter,
-    name
+    name,
+    hideOnSelect = true,
   } = props;
 
   const [visible, setVisible] = useState(false);
@@ -87,6 +88,7 @@ const Select = React.forwardRef((props, ref) => {
           onFilter={onFilter}
           renderOption={renderOption}
           name={name}
+          hideOnSelect={hideOnSelect}
         />
       )}
       {!shouldUseModal && (

@@ -72,3 +72,6 @@ yarn add --exact @react-native-firebase/app @react-native-firebase/auth @react-n
 
 ## Chrome Debugger
 Read more: https://reactnative.dev/docs/hermes
+
+## TODO
+- Fix `ActionSheet` re-render issue
